@@ -13,5 +13,6 @@
 ## Development
 if your mod depends on Lure in any way, make sure to add ```"sulayre.lureapi"``` to the ```"Dependencies"``` array of your mod's manifest.json
 To let Lure autoload your Items and Cosmetics, make a ```"Resources/Lure``` directory on your PCK, with it's full path being ```res://mods/<your mod id>/Resources/Lure/<.tres files go here>```
-your pck should look like this before exporting:
+
+### your pck should look like this before exporting:
 ![example](https://i.imgur.com/uXpuqNP.png)
