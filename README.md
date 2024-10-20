@@ -19,4 +19,4 @@ the full path should be ```res://mods/<your mod id>/Resources/Lure/<.tres files 
 ### your pck should look like this before exporting:
 ![example](https://i.imgur.com/uXpuqNP.png)
 
-*(Logo drawn by [ZeaTheMays](https://github.com/ZeaTheMays)*
+*(Logo drawn by [ZeaTheMays](https://github.com/ZeaTheMays))*
