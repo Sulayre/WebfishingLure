@@ -1,0 +1,31 @@
+[gd_resource type="Resource" load_steps=7 format=2]
+
+[ext_resource path="res://Assets/Models/Cosmetics/rig_main_updated.tres" type="Skin" id=1]
+[ext_resource path="res://Assets/Models/shirt_update.tres" type="ArrayMesh" id=2]
+[ext_resource path="res://Resources/Scripts/cosmetic_resource.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Textures/CosmeticIcons/cosmetic_icons32.png" type="Texture" id=4]
+[ext_resource path="res://mods/sulayre.lureapi/Assets/Textures/undershirt_uv_kade.png" type="Texture" id=5]
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_texture = ExtResource( 5 )
+
+[resource]
+script = ExtResource( 3 )
+name = "Hook Lite T-Shirt"
+desc = "Brand rep!"
+title = ""
+icon = ExtResource( 4 )
+mesh = ExtResource( 2 )
+species_alt_mesh = [  ]
+mesh_skin = ExtResource( 1 )
+material = SubResource( 1 )
+main_color = Color( 0.164706, 0.184314, 0.388235, 1 )
+body_pattern = [  ]
+mirror_face = true
+flip = false
+allow_blink = true
+category = "undershirt"
+cos_internal_id = 0
+in_rotation = false
+chest_reward = true
+cost = 10

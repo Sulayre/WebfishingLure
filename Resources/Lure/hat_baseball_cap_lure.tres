@@ -1,0 +1,31 @@
+[gd_resource type="Resource" load_steps=7 format=2]
+
+[ext_resource path="res://Assets/Models/Cosmetics/rig_main_updated.tres" type="Skin" id=1]
+[ext_resource path="res://Assets/Models/Cosmetics/baseball_cap.tres" type="ArrayMesh" id=2]
+[ext_resource path="res://Resources/Scripts/cosmetic_resource.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Textures/CosmeticIcons/cosmetic_icons34.png" type="Texture" id=4]
+[ext_resource path="res://mods/sulayre.lureapi/Assets/Textures/basecall_cap_uv01.png" type="Texture" id=5]
+
+[sub_resource type="SpatialMaterial" id=1]
+albedo_texture = ExtResource( 5 )
+
+[resource]
+script = ExtResource( 3 )
+name = "Lure Baseball Cap"
+desc = "How dare you"
+title = ""
+icon = ExtResource( 4 )
+mesh = ExtResource( 2 )
+species_alt_mesh = [  ]
+mesh_skin = ExtResource( 1 )
+material = SubResource( 1 )
+main_color = Color( 1, 1, 1, 1 )
+body_pattern = [  ]
+mirror_face = true
+flip = false
+allow_blink = true
+category = "hat"
+cos_internal_id = 0
+in_rotation = false
+chest_reward = true
+cost = 10
