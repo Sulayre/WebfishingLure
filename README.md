@@ -3,9 +3,13 @@
 </p>
 
 ## Features
-
-- Automatically scans for item and cosmetic resource files on all mods currently installed, making basic modded content require no code and only editor use.
-- more features coming soon i promise
+- add Custom cosmetics of all kinds!
+- add Custom Species with modded and vanilla pattern compatibility (and custom voices)!
+- add Custom patterns for Vanilla AND modded species!
+- Updates the character colors shader so now patterns can have additional static colors on their textures.
+- Aside from cosmetics, also allows you to load custom item resources into the game with a single line of code (per item).
+- Items/Cosmetics loaded with lure have a unique prefix related to the mod's folder they were loaded from, allowing multiple mods to have same the same item/cosmetic file names.
+- Streamlines the process of finding your mod's assets by using Lure's ```mod://``` prefix when referencing assets inside the mod's folder.
 
 ## Requirements
 - [GDWeave](https://github.com/NotNite/GDWeave/tree/main)
