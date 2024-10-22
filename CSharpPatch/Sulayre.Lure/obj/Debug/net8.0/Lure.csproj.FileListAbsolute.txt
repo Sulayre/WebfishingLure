@@ -1,0 +1,14 @@
+C:\Users\josea\OneDrive\Documentos\webfishing-vs\Lure\GDWeave.Sample\bin\Debug\net8.0\manifest.json
+C:\Users\josea\OneDrive\Documentos\webfishing-vs\Lure\GDWeave.Sample\bin\Debug\net8.0\Lure.deps.json
+C:\Users\josea\OneDrive\Documentos\webfishing-vs\Lure\GDWeave.Sample\bin\Debug\net8.0\Lure.dll
+C:\Users\josea\OneDrive\Documentos\webfishing-vs\Lure\GDWeave.Sample\bin\Debug\net8.0\Lure.pdb
+C:\Users\josea\OneDrive\Documentos\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\Lure.csproj.AssemblyReference.cache
+C:\Users\josea\OneDrive\Documentos\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\Lure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\josea\OneDrive\Documentos\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\Lure.AssemblyInfoInputs.cache
+C:\Users\josea\OneDrive\Documentos\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\Lure.AssemblyInfo.cs
+C:\Users\josea\OneDrive\Documentos\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\Lure.csproj.CoreCompileInputs.cache
+C:\Users\josea\OneDrive\Documentos\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\Lure.sourcelink.json
+C:\Users\josea\OneDrive\Documentos\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\Lure.dll
+C:\Users\josea\OneDrive\Documentos\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\refint\Lure.dll
+C:\Users\josea\OneDrive\Documentos\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\Lure.pdb
+C:\Users\josea\OneDrive\Documentos\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\ref\Lure.dll
