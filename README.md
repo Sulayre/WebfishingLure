@@ -3,9 +3,12 @@
 </p>
 
 ## Features
+### Lure allows you to...
 - add Custom cosmetics of all kinds!
 - add Custom Species with modded and vanilla pattern compatibility (and custom voices)!
 - add Custom patterns for Vanilla AND modded species!
+
+### ...it also makes modding easier and less annoying with the following tweaks :)
 - Updates the character colors shader so now patterns can have additional static colors on their textures.
 - Aside from cosmetics, also allows you to load custom item resources into the game with a single line of code (per item).
 - Items/Cosmetics loaded with lure have a unique prefix related to the mod's folder they were loaded from, allowing multiple mods to have same the same item/cosmetic file names.
