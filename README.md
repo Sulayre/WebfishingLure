@@ -24,7 +24,9 @@
 if your mod depends on Lure in any way, make sure to add ```"sulayre.lureapi"``` to the ```"Dependencies"``` array of your mod's manifest.json
 
 To access Lure's functions in your code, add the following line at the start of main.gd:
+
 ```onready var Lure = get_node("/root/SulayreLure")```
+
 *(this way you can access all of it's functions listed below in the Documentation)*
 
 ## Documentation
