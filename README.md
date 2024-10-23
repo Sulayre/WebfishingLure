@@ -21,7 +21,9 @@
 - drag the folder inside the release's zip into ```<game install folder>\GDWeave\mods```
 
 ## Development
-if your mod depends on Lure in any way, make sure to add ```"sulayre.lureapi"``` to the ```"Dependencies"``` array of your mod's manifest.json
+if your mod depends on Lure in any way, make sure to add ```"Sulayre.Lure"``` to the ```"Dependencies"``` array of your mod's manifest.json
+
+```dependencies: ["Sulayre.Lure"]```
 
 To access Lure's functions in your code, add the following line at the start of main.gd:
 
