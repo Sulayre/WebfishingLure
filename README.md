@@ -14,6 +14,13 @@
 - Items/Cosmetics loaded with lure have a unique prefix related to the mod's folder they were loaded from, allowing multiple mods to have same the same item/cosmetic file names.
 - Streamlines the process of finding your mod's assets by using Lure's ```mod://``` prefix when referencing assets inside the mod's folder.
 
+## Roadmap (WIP Features)
+- Proper implementation of the shop flags so you can add things to shops
+- Custom body models
+- Access other mods' files through a function, not just your own's
+- Map loader
+- Assign Mesh variants to modded or vanilla cosmetics for a specific species
+
 ## Requirements
 - [GDWeave](https://github.com/NotNite/GDWeave/tree/main)
 
