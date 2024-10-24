@@ -4,7 +4,7 @@
 
 ## Features
 ### Lure allows you to...
-- add Custom Fish, Tools, Bobbers, Titles and Cosmetics of any kind! (you can even add cosmetic mesh variants for specific species!)
+- add Custom Fish, Tools (with limitations), Bobbers, Titles and Cosmetics of any kind! (you can even add cosmetic mesh variants for specific species!)
 - add Custom Species with unique voices with modded and vanilla pattern compatibility!
 - add Custom patterns for Vanilla AND modded species!
 
@@ -13,12 +13,14 @@
 - Items/Cosmetics loaded with lure have a unique prefix related to the mod's folder they were loaded from, allowing multiple mods to have same the same item/cosmetic file names.
 - Streamlines the process of finding your mod's assets by using Lure's unique prefixes when referencing assets inside the mod's folder.
 
-## Roadmap (WIP Features)
-- Modded prop support
+## Roadmap (WIP) in order of priority
+- Modded prop support (you can add them to your inventory but they dont work)
+- assign any behavior function to modded tools (right now you can only reference ``player.gd`` functions)
 - Proper implementation of the shop flags so you can add things to shops
 - Custom body models
-- Map loader
 - Pattern support for tails
+- Improvements to fallback appearance so only missing cosmetics are removed
+- Map loader
 
 ## Requirements
 - [GDWeave](https://github.com/NotNite/GDWeave/tree/main)
