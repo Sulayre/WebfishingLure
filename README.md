@@ -4,7 +4,7 @@
 
 ## Features
 ### Lure allows you to...
-- add Custom Fish, Items, Props, Bobbers, Titles and Cosmetics of any kind! (you can even add cosmetic mesh variants for specific species!)
+- add Custom Fish, Tools, Bobbers, Titles and Cosmetics of any kind! (you can even add cosmetic mesh variants for specific species!)
 - add Custom Species with unique voices with modded and vanilla pattern compatibility!
 - add Custom patterns for Vanilla AND modded species!
 
@@ -14,6 +14,7 @@
 - Streamlines the process of finding your mod's assets by using Lure's unique prefixes when referencing assets inside the mod's folder.
 
 ## Roadmap (WIP Features)
+- Modded prop support
 - Proper implementation of the shop flags so you can add things to shops
 - Custom body models
 - Map loader
