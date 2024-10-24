@@ -3,9 +3,23 @@
 </p>
 
 ## Features
+### Lure allows you to...
+- add Custom cosmetics of all kinds!
+- add Custom Species with modded and vanilla pattern compatibility (and custom voices)!
+- add Custom patterns for Vanilla AND modded species!
 
-- Automatically scans for item and cosmetic resource files on all mods currently installed, making basic modded content require no code and only editor use.
-- more features coming soon i promise
+### ...it also makes modding easier and less annoying with the following tweaks :)
+- Updates the character colors shader so now patterns can have additional static colors on their textures.
+- Aside from cosmetics, also allows you to load custom item resources into the game with a single line of code (per item).
+- Items/Cosmetics loaded with lure have a unique prefix related to the mod's folder they were loaded from, allowing multiple mods to have same the same item/cosmetic file names.
+- Streamlines the process of finding your mod's assets by using Lure's ```mod://``` prefix when referencing assets inside the mod's folder.
+
+## Roadmap (WIP Features)
+- Proper implementation of the shop flags so you can add things to shops
+- Custom body models
+- Access other mods' files through a function, not just your own's
+- Map loader
+- Assign Mesh variants to modded or vanilla cosmetics for a specific species
 
 ## Requirements
 - [GDWeave](https://github.com/NotNite/GDWeave/tree/main)
@@ -14,7 +28,15 @@
 - drag the folder inside the release's zip into ```<game install folder>\GDWeave\mods```
 
 ## Development
-if your mod depends on Lure in any way, make sure to add ```"sulayre.lureapi"``` to the ```"Dependencies"``` array of your mod's manifest.json
+if your mod depends on Lure in any way, make sure to add ```"Sulayre.Lure"``` to the ```"Dependencies"``` array of your mod's manifest.json
+
+```dependencies: ["Sulayre.Lure"]```
+
+To access Lure's functions in your code, add the following line at the start of main.gd:
+
+```onready var Lure = get_node("/root/SulayreLure")```
+
+*(this way you can access all of it's functions listed below in the Documentation)*
 
 ## Documentation
 
