@@ -32,18 +32,13 @@ namespace Sulayre.Lure.Patches
 					yield return token;
 
 					yield return new Token(TokenType.Newline, 2);
-					yield return new Token(TokenType.BuiltInFunc, (uint?)BuiltinFunction.TextPrint);
-					yield return new Token(TokenType.ParenthesisOpen);
-					yield return new ConstantToken(new StringVariant("test"));
-					yield return new Token(TokenType.ParenthesisClose); 
-					yield return new Token(TokenType.Newline, 2);
 
 					yield return new IdentifierToken("get_node");
 					yield return new Token(TokenType.ParenthesisOpen);
-					yield return new ConstantToken(new StringVariant("/root/SulayreLure"));
+					yield return new ConstantToken(new StringVariant("/root/SulayreLure/Patches"));
 					yield return new Token(TokenType.ParenthesisClose);
 					yield return new Token(TokenType.Period);
-					yield return new IdentifierToken("custom_species_patterns");
+					yield return new IdentifierToken("_custom_species_patterns");
 					yield return new Token(TokenType.ParenthesisOpen);
 					yield return new IdentifierToken("species");
 					yield return new Token(TokenType.Comma);
@@ -55,82 +50,6 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.BracketClose);
 					yield return new Token(TokenType.ParenthesisClose);
 
-					////var index = Lure.modded_species.find(data["species"])
-					//yield return new Token(TokenType.PrVar);
-					//yield return new IdentifierToken("index");
-					//yield return new Token(TokenType.OpAssign);
-					//yield return new IdentifierToken("Lure");
-					//yield return new Token(TokenType.Period);
-					//yield return new IdentifierToken("modded_species");
-					//yield return new Token(TokenType.Period);
-					//yield return new IdentifierToken("find");
-					//yield return new Token(TokenType.ParenthesisOpen);
-					//yield return new IdentifierToken("data");
-					//yield return new Token(TokenType.BracketOpen);
-					//yield return new ConstantToken(new StringVariant("species"));
-					//yield return new Token(TokenType.BracketClose);
-					//yield return new Token(TokenType.ParenthesisClose);
-					//yield return new Token(TokenType.Newline, 3);
-					//
-					////if index > 2:
-					//yield return new Token(TokenType.CfIf);
-					//yield return new IdentifierToken("index");
-					//yield return new Token(TokenType.OpGreater);
-					//yield return new ConstantToken(new IntVariant(2));
-					//yield return new Token(TokenType.Newline, 4);
-					//
-					////var variant = pattern.body_pattern[index]
-					//yield return new Token(TokenType.PrVar);
-					//yield return new IdentifierToken("variant");
-					//yield return new Token(TokenType.OpAssign);
-					//yield return new IdentifierToken("pattern");
-					//yield return new Token(TokenType.Period);
-					//yield return new IdentifierToken("body_pattern");
-					//yield return new Token(TokenType.BracketOpen);
-					//yield return new IdentifierToken("index");
-					//yield return new Token(TokenType.BracketClose);
-					//yield return new Token(TokenType.Newline, 4);
-					//
-					////if variant:
-					//yield return new Token(TokenType.CfIf);
-					//yield return new IdentifierToken("variant");
-					//yield return new Token(TokenType.Colon);
-					//yield return new Token(TokenType.Newline, 5);
-					//
-					////species.material_override.set_shader_param("texture_albedo", variant)
-					//yield return new IdentifierToken("species");
-					//yield return new Token(TokenType.Period);
-					//yield return new IdentifierToken("material_override");
-					//yield return new Token(TokenType.Period);
-					//yield return new IdentifierToken("set_shader_param");
-					//yield return new Token(TokenType.ParenthesisOpen);
-					//yield return new ConstantToken(new StringVariant("texture_albedo"));
-					//yield return new Token(TokenType.Comma);
-					//yield return new IdentifierToken("variant");
-					//yield return new Token(TokenType.ParenthesisClose);
-					//yield return new Token(TokenType.Newline, 4);
-					//
-					//yield return new Token(TokenType.BuiltInFunc, (uint?)BuiltinFunction.TextPrint);
-					//yield return new Token(TokenType.ParenthesisOpen);
-					//yield return new ConstantToken(new StringVariant("assigned custom variant"));
-					//yield return new Token(TokenType.ParenthesisClose); 
-					//yield return new Token(TokenType.Newline, 2);
-					//
-					////else:
-					//yield return new Token(TokenType.CfElse);
-					//yield return new Token(TokenType.Colon);
-					//yield return new Token(TokenType.Newline, 5);
-					//
-					//yield return new IdentifierToken("species");
-					//yield return new Token(TokenType.Period);
-					//yield return new IdentifierToken("material_override");
-					//yield return new Token(TokenType.Period);
-					//yield return new IdentifierToken("set_shader_param");
-					//yield return new Token(TokenType.ParenthesisOpen);
-					//yield return new ConstantToken(new StringVariant("texture_albedo"));
-					//yield return new Token(TokenType.Comma);
-					//yield return new IdentifierToken("variant");
-					//yield return new Token(TokenType.ParenthesisClose);
 					yield return new Token(TokenType.Newline, 2);
 
 

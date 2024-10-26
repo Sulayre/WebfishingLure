@@ -29,18 +29,13 @@ namespace Sulayre.Lure.Patches
 					yield return token;
 
 					yield return new Token(TokenType.Newline, 1);
-					yield return new Token(TokenType.BuiltInFunc, (uint?)BuiltinFunction.TextPrint);
-					yield return new Token(TokenType.ParenthesisOpen);
-					yield return new ConstantToken(new StringVariant("facetestttttt"));
-					yield return new Token(TokenType.ParenthesisClose);
-					yield return new Token(TokenType.Newline, 1);
 
 					yield return new IdentifierToken("get_node");
 					yield return new Token(TokenType.ParenthesisOpen);
-					yield return new ConstantToken(new StringVariant("/root/SulayreLure"));
+					yield return new ConstantToken(new StringVariant("/root/SulayreLure/Patches"));
 					yield return new Token(TokenType.ParenthesisClose);
 					yield return new Token(TokenType.Period);
-					yield return new IdentifierToken("custom_species_faces");
+					yield return new IdentifierToken("_custom_species_faces");
 					yield return new Token(TokenType.ParenthesisOpen);
 					yield return new IdentifierToken("get_node");
 					yield return new Token(TokenType.ParenthesisOpen);

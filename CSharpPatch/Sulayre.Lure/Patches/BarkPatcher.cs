@@ -38,19 +38,15 @@ namespace Sulayre.Lure.Patches
 				{
 					// found our match, return the original newline
 					yield return token;
+
 					yield return new Token(TokenType.Newline, 1);
-					//yield return new Token(TokenType.BuiltInFunc, (uint?)BuiltinFunction.TextPrint);
-					//yield return new Token(TokenType.ParenthesisOpen);
-					//yield return new ConstantToken(new StringVariant("voicetestttt"));
-					//yield return new Token(TokenType.ParenthesisClose);
-					//yield return new Token(TokenType.Newline, 1);
 
 					yield return new IdentifierToken("get_node");
 					yield return new Token(TokenType.ParenthesisOpen);
-					yield return new ConstantToken(new StringVariant("/root/SulayreLure"));
+					yield return new ConstantToken(new StringVariant("/root/SulayreLure/Patches"));
 					yield return new Token(TokenType.ParenthesisClose);
 					yield return new Token(TokenType.Period);
-					yield return new IdentifierToken("instance_species_voices");
+					yield return new IdentifierToken("_instance_species_voices");
 					yield return new Token(TokenType.ParenthesisOpen);
 					yield return new IdentifierToken("sound_manager");
 					yield return new Token(TokenType.ParenthesisClose);
@@ -62,15 +58,17 @@ namespace Sulayre.Lure.Patches
 				else if (waiter_bark.Check(token))
 				{
 					yield return token;
+
 					yield return new Token(TokenType.Newline, 1);
+
 					yield return new IdentifierToken("bark_id");
 					yield return new Token (TokenType.OpAssign);
 					yield return new IdentifierToken("get_node");
 					yield return new Token(TokenType.ParenthesisOpen);
-					yield return new ConstantToken(new StringVariant("/root/SulayreLure"));
+					yield return new ConstantToken(new StringVariant("/root/SulayreLure/Patches"));
 					yield return new Token(TokenType.ParenthesisClose);
 					yield return new Token(TokenType.Period);
-					yield return new IdentifierToken("get_voice_bundle");
+					yield return new IdentifierToken("_get_voice_bundle");
 					yield return new Token(TokenType.ParenthesisOpen);
 					yield return new IdentifierToken("PlayerData");
 					yield return new Token(TokenType.Period);
@@ -78,6 +76,7 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.Period);
 					yield return new IdentifierToken("species");
 					yield return new Token(TokenType.ParenthesisClose);
+
 					yield return new Token(TokenType.Newline, 1);
 				}
 				else
