@@ -77,7 +77,7 @@ Lure allows you to load asset paths with 3 different prefixes:
 
 **Lure.register_prop(``id_of_the_mod_that_added_the_prop``,``scene_id``,``tscn_path``)**<br>Allows you to assign a specific scene to a modded prop, Lure will automatically turn the ``prop_code`` from your modded prop to ``mod_id.prop_code`` so if the prop you're assigning the scene to is not from your mod, make sure you call this function with the id of the mod that adds the prop.
 
-**Lure.register_action(``your_mod_id``,``action_id``,``node_that_holds_the_function``,``name_of_the_function_we_are_calling``):<br>Allows you to register an action for any modded item to use, you'll have to give it the node that holds the function you're calling (for example, if you call this function on your ``main.gd`` file and the function you want to link is in it as well you can just write ``self`` as the third argument) and the name of the function the node has that we're gonna call through the action.
+**Lure.register_action(``your_mod_id``,``action_id``,``node_that_holds_the_function``,``name_of_the_function_we_are_calling``)**<br>Allows you to register an action for any modded item to use, you'll have to give it the node that holds the function you're calling (for example, if you call this function on your ``main.gd`` file and the function you want to link is in it as well you can just write ``self`` as the third argument) and the name of the function the node has that we're gonna call through the action.
 
 the way you would call the custom action is by setting the action or release_action variables of your modded item's resource file as ``mod_id.action_id`` like everything else with Lure.
 
