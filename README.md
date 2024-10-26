@@ -75,6 +75,12 @@ Lure allows you to load asset paths with 3 different prefixes:
 
 **Lure.assign_cosmetic_mesh(``your_mod_id``, ``cosmetic_id``, ``species_id``, ``mesh_path``)**<br>Allows you to assign an alternative mesh to a specific cosmetic for a specific species, for example if you make a mask accessory, you'll need to make an alternative version for the dog, so its not clipping through the head, this is optional to make your cosmetics work but its heavily encouraged, this function works for both vanilla and modded species/cosmetics.
 
+**Lure.register_prop(``id_of_the_mod_that_added_the_prop``,``scene_id``,``tscn_path``)**<br>Allows you to assign a specific scene to a modded prop, Lure will automatically turn the ``prop_code`` from your modded prop to ``mod_id.prop_code`` so if the prop you're assigning the scene to is not from your mod, make sure you call this function with the id of the mod that adds the prop.
+
+**Lure.register_action(``your_mod_id``,``action_id``,``node_that_holds_the_function``,``name_of_the_function_we_are_calling``):<br>Allows you to register an action for any modded item to use, you'll have to give it the node that holds the function you're calling (for example, if you call this function on your ``main.gd`` file and the function you want to link is in it as well you can just write ``self`` as the third argument) and the name of the function the node has that we're gonna call through the action.
+
+the way you would call the custom action is by setting the action or release_action variables of your modded item's resource file as ``mod_id.action_id`` like everything else with Lure.
+
 **Lure.add_content(``your_mod_id``,``resource_id``,``item_or_cosmetic_path``,``flags``)**<br>Loads a new cosmetic/item into the game, the final identifier of the cosmetic/item will be ``your_mod_id.the_resource_id``, this is to avoid mods cosmetics/items overriding other mods' so keep this in mind when using function that require a resource's identifier.  <u>Make sure you run this function last if you need to use any of the previously mentioned assign functions!</u>
 
 *for example, if your mod's id is ``awesome`` and you're adding an item that's called ``sauce`` the final id of the item will be ``awesome.sauce``, you only have to do this for modded resources since base game resources use their file name without the ``.tres`` extension.*
