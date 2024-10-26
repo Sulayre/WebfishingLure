@@ -15,7 +15,8 @@ var Loader
 var Printer
 
 # ENUMS
-enum LURE_FLAGS {
+enum FLAGS {
+	LOCK_AFTER_SHOP_UPDATE,
 	SHOP_POSSUM, # THESE
 	SHOP_FROG, # ARE
 	SHOP_BEACH, # UNUSED !!!!
@@ -93,18 +94,18 @@ var _savewaiter:Thread = Thread.new()
 
 func _init():
 	modded_species.append_array(VANILLA_SPECIES)
+	
 
 func _enter_tree():
+	_load_modules()
+	if OS.has_feature("editor"): yield(PlayerData,"_loaded_save") # this function is added on my decomp ignore this its for testing
 	vanilla_cosmetics = Globals.cosmetic_data.keys()
 	vanilla_items = Globals.item_data.keys()
-	print(vanilla_cosmetics)
-	print(vanilla_items)
-	_load_modules()
 	Loader._load_modded_save_data()
 
 func _ready():
-	register_prop("Zea.Content","bounceshroom","res://mods/Zea.Content/Scenes/mushroom_bounce_prop.tscn")
-	add_content(ID,"kade_shirt","mod://Resources/Cosmetics/undershirt_graphic_tshirt_kade.tres") # this turns into <Sulayre.Lure.kade_shirt>
+	#var secretdata = {"kade":[]} if OS.has_feature("editor") else Util._secret_parser()
+	add_content("Sulayre.Lure","kade_shirt","mod://Resources/Cosmetics/undershirt_graphic_tshirt_kade.tres")
 	root.connect("child_entered_tree",self,"_on_enter")
 	self.connect("main_menu_enter",self,"_add_watermark")	
 
@@ -199,7 +200,7 @@ func register_prop(mod_id:String,identifier:String,scene_path:String):
 		return
 	print(modded_props)
 
-func add_content(mod_id:String,resource_id:String,resource_path:String, flags:Array=[LURE_FLAGS.FREE_UNLOCK]):
+func add_content(mod_id:String,resource_id:String,resource_path:String, flags:Array=[FLAGS.LOCK_AFTER_SHOP_UPDATE]):
 	var data = {
 		"mod":	mod_id,
 		"id":	resource_id,

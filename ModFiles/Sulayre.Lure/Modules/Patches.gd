@@ -9,7 +9,8 @@ const SAVE_TEMPLATE = {
 	"cosmetics_equipped":{},
 	"inventory":[],
 	"hotbar":{},
-	#"saved_aqua_fish":{},
+	"journal":{},
+	"saved_aqua_fish":{},
 }
 
 func _custom_species_patterns(mesh:MeshInstance,pattern:CosmeticResource,species:String="none"):
@@ -32,10 +33,7 @@ func _custom_species_patterns(mesh:MeshInstance,pattern:CosmeticResource,species
 
 func _custom_species_faces(player:AnimationPlayer,species_id:String):
 	var animation = Lure.animation_buffer[species_id]
-	#print("rrrrrrrrrrr")
-	if Lure.VANILLA_SPECIES.has(species_id):
-		return #the game handles vanilla faces so we don't need this to run here
-	elif animation:
+	if animation:
 		player.add_animation(species_id,animation)
 		player.play(species_id)
 
@@ -119,27 +117,49 @@ func _filter_save(new_save:Dictionary) -> Dictionary:
 				for item_data in new_save[k]:
 					if item_list.has(item_data["id"]):
 						modded_save[k].append(item_data)
-						print("[",item_data["id"],"]")
+						print("[Inventory: ",item_data["id"],"]")
 					elif items_vanilla.has(item_data["id"]):
 						filtered_items.append(item_data)
 					else:
 						missing += 1
 						missing_save[k].append(item_data)
-				print(filtered_items)
+				#print(filtered_items)
 				filtered_save[k] = filtered_items
-#			"hotbar":
-#				for hot_k in new_save[k].keys():
-#					var hot_v = new_save[k][hot_k]
-#					var id = PlayerData._find_item_code(hot_v)
-#					if item_list.has(id):
-#						modded_save[k][hot_k] = hot_v
-#						print("[",id," ",modded_save[k][hot_k],"]")
-#						filtered_save[k][hot_k] = 0;
+			"hotbar":
+				for hot_k in new_save[k].keys():
+					var hot_v = new_save[k][hot_k]
+					var item = PlayerData._find_item_code(hot_v)
+					var id = 0
+					if item:
+						id = item.id
+					#prints(hot_k,id,hot_v)
+					if item_list.has(id):
+						modded_save[k][hot_k] = hot_v
+						print("[Hotbar#",hot_k,": ",id," ",modded_save[k][hot_k],"]")
+						filtered_save[k][hot_k] = 0;
+					#print(modded_save[k])
+					#print(filtered_save[k])
+			"journal":
+				#for every loot pool in journal
+				for p in new_save[k].keys():
+					# for every fish id in the current <p> loot pool of the journal
+					for id in new_save[k][p].keys():
+						# entry > the actual journal entry data if the current <id> fish
+						if !items_vanilla.has(id):
+							if item_list.has(id):
+								var entry = new_save[k][p][id]
+								# if the modded_save doesn't have the category available we make it to avoid errors
+								if !modded_save[k].keys().has(p):
+									modded_save[k][p] = {}
+								modded_save[k][p][id] = entry
+							filtered_save[k][p].erase(id)
+							print("[Journal/",p,": ",id,"]")
+					
 			"cosmetics_unlocked":
 				for cosmetic in new_save[k]:
 					if cosmetic_list.has(cosmetic):
 						modded_save[k].append(cosmetic)
-						print("[",cosmetic,"]")
+						print("[Unlocked Cosmetic: ",cosmetic,"]")
 						filtered_save[k].erase(cosmetic)
 					elif !cosmetics_vanilla.has(cosmetic):
 						missing += 1
@@ -153,8 +173,9 @@ func _filter_save(new_save:Dictionary) -> Dictionary:
 						for cosmetic in e_v:
 							if cosmetic_list.has(cosmetic):
 								modded_save[k][e_k].append(cosmetic)
-								print("[",cosmetic,"]")
 								filtered_save[k][e_k].erase(cosmetic)
+						if modded_save[k][e_k].size() == 0:
+							modded_save[k].erase(e_k)
 					else:
 						if cosmetic_list.has(e_v):
 							var fallback:String
@@ -188,8 +209,11 @@ func _filter_save(new_save:Dictionary) -> Dictionary:
 								"legs":
 									fallback = "legs_none"
 							modded_save[k][e_k] = new_save[k][e_k]
-							print("[",modded_save[k][e_k],"]")
 							filtered_save[k][e_k] = fallback
+					if modded_save[k].keys().has(e_k):
+						print("[Equipped ",e_k,": ",modded_save[k][e_k],"]")
+			_:
+				print(new_save[k])
 	var file = File.new()
 	file.open("user://webfishing_lure_data.save", File.WRITE)
 	file.store_var(modded_save)

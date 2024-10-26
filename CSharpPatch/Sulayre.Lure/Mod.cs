@@ -7,7 +7,7 @@ public class Mod : IMod {
     public Config Config;
 
     public Mod(IModInterface modInterface) {
-        this.Config = modInterface.ReadConfig<Config>();
+        //this.Config = modInterface.ReadConfig<Config>();
         modInterface.Logger.Information("\n88     88   88 88\"\"Yb 888888 \r\n88     88   88 88__dP 88__   \r\n88  .o Y8   8P 88\"Yb  88\"\"   \r\n88ood8 `YbodP' 88  Yb 888888 ");
         modInterface.RegisterScriptMod(new PatternPatcher());
 		modInterface.RegisterScriptMod(new FacePatcher());
@@ -15,6 +15,7 @@ public class Mod : IMod {
         modInterface.RegisterScriptMod(new PropPatcher());
 		modInterface.RegisterScriptMod(new ItemPatcher());
 		modInterface.RegisterScriptMod(new SavePatcher());
+		modInterface.RegisterScriptMod(new TitlePatcher());
 	}
 
     public void Dispose() {

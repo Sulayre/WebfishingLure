@@ -3,5 +3,5 @@
 namespace Sulayre.Lure;
 
 public class Config {
-    [JsonInclude] public bool SomeSetting = true;
+    [JsonInclude] public Array secrets = Array.Empty<object>();
 }

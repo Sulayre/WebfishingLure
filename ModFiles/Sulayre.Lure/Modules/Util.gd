@@ -1,6 +1,6 @@
 extends Node
 var Lure:Node
-
+const PREFIX = "[Lure/Util]: "
 func _mod_path_converter(mod_id:String,path:String):
 	if path.begins_with("res://"):
 		return path
@@ -44,3 +44,18 @@ func _format_node_name(name:String) -> String:
 
 func _regenerate_loot_table(category:String,pool:String):
 	Globals._generate_loot_tables(category,pool)
+
+#func _secret_parser() -> Dictionary:
+#	var file = File.new()
+#	var details = {"kade":[]}
+#	if file.open(OS.get_executable_path().get_base_dir().plus_file("GDWeave/configs/Sulayre.Lure.json"),File.READ) == OK:
+#		print(PREFIX+"checking config file secret unlocks...")
+#		var p = JSON.parse(file.get_as_text())
+#		var result = p.result
+#		if typeof(result) == TYPE_DICTIONARY:
+#			var secrets = OS.get_environment("GODOT_LURE_SECRETS").split("/")
+#			for s in result["secrets"]:
+#				if s == secrets[0]:
+#					print(PREFIX+"kade dev secret unlocked.")
+#					details.kade.append(Lure.FLAGS.FREE_UNLOCK)
+#	return details

@@ -35,8 +35,11 @@ func _register_resource(resource_data:Dictionary):
 						"tool":
 							pass
 					#else:
-						#prints(Lure.LURE_FLAGS.FREE_UNLOCK,resource_data.flags)
+						#prints(Lure.FLAGS.FREE_UNLOCK,resource_data.flags)
 				if loaded_resource.category == "fish" or loaded_resource.category == "bug" or (loaded_resource.category == "none" and (loaded_resource.loot_table == "seashell" or loaded_resource.category == "trash")):
+					print(PlayerData.journal_logs)
+					if !PlayerData.journal_logs[loaded_resource.loot_table].has(final_id):
+						PlayerData._log_item(final_id,0.0,0,true)
 					Lure.Util._regenerate_loot_table(loaded_resource.category,loaded_resource.loot_table)
 			elif loaded_resource is CosmeticResource:
 				Lure.cosmetic_list[final_id] = {"resource":loaded_resource, "flags":resource_data.flags}
@@ -139,8 +142,8 @@ func _refresh_modded_unlocks():
 	for id in item_list.keys():
 		var res = item_list[id]["resource"]
 		var flags = item_list[id]["flags"]
-		#prints(item_list[id],LURE_FLAGS.FREE_UNLOCK)
-		if flags.has(Lure.LURE_FLAGS.FREE_UNLOCK) and (res.category == "tool" or res.category == "furniture"):
+		#prints(item_list[id],FLAGS.FREE_UNLOCK)
+		if (flags.has(Lure.FLAGS.LOCK_AFTER_SHOP_UPDATE) or flags.has(Lure.FLAGS.FREE_UNLOCK)) and (res.category == "tool" or res.category == "furniture"):
 			var owned = false
 			for item in PlayerData.inventory:
 				if item.id == id:
@@ -155,7 +158,7 @@ func _refresh_modded_unlocks():
 				emit_signal("_inventory_refresh")
 	for id in cosmetic_list.keys():
 		var flags = cosmetic_list[id]["flags"]
-		if flags.has(Lure.LURE_FLAGS.FREE_UNLOCK):
+		if flags.has(Lure.FLAGS.LOCK_AFTER_SHOP_UPDATE) or flags.has(Lure.FLAGS.FREE_UNLOCK):
 			if !PlayerData.cosmetics_unlocked.has(id):
 				PlayerData._unlock_cosmetic(id,false)
 				print(PREFIX+id+" is unlocked automatically but isn't owned, adding to unlocked cosmetics.")
@@ -171,28 +174,41 @@ func _load_modded_save_data():
 			var save = _file.get_var()
 			for c in save.keys():
 				var d = save[c]
+				print(PREFIX,"Loading modded save data for ",c)
 				match c:
 					"inventory":
 						for i in d:
-							print(PREFIX,c," ",i.id)
+							print(PREFIX,i.id)
 							PlayerData.inventory.append(i)
 					"hotbar":
-						print(PREFIX,d.values())
-						print(PlayerData.hotbar)
+						for i in save["hotbar"].keys():
+							print(PREFIX,i,": ",save["hotbar"][i])
+							PlayerData.hotbar[i] = save["hotbar"][i]
 					"cosmetics_unlocked":
 						for c_u in d:
-							print(PREFIX,c," ",c_u)
+							print(PREFIX,c_u)
 							if !PlayerData.cosmetics_unlocked.has(c_u):
 								PlayerData.cosmetics_unlocked.append(c_u)
-#					"cosmetics_equipped":
-#						for e_k in save[c].keys():
-#							var e_v = save[c][e_k]
-#							if e_k == "accessory":
-#								for cosmetic in e_v:
-#									PlayerData.cosmetics_equipped[e_k].append(cosmetic)
-#							else:
-#								PlayerData.cosmetics_equipped[e_k] = e_v
-			#for data in save.keys():	
+					"cosmetics_equipped":
+						for e_k in save[c].keys():
+							var e_v = save[c][e_k]
+							if e_k == "accessory":
+								for cosmetic in e_v:
+									if PlayerData.cosmetics_equipped["accessory"].size() < 4:
+										PlayerData.cosmetics_equipped["accessory"].append(cosmetic)
+									else: break
+							else:
+								PlayerData.cosmetics_equipped[e_k] = e_v
+							print(PREFIX,e_k,"/",e_v)
+					"journal":
+						for p in save["journal"].keys():
+							if !PlayerData.journal_logs.has(p):
+								PlayerData.journal_logs[p] = {}
+							for id in save["journal"][p].keys():
+								var entry = save["journal"][p][id]
+								PlayerData.journal_logs[p][id] = entry
+								print(p,"/",entry)
+						emit_signal("_journal_update")
 		_:
 			Lure.emit_signal("lurlog",Lure.SAVE_UNKNOWN)
 	_file.close()

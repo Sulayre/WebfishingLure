@@ -12,3 +12,17 @@ C:\Users\josea\OneDrive\Documentos\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\n
 C:\Users\josea\OneDrive\Documentos\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\refint\Sulayre.Lure.dll
 C:\Users\josea\OneDrive\Documentos\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\Sulayre.Lure.pdb
 C:\Users\josea\OneDrive\Documentos\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\ref\Sulayre.Lure.dll
+C:\Users\josea\OneDrive\Documentos\Webfishing\webfishing-vs\Lure\GDWeave.Sample\bin\Debug\net8.0\manifest.json
+C:\Users\josea\OneDrive\Documentos\Webfishing\webfishing-vs\Lure\GDWeave.Sample\bin\Debug\net8.0\Sulayre.Lure.deps.json
+C:\Users\josea\OneDrive\Documentos\Webfishing\webfishing-vs\Lure\GDWeave.Sample\bin\Debug\net8.0\Sulayre.Lure.dll
+C:\Users\josea\OneDrive\Documentos\Webfishing\webfishing-vs\Lure\GDWeave.Sample\bin\Debug\net8.0\Sulayre.Lure.pdb
+C:\Users\josea\OneDrive\Documentos\Webfishing\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\Sulayre.Lure.csproj.AssemblyReference.cache
+C:\Users\josea\OneDrive\Documentos\Webfishing\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\Sulayre.Lure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\josea\OneDrive\Documentos\Webfishing\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\Sulayre.Lure.AssemblyInfoInputs.cache
+C:\Users\josea\OneDrive\Documentos\Webfishing\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\Sulayre.Lure.AssemblyInfo.cs
+C:\Users\josea\OneDrive\Documentos\Webfishing\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\Sulayre.Lure.csproj.CoreCompileInputs.cache
+C:\Users\josea\OneDrive\Documentos\Webfishing\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\Sulayre.Lure.sourcelink.json
+C:\Users\josea\OneDrive\Documentos\Webfishing\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\Sulayre.Lure.dll
+C:\Users\josea\OneDrive\Documentos\Webfishing\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\refint\Sulayre.Lure.dll
+C:\Users\josea\OneDrive\Documentos\Webfishing\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\Sulayre.Lure.pdb
+C:\Users\josea\OneDrive\Documentos\Webfishing\webfishing-vs\Lure\GDWeave.Sample\obj\Debug\net8.0\ref\Sulayre.Lure.dll
