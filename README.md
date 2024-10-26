@@ -22,6 +22,7 @@
   - Add custom shader support for patterns
   - Tag BBCode support
 - **Future**
+  - Modded emotes
   - Create your own cosmetic categories/types 
   - Custom body models
   - Animated face/eye/mouth support
