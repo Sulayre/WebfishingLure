@@ -4,9 +4,11 @@
 
 ## Features
 ### Lure allows you to...
-- add Custom Fish, Tools (with limitations), Bobbers, Titles and Cosmetics of any kind! (you can even add cosmetic mesh variants for specific species!)
-- add Custom Species with unique voices with modded and vanilla pattern compatibility!
-- add Custom patterns for Vanilla AND modded species!
+- Add your own fish, props, bobbers, colors, titles, eyes, mouths and noses!
+- Add custom shirts/undershirts, hats and accessories with alternative meshes for any vanilla or modded species!
+- Add new species with unique voices with modded and vanilla pattern compatibility!
+- Add custom patterns for Vanilla AND anyone’s modded species!
+- Add new items that can have any function from any node linked to it!
 
 ### ...it also makes modding easier and less annoying with the following tweaks :)
 - Updates the character colors shader so now patterns can have additional static colors on their textures.
@@ -14,14 +16,24 @@
 - Streamlines the process of finding your mod's assets by using Lure's unique prefixes when referencing assets inside the mod's folder.
 - Saves modded items and cosmetic data on a separate file so the vanilla content doesn't get corrupted on uninstall!
 
-## Roadmap (WIP) in order of priority
-- Modded prop support (you can add them to your inventory but they dont work)
-- assign any behavior function to modded tools (right now you can only reference ``player.gd`` functions)
-- Proper implementation of the shop flags so you can add things to shops
-- Custom body models
-- Pattern support for tails
-- Improvements to fallback appearance so only missing cosmetics are removed
-- Map loader
+## Roadmap
+- **2.2.1**
+  - Add modded items to shops
+  - Add custom shader support for patterns
+  - Tag BBCode support
+- **Future**
+  - Create your own cosmetic categories/types 
+  - Custom body models
+  - Animated face/eye/mouth support
+  - Pattern support for tails
+  - Improvements to fallback appearance
+  - Mod mismatch control and mod versioning API
+  - Music/SFX API
+  - Map API
+
+## Known Issues
+- Items and cosmetics that were not created with Lure get tagged as 'missing' and get filtered out of the save file, might fix it in the future, its to avoid corruption, sorry.
+- Uninstalled items and cosmetics get wiped off the inventory (they get stored in the missing items save file), i'll add functionality to restore these upon reinstalling later
 
 ## Requirements
 - [GDWeave](https://github.com/NotNite/GDWeave/tree/main)
