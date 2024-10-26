@@ -12,6 +12,7 @@
 - Updates the character colors shader so now patterns can have additional static colors on their textures.
 - Items/Cosmetics loaded with lure have a unique prefix related to the mod's folder they were loaded from, allowing multiple mods to have same the same item/cosmetic file names.
 - Streamlines the process of finding your mod's assets by using Lure's unique prefixes when referencing assets inside the mod's folder.
+- Saves modded items and cosmetic data on a separate file so the vanilla content doesn't get corrupted on uninstall!
 
 ## Roadmap (WIP) in order of priority
 - Modded prop support (you can add them to your inventory but they dont work)
