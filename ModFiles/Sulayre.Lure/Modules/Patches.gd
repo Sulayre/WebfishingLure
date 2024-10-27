@@ -165,6 +165,7 @@ func _filter_save(new_save:Dictionary) -> Dictionary:
 						missing += 1
 						missing_save[k].append(cosmetic)
 						filtered_save[k].erase(cosmetic)
+
 			"cosmetics_equipped":
 				for e_k in new_save[k].keys():
 					var e_v = new_save[k][e_k]
@@ -224,3 +225,32 @@ func _filter_save(new_save:Dictionary) -> Dictionary:
 	file.close()
 	print(PREFIX+"Stored the modded items and cosmetics owned on a separate save file successfully.")
 	return filtered_save
+
+func _load_lobby_map(version:String) -> String:
+	if _check_map_install(version):
+		var version_split = version.split("#",false,1)
+		var version_raw = version_split[0]
+		var version_map = version_split[1]
+		Lure.Mapper.selected_map = Lure.Util._get_map_data(version_map)
+		return version_raw
+	else:
+		return version
+
+func _filter_lobby_map(version:String) -> String:
+	if _check_map_install(version):
+		var version_split = version.split("#",false,1)
+		var version_raw = version_split[0]
+		return version_raw
+	else:
+		return version
+
+func _check_map_install(version:String) -> bool:
+	var version_split = version.split("#",false,1)
+	var version_map = version_split[1]
+	prints(PREFIX,"checking map install for",version_map)
+	var exists = Lure.Util.map_exists(version_map)
+	print(PREFIX+"map is installed!") if exists else print(PREFIX+"map not installed.")
+	return exists
+
+func _replace_lobby_map_name(lobby_id):
+	pass

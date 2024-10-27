@@ -1,0 +1,227 @@
+[gd_scene load_steps=26 format=2]
+
+[ext_resource path="res://Scenes/Map/Zones/zone.gd" type="Script" id=1]
+[ext_resource path="res://mods/Sulayre.Lure/Assets/Textures/lurepaint.png" type="Texture" id=2]
+[ext_resource path="res://mods/Sulayre.Lure/Assets/Textures/templategrid_albedo.png" type="Texture" id=3]
+[ext_resource path="res://Scenes/Entities/Player/fish_zone.gd" type="Script" id=4]
+[ext_resource path="res://Scenes/Map/Tools/transition_zone.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Scenes/Map/Tools/area_entrance.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Assets/Textures/sand.png" type="Texture" id=7]
+[ext_resource path="res://Scenes/Entities/ChalkCanvas/chalk_canvas.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Scenes/Map/Props/mushroom_bounce.tscn" type="PackedScene" id=9]
+[ext_resource path="res://Scenes/Map/Zones/ocean_spawns.gd" type="Script" id=10]
+[ext_resource path="res://Scenes/Map/Props/extreme_water.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/Map/Props/extreme_water_small.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Scenes/Interactables/NPCs/npc_sell.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Sounds/Old/ambience.wav" type="AudioStream" id=14]
+[ext_resource path="res://Scenes/Interactables/NPCs/npc_main.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Scenes/Interactables/NPCs/npc_general.tscn" type="PackedScene" id=16]
+
+[sub_resource type="SpatialMaterial" id=3]
+albedo_texture = ExtResource( 3 )
+
+[sub_resource type="QuadMesh" id=1]
+material = SubResource( 3 )
+
+[sub_resource type="BoxShape" id=4]
+extents = Vector3( 15, 0.1, 15 )
+
+[sub_resource type="BoxShape" id=5]
+extents = Vector3( 20.4762, 9.20148, 22.3831 )
+
+[sub_resource type="BoxShape" id=6]
+extents = Vector3( 1.87775, 1.96456, 1.62627 )
+
+[sub_resource type="BoxShape" id=7]
+extents = Vector3( 1.37058, 2.6263, 0.993754 )
+
+[sub_resource type="BoxShape" id=8]
+extents = Vector3( 1.3, 1.3, 1.3 )
+
+[sub_resource type="CylinderMesh" id=9]
+top_radius = 10.0
+bottom_radius = 10.0
+height = 0.05
+radial_segments = 24
+rings = 2
+
+[sub_resource type="SpatialMaterial" id=10]
+flags_world_triplanar = true
+albedo_color = Color( 0.94902, 0.92549, 0.839216, 1 )
+albedo_texture = ExtResource( 7 )
+uv1_scale = Vector3( 0.6, 0.6, 0.6 )
+uv1_triplanar = true
+
+[node name="Zone" type="Spatial"]
+script = ExtResource( 1 )
+
+[node name="map" type="Spatial" parent="."]
+
+[node name="Sprite3D" type="Sprite3D" parent="map"]
+transform = Transform( 6.78985, 0, 0, 0, -4.37114e-08, -1, 0, 6.78985, -2.96794e-07, 0, 0.0391304, 0 )
+opacity = 0.3
+texture = ExtResource( 2 )
+
+[node name="StaticBody" type="StaticBody" parent="map"]
+
+[node name="MeshInstance" type="MeshInstance" parent="map/StaticBody"]
+transform = Transform( 30, 0, 0, 0, -1.31134e-06, 30, 0, -30, -1.31134e-06, 0, 0, 0 )
+mesh = SubResource( 1 )
+skeleton = NodePath("../../..")
+
+[node name="CollisionShape" type="CollisionShape" parent="map/StaticBody"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0796776, 0 )
+shape = SubResource( 4 )
+
+[node name="fish_zones" type="Spatial" parent="."]
+
+[node name="FishZone" type="Area" parent="fish_zones"]
+monitoring = false
+script = ExtResource( 4 )
+
+[node name="CollisionShape" type="CollisionShape" parent="fish_zones/FishZone"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.787431, -33.964 )
+shape = SubResource( 5 )
+
+[node name="portals" type="Spatial" parent="."]
+visible = false
+
+[node name="lighthouse_entrance" parent="portals" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 44.197, 29.755, 64.586 )
+visible = false
+entrance_id = "lighthouse_spawn"
+
+[node name="tutorial_spawn" parent="portals" instance=ExtResource( 6 )]
+entrance_id = "tutorial_spawn"
+
+[node name="lighthouse_door" parent="portals" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 42.71, 9.7477, 64.2748 )
+visible = false
+text = "ENTER LIGHTHOUSE"
+zone_id = "main_zone"
+spawn_id = "lighthouse_spawn"
+
+[node name="CollisionShape" type="CollisionShape" parent="portals/lighthouse_door"]
+shape = SubResource( 6 )
+
+[node name="ladder_entrance" parent="portals" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.045, 10.835, 79.05 )
+entrance_id = "ladder_spawn"
+
+[node name="ladder_use" parent="portals" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -4.30739, 0.510509, 82.1928 )
+text = "CLIMB LADDER"
+zone_id = "main_zone"
+spawn_id = "ladder_spawn"
+
+[node name="CollisionShape" type="CollisionShape" parent="portals/ladder_use"]
+shape = SubResource( 6 )
+
+[node name="hub_exit" parent="portals" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 49.921, 5, -62.521 )
+entrance_id = "hub_exit"
+
+[node name="hub_use" parent="portals" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 48.8146, 4.04498, -62.826 )
+text = "ENTER HUB"
+zone_id = "hub_building_zone"
+spawn_id = "hub_entrance"
+
+[node name="CollisionShape" type="CollisionShape" parent="portals/hub_use"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.23886, 4.76837e-07, 0.145721 )
+shape = SubResource( 7 )
+
+[node name="aqua_exit" parent="portals" instance=ExtResource( 6 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 68.9561, 5.2319, -61.8065 )
+entrance_id = "aqua_exit"
+
+[node name="aqua_use" parent="portals" instance=ExtResource( 5 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 67.8503, 5.13521, -62.1116 )
+text = "ENTER AQUARIUM"
+zone_id = "aquarium_zone"
+spawn_id = "aqua_entrance"
+
+[node name="CollisionShape" type="CollisionShape" parent="portals/aqua_use"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 1.4293, -0.989225, 0.145721 )
+shape = SubResource( 7 )
+
+[node name="ladder_entrance2" parent="portals" instance=ExtResource( 6 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -25.2096, 9.70173, 26.793 )
+entrance_id = "ladder_spawn_b"
+
+[node name="ladder_use2" parent="portals" instance=ExtResource( 5 )]
+transform = Transform( -4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, -20.8936, 4.02431, 27.0554 )
+text = "CLIMB LADDER"
+zone_id = "main_zone"
+spawn_id = "ladder_spawn_b"
+
+[node name="CollisionShape" type="CollisionShape" parent="portals/ladder_use2"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 7.62939e-06, 0.462406, -1.02928 )
+shape = SubResource( 8 )
+
+[node name="bounce_shrooms" type="Spatial" parent="."]
+
+[node name="mushroom_1" parent="bounce_shrooms" instance=ExtResource( 9 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 11.6883, 9.53674e-07, -11.0485 )
+
+[node name="chalk_zones" type="Spatial" parent="."]
+
+[node name="chalk_canvas" parent="chalk_zones" instance=ExtResource( 8 )]
+canvas_size = 10.0
+
+[node name="MeshInstance2" type="MeshInstance" parent="chalk_zones/chalk_canvas"]
+transform = Transform( 1, 0, 0, 0, 1.402, 0, 0, 0, 1, 0, -0.00200009, 0 )
+mesh = SubResource( 9 )
+skeleton = NodePath("../../../decals")
+material/0 = SubResource( 10 )
+
+[node name="points" type="Spatial" parent="."]
+
+[node name="shoreline" type="Spatial" parent="points"]
+
+[node name="shoreline_bug_spawn" type="Position3D" parent="points/shoreline" groups=["shoreline_point"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 13, 0, 0 )
+
+[node name="fish_spawns" type="Spatial" parent="points"]
+
+[node name="fish_spawn" type="Position3D" parent="points/fish_spawns" groups=["fish_spawn"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -20 )
+
+[node name="trash_spots" type="Spatial" parent="points"]
+
+[node name="trash_spot" type="Position3D" parent="points/trash_spots" groups=["trash_point"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -19, 0, 0 )
+
+[node name="ocean_spawns" type="Spatial" parent="points"]
+script = ExtResource( 10 )
+
+[node name="fish_spawn294" type="Position3D" parent="points/ocean_spawns" groups=["fish_spawn"]]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1.30386, 0, 0, 18 )
+
+[node name="ocean_water" type="Spatial" parent="."]
+transform = Transform( 0.25, 0, 0, 0, 1, 0, 0, 0, 0.25, 0, 0.843284, 35 )
+
+[node name="water" parent="ocean_water" instance=ExtResource( 11 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.96488, 0 )
+
+[node name="lake_water" type="Spatial" parent="."]
+
+[node name="water" parent="lake_water" instance=ExtResource( 12 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -5.25341, -33.964 )
+
+[node name="sound_ambient_zones" type="Spatial" parent="."]
+
+[node name="main_ambience" type="AudioStreamPlayer" parent="sound_ambient_zones"]
+stream = ExtResource( 14 )
+
+[node name="NPCs" type="Spatial" parent="."]
+transform = Transform( -1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 3.56565, 0, -12.0939 )
+
+[node name="npc_test" parent="NPCs" instance=ExtResource( 13 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 17.4032, 1, -4.41445 )
+
+[node name="npc_general" parent="NPCs" instance=ExtResource( 16 )]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 16.3593, 1.02, -18.4472 )
+
+[node name="npc_main" parent="NPCs" instance=ExtResource( 15 )]
+transform = Transform( -4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 16.8214, 1.536, -12.1169 )

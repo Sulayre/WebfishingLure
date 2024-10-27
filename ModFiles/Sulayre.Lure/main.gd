@@ -5,7 +5,8 @@ const _modules = {
 	"Patches":	preload("res://mods/Sulayre.Lure/Modules/Patches.gd"),
 	"Util":		preload("res://mods/Sulayre.Lure/Modules/Util.gd"),
 	"Loader":	preload("res://mods/Sulayre.Lure/Modules/Loader.gd"),
-	"Printer":	preload("res://mods/Sulayre.Lure/Modules/Printer.gd")
+	"Printer":	preload("res://mods/Sulayre.Lure/Modules/Printer.gd"),
+	#"Mapper":	preload("res://mods/Sulayre.Lure/Modules/Mapper.gd")
 }
 
 var Patches
@@ -13,13 +14,23 @@ var Util
 var Buffer
 var Loader
 var Printer
+var Mapper
 
 # ENUMS
 enum FLAGS {
-	LOCK_AFTER_SHOP_UPDATE,
 	SHOP_POSSUM, # THESE
 	SHOP_FROG, # ARE
 	SHOP_BEACH, # UNUSED !!!!
+	FREE_UNLOCK,
+	LOCK_AFTER_SHOP_UPDATE,
+	VENDING_MACHINE,
+}
+
+# don't use this its obsolete its only for old lure mods to work
+enum LURE_FLAGS {
+	SHOP_POSSUM,
+	SHOP_FROG,
+	SHOP_BEACH,
 	FREE_UNLOCK,
 }
 
@@ -47,6 +58,7 @@ enum {
 	ACTION_FUNCTION_MISSING,
 	ACTION_MISSING,
 	SAVE_UNKNOWN,
+	MAP_NOT_FOUND,
 }
 
 # CONSTANTS
@@ -61,8 +73,10 @@ const VANILLA_SPECIES = ["species_cat","species_dog"]
 # SIGNALS
 signal main_menu_enter
 signal game_enter
+signal world_enter
 signal _vanilla_saved
 signal lurlog(log_id,error)
+signal mod_map_loaded
 
 # ONREADY VARIABLES
 onready var root = get_tree().root
@@ -82,13 +96,14 @@ var animation_buffer = {}
 
 var modded_voices = {}
 var modded_props = {}
+var modded_maps = []
+
 var modded_species = []
 
 var action_references = {}
 
 var cosmetic_list:Dictionary = {}
 var item_list:Dictionary = {}
-
 var _savewaiter:Thread = Thread.new()
 # godot calls
 
@@ -98,17 +113,24 @@ func _init():
 
 func _enter_tree():
 	_load_modules()
-	if OS.has_feature("editor"): yield(PlayerData,"_loaded_save") # this function is added on my decomp ignore this its for testing
+	if OS.has_feature("editor") and PlayerData.has_signal("_loaded_save"):
+		yield(PlayerData,"_loaded_save")
 	vanilla_cosmetics = Globals.cosmetic_data.keys()
 	vanilla_items = Globals.item_data.keys()
 	Loader._load_modded_save_data()
-
+# very stupid boilerplate since i did some tweaks on my decomp for testing so it doesnt break for yall
 func _ready():
+	if OS.has_feature("editor") and !PlayerData.has_signal("_loaded_save"):
+		vanilla_cosmetics = Globals.cosmetic_data.keys()
+		vanilla_items = Globals.item_data.keys()
 	#var secretdata = {"kade":[]} if OS.has_feature("editor") else Util._secret_parser()
 	add_content("Sulayre.Lure","kade_shirt","mod://Resources/Cosmetics/undershirt_graphic_tshirt_kade.tres")
+	#add_map("Sulayre.Lure","test_map","mod://Scenes/Maps/test_map.tscn","Test Map")
 	root.connect("child_entered_tree",self,"_on_enter")
-	self.connect("main_menu_enter",self,"_add_watermark")	
-
+	self.connect("main_menu_enter",self,"_add_watermark")#,[],CONNECT_DEFERRED)	
+	#self.connect("main_menu_enter",Mapper,"_on_main")
+	#self.connect("world_enter",Mapper,"_load_map")
+	
 func register_action(mod_id:String,action_id:String,function_holder:Node,function_name:String):
 	if Util._validate_paths(mod_id,"res://"):
 		if !function_holder:
@@ -141,6 +163,26 @@ func assign_species_voice(mod_id:String,species_id:String,bark_path:String,growl
 		#print(modded_voices)
 	else:
 		Printer.out(VOICE_BARK_MISSING,true)
+
+# Stores face animation data for a specific modded species.
+func add_map(mod_id:String,map_id:String,scene_path:String,map_name:String=""):
+	print(PREFIX+"you're not supposed to run add_map in this version of lure, im too lazy to comment it out.")
+	return
+	if Util._validate_paths(mod_id,scene_path):
+		var real_path = Util._mod_path_converter(mod_id,scene_path)
+		var map:PackedScene = load(real_path)
+		if !map:
+			Printer.out(MAP_NOT_FOUND,true)
+			return
+		var final_id = mod_id+"."+map_id
+		if map_name == "": map_name = final_id
+		modded_maps.append(
+			{
+				"id":final_id,
+				"scene":map,
+				"name":map_name
+			}
+		)
 
 # Stores face animation data for a specific modded species.
 func assign_face_animation(mod_id:String,species_id:String,animation_path:String):
@@ -249,9 +291,12 @@ func _filter_save(new_save:Dictionary) -> Dictionary:
 
 # Signal Calls
 func _on_enter(node:Node):
-	if node.name == "main_menu" and node.is_class("Control"):
+	if node.name == "main_menu":
 		emit_signal("main_menu_enter")
+	if node.name == "world":
+		emit_signal("world_enter")
 
+# Misc
 func _add_watermark():
 	var prefab:PackedScene =load("res://mods/Sulayre.Lure/Scenes/Watermark.tscn")
 	var dupe:Node = prefab.instance()

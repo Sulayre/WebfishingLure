@@ -45,6 +45,22 @@ func _format_node_name(name:String) -> String:
 func _regenerate_loot_table(category:String,pool:String):
 	Globals._generate_loot_tables(category,pool)
 
+func get_player_actor():
+	return get_tree().current_scene.get_node("Viewport/main/entities/player")
+
+func _get_map_data(id:String):
+	for map_data in Lure.modded_maps:
+		if id == map_data.id:
+			return map_data
+	return null
+
+func map_exists(id):
+	for map_data in Lure.modded_maps:
+		if id == map_data.id:
+			print(PREFIX+"Map with ID ",id," is currently installed.")
+			return true
+	return false
+
 #func _secret_parser() -> Dictionary:
 #	var file = File.new()
 #	var details = {"kade":[]}

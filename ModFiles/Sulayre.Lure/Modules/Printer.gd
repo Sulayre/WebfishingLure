@@ -26,7 +26,8 @@ onready var _logs = {
 		Lure.ACTION_NODE_NULL: "Tried storing or calling an action on an null node reference.",
 		Lure.ACTION_FUNCTION_MISSING: "Tried to store a function that doesn't exist as an action",
 		Lure.ACTION_MISSING: "Attempted to execute a missing action, did you forget to assign it?",
-		Lure.SAVE_UNKNOWN: "Separate save file for Lure data was found but there was an unknown error loading it, sorry!"
+		Lure.SAVE_UNKNOWN: "Separate save file for Lure data was found but there was an unknown error loading it, sorry!",
+		Lure.MAP_NOT_FOUND: "A map with an invalid path was attempted to be loaded, check your path!"
 }
 
 func out(logid,error:bool=false):
