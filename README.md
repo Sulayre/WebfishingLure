@@ -87,14 +87,20 @@ the way you would call the custom action is by setting the action or release_act
 *for example, if your mod's id is ``awesome`` and you're adding an item that's called ``sauce`` the final id of the item will be ``awesome.sauce``, you only have to do this for modded resources since base game resources use their file name without the ``.tres`` extension.*
 
 ``flags`` is an optional array argument that Lure uses to toggle certain functionality on your new content, here's a list of flags and their uses:
-- ``FREE_UNLOCK`` if your new content is a cosmetic, it will add it to your inventory automatically, keep in mind that if you remove this flag in the future the item will remain unlocked for those that had the cosmetic beforehand, <u>this flag is added as default if you skipped the flags argument</u>.
+
+*the following 2 flags will add your new cosmetic/tool/prop to your inventory automatically, but with different conditions*
+- ``FREE_UNLOCK`` will make the cosmetic/item/prop remain unlocked forever.
+- ``LOCK_AFTER_SHOP_UPDATE``  will make the cosmetic/item/prop remain unlocked until the modded item shop integration update is out, it will lock them after that update drops and the flag will become obsolete.
 
 *The following flags are not implemented yet, but you can add them if you want your content to be future proof:*
 - ``SHOP_POSSUM`` adds the cosmetic or item to the possum's shop.
 - ``SHOP_FROG`` adds the cosmetic or item to the frog's shop.
 - ``SHOP_BEACH`` adds the cosmetic or item to the shop at the beach.
 
-keep in mind that to access the flags you need to reference them inside Lure's ``LURE_FLAGS`` enum, so a real example would look like this:
+*The following flags are not implemented yet, don't add them to your add_content arguments since its missing from the latest release.*
+- ``VENDING_MACHINE`` adds the cosmetic or item to the vending machine.
+
+keep in mind that to access the flags you need to reference them inside Lure's ``FLAGS`` enum, so a real example would look like this:
 ``[Lure.LURE_FLAGS.SHOP_POSSUM, Lure.LURE_FLAGS.FREE_UNLOCK]``
 
 ### Utility Functions
