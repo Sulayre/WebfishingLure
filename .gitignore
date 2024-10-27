@@ -14,5 +14,5 @@ export_presets.cfg
 data_*/
 mono_crash.*.json
 
-ModCSharp/.bin
-ModCSharp/.obj
+ModCSharp/bin/
+ModCSharp/obj/
