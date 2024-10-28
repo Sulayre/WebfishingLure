@@ -96,24 +96,33 @@ the way you would call the custom action is by setting the action or release_act
 
 **Lure.add_map(``mod_id``,``map_id``,``scene_path``,``optional_map_name``)**<br>Adds a new map to the game, if the map is not missing it will get added to the map list of the 'create' section of the lobby list, no tutorials on how to make maps as of yet but here's a couple of steps of how to setup your new map without crashing the game in the testing process:
 
-- 1) Open ``main_map.tscn`` and then duplicate it using ``Scene > Save Scene As..``, name it however you want.
-- 2) Right click the ``main_map`` node of the scene and click ``Attach Script``, then in the ``Inherits`` field write ``"res://Scenes/Map/main_map.gd"`` (with the quotes)
-- 3) Rename the ``main_map`` node to whatever you want, this is optional.
-- 4) Delete the ``main_zone`` node, we're gonna make our own.
-- 5) Open ``main_zone.tscn`` and then duplicate it using ``Scene > Save Scene As..``
-- 6) Rename ``lake_zone`` to ``main_zone``
-- 8) Feel free to remove all the nodes inside the new zone you're making, just keep in mind the following are important:
-  - ``points`` (Removing it WILL crash the game)
-  - ``NPCs`` contains well, the npcs.
-  - ``lake_water`` and ``ocean_water`` are important, but keep in mind that ``fish_zones`` contains the areas that actually decide the loot pool when fishing its the area!!
-  - ``portals`` are basically the teleporters/doors
-  - ``bounce_shrooms``contains the jumping mushrooms
-  - ``chalk_zones`` contains the areas you can draw on, don't scale these because it will break the position of the chalk when drawing, no idea.
-  - ``sonud_ambient_zones`` yup, you read that right, it has a typo. basically the background noise.
-  - ``invis_walls`` is where your invisible barriers will set up
-- 7) Go back to your new map's scene, add the new zone you created inside the ``zones`` node, remember, it **must** be called ``main_zone`` else it will crash.
-- 8) Save your map and load it with lure using the ``add_map`` function Lure provides.
-- 9) Enjoy!
+1) Open ``main_map.tscn`` and then duplicate it using ``Scene > Save Scene As..``, name it however you want.
+
+2) Right click the ``main_map`` node of the scene and click ``Attach Script``, then in the ``Inherits`` field write ``"res://Scenes/Map/main_map.gd"`` (with the quotes)
+
+3) Rename the ``main_map`` node to whatever you want, this is optional.
+
+4) Delete the ``main_zone`` node, we're gonna make our own.
+
+5) Open ``main_zone.tscn`` and then duplicate it using ``Scene > Save Scene As..``
+
+6) Rename ``lake_zone`` to ``main_zone``
+
+7) Feel free to remove all the nodes inside the new zone you're making, just keep in mind the following are important:
+- ``points`` (Removing it WILL crash the game)
+- ``NPCs`` contains well, the npcs.
+- ``lake_water`` and ``ocean_water`` are important, but keep in mind that ``fish_zones`` contains the areas that actually decide the loot pool when fishing its the area!!
+- ``portals`` are basically the teleporters/doors
+- ``bounce_shrooms``contains the jumping mushrooms
+- ``chalk_zones`` contains the areas you can draw on, don't scale these because it will break the position of the chalk when drawing, no idea.
+- ``sonud_ambient_zones`` yup, you read that right, it has a typo. basically the background noise.
+- ``invis_walls`` is where your invisible barriers will set up
+
+8) Go back to your new map's scene, add the new zone you created inside the ``zones`` node, remember, it **must** be called ``main_zone`` else it will crash.
+
+9) Save your map and load it with lure using the ``add_map`` function Lure provides.
+
+10) Enjoy!
 
 NOTE: Avoid using OBJ files on your custom map, they are SUPER buggy, please use GLB/GLTF instead !!
 
