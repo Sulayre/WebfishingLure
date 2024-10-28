@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://cdn.discordapp.com/attachments/1297612591656341504/1297617737081950278/image.png?ex=67169431&is=671542b1&hm=e3c6bfd6c059e17549c7185b80347e86665b3f27139c986d9f8493027fc4a8d6&" alt="Lure Shrimp"/>
+  <img src="https://raw.githubusercontent.com/Sulayre/WebfishingLure/refs/heads/main/icon.png" alt="Lure Shrimp"/>
 </p>
 
 ## Features
