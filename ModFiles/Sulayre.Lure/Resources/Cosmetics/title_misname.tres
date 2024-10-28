@@ -5,9 +5,9 @@
 
 [resource]
 script = ExtResource( 1 )
-name = "Shaky Title"
-desc = "Move it!"
-title = "[wave amp=50 freq=2]Shaky![/wave]"
+name = "Misname's Achievement"
+desc = "Don't forget to say thanks!"
+title = "[color=#FF00FF]We only added this title because a slugcat ported the entire Skyrim map to Lure's map loader update as soon as the update dropped[/color]"
 icon = ExtResource( 2 )
 species_alt_mesh = [  ]
 main_color = Color( 1, 1, 1, 1 )

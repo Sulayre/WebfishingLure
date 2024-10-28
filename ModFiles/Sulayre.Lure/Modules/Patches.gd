@@ -226,31 +226,31 @@ func _filter_save(new_save:Dictionary) -> Dictionary:
 	print(PREFIX+"Stored the modded items and cosmetics owned on a separate save file successfully.")
 	return filtered_save
 
-func _load_lobby_map(version:String) -> String:
-	if _check_map_install(version):
-		var version_split = version.split("#",false,1)
-		var version_raw = version_split[0]
-		var version_map = version_split[1]
-		Lure.Mapper.selected_map = Lure.Util._get_map_data(version_map)
-		return version_raw
-	else:
-		return version
+func _load_lobby_map(id,version:String) -> String:
+	if version.ends_with(".lure"):
+		var map_id = Steam.getLobbyData(id, "lure_map_id")
+		print(map_id)
+		if _check_map_install(map_id):
+			Lure.Mapper.selected_map = Lure.Util._get_map_data(map_id)
+			print(Lure.Mapper.selected_map)
+			var version_raw = version.replace(".lure","")
+			return version_raw
+	return version
 
-func _filter_lobby_map(version:String) -> String:
-	if _check_map_install(version):
-		var version_split = version.split("#",false,1)
-		var version_raw = version_split[0]
+func _filter_lobby_map(id,version:String) -> String:
+	if version.ends_with(".lure"):
+		var version_raw = version.replace(".lure","")
 		return version_raw
-	else:
-		return version
+	return version
 
-func _check_map_install(version:String) -> bool:
-	var version_split = version.split("#",false,1)
-	var version_map = version_split[1]
-	prints(PREFIX,"checking map install for",version_map)
-	var exists = Lure.Util.map_exists(version_map)
+func _replace_lobby_map_name(id,lobby_name:String,version:String) -> String:
+	if version.ends_with(".lure"):
+		var map_name = Steam.getLobbyData(id, "lure_map_name")
+		return lobby_name.replace("Lure Modded Map",map_name)
+	return lobby_name
+
+func _check_map_install(map_id:String) -> bool:
+	prints(PREFIX,"checking map install for",map_id)
+	var exists = Lure.Util.map_exists(map_id)
 	print(PREFIX+"map is installed!") if exists else print(PREFIX+"map not installed.")
 	return exists
-
-func _replace_lobby_map_name(lobby_id):
-	pass

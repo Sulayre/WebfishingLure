@@ -2,6 +2,7 @@ extends Node
 var Lure:Node
 var selected_map
 const PREFIX = "[LURE/MAPPER]: "
+
 func _on_main():
 	var mode:OptionButton = get_tree().current_scene.get_node_or_null("%serv_options")
 	var options:OptionButton = mode.duplicate()
@@ -26,21 +27,35 @@ func _swap_map(index):
 			selected_map = Lure.modded_maps[index-1]
 
 func _load_map():
-	PlayerData.player_saved_position = Vector3.ZERO
-	prints("ATTEMPTING TO LOAD MAP:",selected_map)
 	if selected_map:
+		prints("ATTEMPTING TO LOAD MAP:",selected_map)
 		var world = get_tree().current_scene
 		var map_holder = world.get_node("Viewport/main/map")
+		PlayerData.player_saved_position = Vector3.ZERO
+		var new_map = selected_map["scene"].instance()
 		var old_map = map_holder.get_node("main_map")
-		var new_map = map_holder.add_child(selected_map["scene"].instance())
 		var lobby_id = Network.STEAM_LOBBY_ID
-		Globals.GAME_VERSION_LURE = str(Globals.GAME_VERSION)+"#"+selected_map["id"]
 		var lobby_name = Steam.getLobbyData(lobby_id, "name")
+		
 		var new_title = "[color=#D87093][Lure Modded Map][/color] "+lobby_name
+		
+		print(new_map)
+		
 		print(PREFIX+"Modded lobby name: ",new_title)
-		print(PREFIX+"Modded lobby version: ",Globals.GAME_VERSION_LURE)
+		
 		Steam.setLobbyData(lobby_id, "name",new_title)
-		Steam.setLobbyData(lobby_id, "version", Globals.GAME_VERSION_LURE)
-		map_holder.remove_child(old_map)
-		Lure.emit_signal("mod_map_loaded")
+		Steam.setLobbyData(lobby_id, "version", str(Globals.GAME_VERSION)+".lure")
+		
+		Steam.setLobbyData(lobby_id, "lure_map_id", selected_map["id"])
+		Steam.setLobbyData(lobby_id, "lure_map_name", selected_map["name"])
+		
+		print(PREFIX+"Modded lobby map id: ",Steam.getLobbyData(lobby_id, "lure_map_id"))
+		print(PREFIX+"Modded lobby map name: ",Steam.getLobbyData(lobby_id, "lure_map_name"))
+		
+		map_holder.add_child(new_map)
+		print(map_holder.get_children())
 		world.map = new_map
+		map_holder.remove_child(old_map)
+		new_map.name = "main_map"
+		Lure.emit_signal("mod_map_loaded")
+	

@@ -6,8 +6,10 @@ const _modules = {
 	"Util":		preload("res://mods/Sulayre.Lure/Modules/Util.gd"),
 	"Loader":	preload("res://mods/Sulayre.Lure/Modules/Loader.gd"),
 	"Printer":	preload("res://mods/Sulayre.Lure/Modules/Printer.gd"),
-	#"Mapper":	preload("res://mods/Sulayre.Lure/Modules/Mapper.gd")
+	"Mapper":	preload("res://mods/Sulayre.Lure/Modules/Mapper.gd")
 }
+
+const prompt = preload("res://mods/Sulayre.Lure/Scenes/MainMenu/BonusContentPrompt.tscn")
 
 var Patches
 var Util
@@ -80,9 +82,10 @@ signal mod_map_loaded
 
 # ONREADY VARIABLES
 onready var root = get_tree().root
-var dir = Directory.new()
-
 # VARIABLES
+
+var dir = Directory.new()
+var bonus_prompt = false
 
 var loaded_cosmetics = []
 var loaded_items = []
@@ -117,19 +120,17 @@ func _enter_tree():
 		yield(PlayerData,"_loaded_save")
 	vanilla_cosmetics = Globals.cosmetic_data.keys()
 	vanilla_items = Globals.item_data.keys()
-	Loader._load_modded_save_data()
+	#Loader._load_modded_save_data()
+
 # very stupid boilerplate since i did some tweaks on my decomp for testing so it doesnt break for yall
 func _ready():
 	if OS.has_feature("editor") and !PlayerData.has_signal("_loaded_save"):
 		vanilla_cosmetics = Globals.cosmetic_data.keys()
 		vanilla_items = Globals.item_data.keys()
 	#var secretdata = {"kade":[]} if OS.has_feature("editor") else Util._secret_parser()
-	add_content("Sulayre.Lure","kade_shirt","mod://Resources/Cosmetics/undershirt_graphic_tshirt_kade.tres")
-	#add_map("Sulayre.Lure","test_map","mod://Scenes/Maps/test_map.tscn","Test Map")
-	root.connect("child_entered_tree",self,"_on_enter")
-	self.connect("main_menu_enter",self,"_add_watermark")#,[],CONNECT_DEFERRED)	
-	#self.connect("main_menu_enter",Mapper,"_on_main")
-	#self.connect("world_enter",Mapper,"_load_map")
+	_signals()
+	_options_check()
+	
 	
 func register_action(mod_id:String,action_id:String,function_holder:Node,function_name:String):
 	if Util._validate_paths(mod_id,"res://"):
@@ -166,8 +167,6 @@ func assign_species_voice(mod_id:String,species_id:String,bark_path:String,growl
 
 # Stores face animation data for a specific modded species.
 func add_map(mod_id:String,map_id:String,scene_path:String,map_name:String=""):
-	print(PREFIX+"you're not supposed to run add_map in this version of lure, im too lazy to comment it out.")
-	return
 	if Util._validate_paths(mod_id,scene_path):
 		var real_path = Util._mod_path_converter(mod_id,scene_path)
 		var map:PackedScene = load(real_path)
@@ -176,6 +175,7 @@ func add_map(mod_id:String,map_id:String,scene_path:String,map_name:String=""):
 			return
 		var final_id = mod_id+"."+map_id
 		if map_name == "": map_name = final_id
+		prints(final_id,map,map_name)
 		modded_maps.append(
 			{
 				"id":final_id,
@@ -280,6 +280,28 @@ func _load_modules():
 	connect("lurlog",Printer,"out")
 	print(listing)
 
+# extra shit
+func _options_check():
+	var file = File.new()
+	print(PREFIX+"searching for gdweave options json")
+	if file.open(OS.get_executable_path().get_base_dir().plus_file("GDWeave/configs/Sulayre.Lure.json"),File.READ) == OK:
+		var p = JSON.parse(file.get_as_text())
+		file.close()
+		var result = p.result
+		if typeof(result) == TYPE_DICTIONARY:
+			print(PREFIX+"checking options")
+			if result["bonus_prompt"]:
+				print(PREFIX+"bonus content prompt")
+				bonus_prompt = true
+			elif result["bonus_content"]:
+				print(PREFIX+"bonus content on")
+				_bonus_content_load()
+
+func _bonus_content_load():
+	add_content("Sulayre.Lure","kade_shirt","mod://Resources/Cosmetics/undershirt_graphic_tshirt_kade.tres")
+	add_content("Sulayre.Lure","misname_title","mod://Resources/Cosmetics/title_misname.tres")
+	add_map("Sulayre.Lure","test_map","mod://Scenes/Maps/test_map.tscn","Lure Test Map")
+
 # 3.5 sucks ass
 func _filter_save(new_save:Dictionary) -> Dictionary:
 	if Patches:
@@ -290,18 +312,21 @@ func _filter_save(new_save:Dictionary) -> Dictionary:
 	return new_save
 
 # Signal Calls
+
+func _signals():
+	root.connect("child_entered_tree",self,"_on_enter")
+	
+	self.connect("main_menu_enter",Mapper,"_on_main")
+	
+	self.connect("world_enter",Mapper,"_load_map")
+
 func _on_enter(node:Node):
 	if node.name == "main_menu":
+		if bonus_prompt: node.add_child(prompt.instance())
+		Mapper.selected_map = null
 		emit_signal("main_menu_enter")
 	if node.name == "world":
 		emit_signal("world_enter")
-
-# Misc
-func _add_watermark():
-	var prefab:PackedScene =load("res://mods/Sulayre.Lure/Scenes/Watermark.tscn")
-	var dupe:Node = prefab.instance()
-	get_tree().root.get_node("main_menu").add_child(dupe)
-	dupe.visible = true
 
 # Actions
 

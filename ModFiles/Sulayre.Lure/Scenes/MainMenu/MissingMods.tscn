@@ -1,0 +1,92 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Assets/Themes/panel_med.tres" type="StyleBox" id=1]
+[ext_resource path="res://Scenes/Menus/Main Menu/ui_generic_button.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Textures/UI/loading_dial.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Themes/main.tres" type="Theme" id=4]
+
+[node name="MissingMods" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 4 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0627451, 0.109804, 0.192157, 0.431373 )
+
+[node name="Panel" type="Panel" parent="."]
+anchor_left = 0.345
+anchor_top = 0.164
+anchor_right = 0.655
+anchor_bottom = 0.8
+margin_left = -0.400024
+margin_top = -0.12001
+margin_right = 0.399902
+margin_bottom = 39.0
+
+[node name="Label" type="Label" parent="Panel"]
+anchor_left = 0.0335571
+anchor_top = 0.0247934
+anchor_right = 1.01956
+anchor_bottom = 0.0772625
+text = "Missing Server-Sided mods"
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="Panel2" type="Panel" parent="Panel"]
+anchor_top = 0.0632716
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 16.0
+margin_right = -16.0
+margin_bottom = -16.0
+custom_styles/panel = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="ScrollContainer" type="ScrollContainer" parent="Panel/Panel2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = 16.0
+margin_right = -16.0
+margin_bottom = -16.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/Panel2/ScrollContainer"]
+margin_right = 532.0
+margin_bottom = 616.065
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 8
+
+[node name="TextureRect" type="CenterContainer" parent="Panel/Panel2"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Control" type="Control" parent="Panel/Panel2/TextureRect"]
+margin_left = 281.0
+margin_top = 324.0
+margin_right = 281.0
+margin_bottom = 324.0
+mouse_filter = 2
+
+[node name="dial" type="Sprite" parent="Panel/Panel2/TextureRect/Control"]
+visible = false
+texture = ExtResource( 3 )
+
+[node name="Button2" type="Button" parent="Panel"]
+anchor_left = 0.352
+anchor_top = 0.955
+anchor_right = 0.653
+anchor_bottom = 1.043
+margin_left = 0.207977
+margin_top = -0.330017
+margin_right = -0.188019
+margin_bottom = -0.218079
+text = "Okay :("
+script = ExtResource( 2 )

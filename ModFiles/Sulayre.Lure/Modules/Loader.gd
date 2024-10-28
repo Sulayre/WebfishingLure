@@ -144,24 +144,24 @@ func _refresh_modded_unlocks():
 		var flags = item_list[id]["flags"]
 		#prints(item_list[id],FLAGS.FREE_UNLOCK)
 		if (flags.has(Lure.FLAGS.LOCK_AFTER_SHOP_UPDATE) or flags.has(Lure.FLAGS.FREE_UNLOCK)) and (res.category == "tool" or res.category == "furniture"):
-			var owned = false
-			for item in PlayerData.inventory:
-				if item.id == id:
-					owned = true
-					print(PREFIX+"Tool or prop added is already owned, skipping!")
-					break
-			if !owned:
-				print(PREFIX+id+" is unlocked automatically but isn't owned, adding to inventory.")
-				var ref = randi()
-				var entry = {"id": id, "size": 1, "ref": ref, "quality": PlayerData.ITEM_QUALITIES.NORMAL, "tags": []}
-				PlayerData.inventory.append(entry)
-				emit_signal("_inventory_refresh")
+				var owned = false
+				for item in PlayerData.inventory.duplicate(true):
+					if item.id == id:
+						owned = true
+				if !owned:
+					print(PREFIX+id+" is a tool/prop that is unlocked automatically but isn't owned, adding to inventory.")
+					var ref = randi()
+					var entry = {"id": id, "size": 1, "ref": ref, "quality": PlayerData.ITEM_QUALITIES.NORMAL, "tags": []}
+					PlayerData.inventory.append(entry)
+					emit_signal("_inventory_refresh")
+				else:
+					print(PREFIX+"Tool or prop with id "+id+" is already owned, skipping!")
 	for id in cosmetic_list.keys():
 		var flags = cosmetic_list[id]["flags"]
 		if flags.has(Lure.FLAGS.LOCK_AFTER_SHOP_UPDATE) or flags.has(Lure.FLAGS.FREE_UNLOCK):
 			if !PlayerData.cosmetics_unlocked.has(id):
 				PlayerData._unlock_cosmetic(id,false)
-				print(PREFIX+id+" is unlocked automatically but isn't owned, adding to unlocked cosmetics.")
+				print(PREFIX+id+" is a cosmetic that's unlocked automatically but isn't owned, adding to unlocked cosmetics.")
 			#print(PREFIX+id,"has unlocked index ",PlayerData.cosmetics_unlocked.find(id))
 
 func _load_modded_save_data():
@@ -180,6 +180,7 @@ func _load_modded_save_data():
 						for i in d:
 							print(PREFIX,i.id)
 							PlayerData.inventory.append(i)
+								
 					"hotbar":
 						for i in save["hotbar"].keys():
 							print(PREFIX,i,": ",save["hotbar"][i])
