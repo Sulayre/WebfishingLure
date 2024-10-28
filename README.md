@@ -16,22 +16,6 @@
 - Streamlines the process of finding your mod's assets by using Lure's unique prefixes when referencing assets inside the mod's folder.
 - Saves modded items and cosmetic data on a separate file so the vanilla content doesn't get corrupted on uninstall!
 
-## Roadmap
-- **2.2.1**
-  - Add modded items to shops
-  - Add custom shader support for patterns
-  - Tag BBCode support
-- **Future**
-  - Modded emotes
-  - Create your own cosmetic categories/types 
-  - Custom body models
-  - Animated face/eye/mouth support
-  - Pattern support for tails
-  - Improvements to fallback appearance
-  - Mod mismatch control and mod versioning API
-  - Music/SFX API
-  - Map API
-
 ## Known Issues
 - Items and cosmetics that were not created with Lure get tagged as 'missing' and get filtered out of the save file, might fix it in the future, its to avoid corruption, sorry.
 - Uninstalled items and cosmetics get wiped off the inventory (they get stored in the missing items save file), i'll add functionality to restore these upon reinstalling later
