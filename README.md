@@ -55,6 +55,17 @@ To access Lure's functions in your code, add the following line at the start of 
 
 # Documentation  
 
+## Index
+- [Loading Assets](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#loading-assets-with-lure)
+- [_ready Functions](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#initialization-functions-make-sure-you-call-these-functions-on-the-_ready-function-of-your-modgd)
+  - [Custom Species Voices and Faces](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#custom-species)
+  - [Clothing Meshes and Pattern Textures](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#cosmetics)
+  - [Setting Up Props](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#props)
+  - [Item Behavior](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#items)
+  - [Adding Maps](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#maps)
+  - [Adding Items, Props and Cosmetics/Species](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#loading-the-items-props-and-cosmetics)
+- [Utility Functions](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#utility-functions)
+
 ## Loading assets with Lure
 Lure allows you to load asset paths with 3 different prefixes:
 - ``mod://``  searches for assets starting from the folder of the mod_id you gave to the function.
