@@ -124,7 +124,7 @@ the way you would call the custom action is by setting the action or release_act
 
 10) Enjoy!
 
-NOTE: Avoid using OBJ files on your custom map, they are SUPER buggy, please use GLB/GLTF instead !!
+*NOTE: Avoid using OBJ files on your custom map, they are SUPER buggy, please use GLB/GLTF instead !!*
 
 ### Loading the Items, Props and Cosmetics...
 
