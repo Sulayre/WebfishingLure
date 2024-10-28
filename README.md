@@ -104,7 +104,7 @@ the way you would call the custom action is by setting the action or release_act
 7) Feel free to remove all the nodes inside the new zone you're making, just keep in mind the following are important:
 - ``points`` (Removing it WILL crash the game)
 - ``NPCs`` contains well, the npcs.
-- ``lake_water`` and ``ocean_water`` are important, but keep in mind that ``fish_zones`` contains the areas that actually decide the loot pool when fishing its the area!!
+- ``lake_water`` and ``ocean_water`` are important, but keep in mind that ``fish_zones`` contains the areas that actually decide the 'loot pool' of fish you'll get when fishing inside the area!!
 - ``portals`` are basically the teleporters/doors
 - ``bounce_shrooms``contains the jumping mushrooms
 - ``chalk_zones`` contains the areas you can draw on, don't scale these because it will break the position of the chalk when drawing, no idea.
