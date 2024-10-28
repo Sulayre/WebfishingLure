@@ -54,8 +54,6 @@ To access Lure's functions in your code, add the following line at the start of 
 *(this way you can access all of it's functions listed below in the Documentation)*
 
 # Documentation  
-
-## Index
 - [Loading Assets](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#loading-assets-with-lure)
 - [_ready Functions](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#initialization-functions-make-sure-you-call-these-functions-on-the-_ready-function-of-your-modgd)
   - [Custom Species Voices and Faces](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#custom-species)
