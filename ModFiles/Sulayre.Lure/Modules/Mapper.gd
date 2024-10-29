@@ -1,7 +1,17 @@
 extends Node
 var Lure:Node
 var selected_map
+var player_bodies = []
 const PREFIX = "[LURE/MAPPER]: "
+
+func _refresh_players(node):
+	player_bodies = []
+	print("refreshing")
+	var entities = get_tree().get_current_scene().get_node("Viewport/main/entities").get_children()
+	for entity in entities:
+		if "player" in entity.name:
+			player_bodies.append(entity)
+	print(player_bodies)
 
 func _on_main():
 	var mode:OptionButton = get_tree().current_scene.get_node_or_null("%serv_options")
@@ -32,7 +42,7 @@ func _load_map():
 		var world = get_tree().current_scene
 		var map_holder = world.get_node("Viewport/main/map")
 		PlayerData.player_saved_position = Vector3.ZERO
-		var new_map = selected_map["scene"].instance()
+		var new_map:Spatial = selected_map["scene"].instance()
 		var old_map = map_holder.get_node("main_map")
 		var lobby_id = Network.STEAM_LOBBY_ID
 		var lobby_name = Steam.getLobbyData(lobby_id, "name")
@@ -57,5 +67,29 @@ func _load_map():
 		world.map = new_map
 		map_holder.remove_child(old_map)
 		new_map.name = "main_map"
+		
+		var groups = [
+			"fish_spawn",
+			"aqua_spawn_loc",
+			"bush",
+			"shoreline_point",
+			"trash_point",
+			"deep_spawn"
+			]
+		
+		var anticrash = Spatial.new()
+		anticrash.name = "missing_groups_crash_prevention_node"
+		new_map.add_child(anticrash)
+			
+		#crash prevention
+		for group in groups:
+			if get_tree().get_nodes_in_group(group).size() < 1:
+				anticrash.add_to_group(group)
+		
+		if !new_map.get_node_or_null("tutorial_spawn_position"):
+			var tutsp = Position3D.new()
+			tutsp.name = "tutorial_spawn_position"
+			new_map.add_child(tutsp)
+		
 		Lure.emit_signal("mod_map_loaded")
 	

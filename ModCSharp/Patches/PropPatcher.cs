@@ -53,7 +53,7 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.Newline, 1);
 					//var modprops = {}
 					yield return new Token(TokenType.PrVar);
-					yield return new IdentifierToken("modprops");
+					yield return new IdentifierToken("modactors");
 					yield return new Token(TokenType.OpAssign);
 					yield return new Token(TokenType.CurlyBracketOpen);
 					yield return new Token(TokenType.CurlyBracketClose);
@@ -64,13 +64,13 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.Colon);
 					yield return new Token(TokenType.Newline, 2);
 
-					yield return new IdentifierToken("modprops");
+					yield return new IdentifierToken("modactors");
 					yield return new Token(TokenType.OpAssign);
 					yield return new IdentifierToken("Lure");
 					yield return new Token(TokenType.Period);
 					yield return new IdentifierToken("get");
 					yield return new Token(TokenType.ParenthesisOpen);
-					yield return new ConstantToken(new StringVariant("modded_props"));
+					yield return new ConstantToken(new StringVariant("modded_actors"));
 					yield return new Token(TokenType.ParenthesisClose);
 
 					//yield return new Token(TokenType.BuiltInFunc, (uint?)BuiltinFunction.TextPrint);
@@ -85,7 +85,7 @@ namespace Sulayre.Lure.Patches
 					// ...and not modprop.keys().has(actor_type):
 					yield return new Token(TokenType.OpAnd);
 					yield return new Token(TokenType.OpNot);
-					yield return new IdentifierToken("modprops");
+					yield return new IdentifierToken("modactors");
 					yield return new Token(TokenType.Period);
 					yield return new IdentifierToken("keys");
 					yield return new Token(TokenType.ParenthesisOpen);
@@ -108,7 +108,7 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.Newline, 1);
 
 					yield return new Token(TokenType.CfIf);
-					yield return new IdentifierToken("modprops");
+					yield return new IdentifierToken("modactors");
 					yield return new Token(TokenType.Period);
 					yield return new IdentifierToken("keys");
 					yield return new Token(TokenType.ParenthesisOpen);
@@ -124,7 +124,7 @@ namespace Sulayre.Lure.Patches
 
 					yield return new IdentifierToken("actor");
 					yield return new Token(TokenType.OpAssign);
-					yield return new IdentifierToken("modprops");
+					yield return new IdentifierToken("modactors");
 					yield return new Token(TokenType.BracketOpen);
 					yield return new IdentifierToken("actor_type");
 					yield return new Token(TokenType.BracketClose);

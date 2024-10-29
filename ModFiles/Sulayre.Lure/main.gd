@@ -98,7 +98,7 @@ var mesh_buffer = []
 var animation_buffer = {}
 
 var modded_voices = {}
-var modded_props = {}
+var modded_actors = {}
 var modded_maps = []
 
 var modded_species = []
@@ -129,7 +129,10 @@ func _ready():
 		vanilla_items = Globals.item_data.keys()
 	#var secretdata = {"kade":[]} if OS.has_feature("editor") else Util._secret_parser()
 	_signals()
-	_options_check()
+	if OS.has_feature("editor"):
+		_bonus_content_load()
+	else:
+		_options_check()
 	
 	
 func register_action(mod_id:String,action_id:String,function_holder:Node,function_name:String):
@@ -165,7 +168,7 @@ func assign_species_voice(mod_id:String,species_id:String,bark_path:String,growl
 	else:
 		Printer.out(VOICE_BARK_MISSING,true)
 
-# Stores face animation data for a specific modded species.
+# Adds a new map into the map selector
 func add_map(mod_id:String,map_id:String,scene_path:String,map_name:String=""):
 	if Util._validate_paths(mod_id,scene_path):
 		var real_path = Util._mod_path_converter(mod_id,scene_path)
@@ -175,7 +178,6 @@ func add_map(mod_id:String,map_id:String,scene_path:String,map_name:String=""):
 			return
 		var final_id = mod_id+"."+map_id
 		if map_name == "": map_name = final_id
-		prints(final_id,map,map_name)
 		modded_maps.append(
 			{
 				"id":final_id,
@@ -183,6 +185,7 @@ func add_map(mod_id:String,map_id:String,scene_path:String,map_name:String=""):
 				"name":map_name
 			}
 		)
+		print(PREFIX+"Map with ID ",map_id," has been added successfully!")
 
 # Stores face animation data for a specific modded species.
 func assign_face_animation(mod_id:String,species_id:String,animation_path:String):
@@ -211,7 +214,7 @@ func assign_cosmetic_mesh(mod_id:String,cosmetic_id:String,species_id:String,mes
 				"mesh":mesh
 			}
 		)
-		print(PREFIX+"buffered alternative mesh for cosmetic "+ cosmetic_id + " for species "+species_id)
+		#print(PREFIX+"buffered alternative mesh for cosmetic "+ cosmetic_id + " for species "+species_id)
 
 # stores a texture and dynamically sets it up so you can have custom patterns
 # for both vanila and modded species
@@ -230,17 +233,21 @@ func assign_pattern_texture(mod_id:String,pattern_id:String,species_id:String,te
 				"texture":texture
 			}
 		)
-		print(PREFIX+"buffered texture for pattern "+pattern_id + " and species "+species_id)
+		#print(PREFIX+"buffered texture for pattern "+pattern_id + " and species "+species_id)
 		#_refresh_patterns()
 
 func register_prop(mod_id:String,identifier:String,scene_path:String):
+	print(PREFIX+"Mod with ID ",mod_id," is calling the register_props function which is obsolete, use add_actor instead!")
+	add_actor(mod_id,identifier,scene_path)
+
+func add_actor(mod_id:String,identifier:String,scene_path:String):
 	var scene:PackedScene = load(Util._mod_path_converter(mod_id,scene_path))
 	if scene:
-		modded_props[mod_id+"."+identifier] = scene
+		modded_actors[mod_id+"."+identifier] = scene
 	else:
 		Printer.out(PROPS_SCENE_MISSING,true)
 		return
-	print(modded_props)
+	#print(modded_props)
 
 func add_content(mod_id:String,resource_id:String,resource_path:String, flags:Array=[FLAGS.LOCK_AFTER_SHOP_UPDATE]):
 	var data = {
@@ -300,15 +307,14 @@ func _options_check():
 func _bonus_content_load():
 	add_content("Sulayre.Lure","kade_shirt","mod://Resources/Cosmetics/undershirt_graphic_tshirt_kade.tres")
 	add_content("Sulayre.Lure","misname_title","mod://Resources/Cosmetics/title_misname.tres")
-	add_map("Sulayre.Lure","test_map","mod://Scenes/Maps/test_map.tscn","Lure Test Map")
-
+	add_map("Sulayre.Lure","test_map","mod://Scenes/Maps/example_map.tscn","Lure Test Map")
 # 3.5 sucks ass
 func _filter_save(new_save:Dictionary) -> Dictionary:
 	if Patches:
 		if Patches.has_method("_filter_save"):
 			return Patches._filter_save(new_save)
-		printerr(PREFIX+"The save filtering method was not found dude this shit makes no sense")
-	printerr(PREFIX+"The patches node was not found for whatever reason.")
+		#printerr(PREFIX+"The save filtering method was not found dude this shit makes no sense")
+	#printerr(PREFIX+"The patches node was not found for whatever reason.")
 	return new_save
 
 # Signal Calls
@@ -326,6 +332,8 @@ func _on_enter(node:Node):
 		Mapper.selected_map = null
 		emit_signal("main_menu_enter")
 	if node.name == "world":
+		print("world enter")
+		node.get_node("Viewport/main/entities").connect("child_entered_tree",Mapper,"_refresh_players")
 		emit_signal("world_enter")
 
 # Actions
