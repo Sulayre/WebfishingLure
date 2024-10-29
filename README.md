@@ -46,7 +46,7 @@ To access Lure's functions in your code, add the following line at the start of 
 - [Ready Functions](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#initialization-functions-make-sure-you-call-these-functions-on-the-_ready-function-of-your-modgd)
   - [Custom Species Voices and Faces](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#custom-species)
   - [Clothing Meshes and Pattern Textures](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#cosmetics)
-  - [Setting Up Props](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#props)
+  - [Setting Up Props and Actors](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#props)
   - [Item Behavior](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#items)
   - [Adding Maps](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#maps)
   - [Adding Items, Props and Cosmetics/Species](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#loading-the-items-props-and-cosmetics)
@@ -81,7 +81,9 @@ Lure allows you to load asset paths with 3 different prefixes:
 
 ### Props
 
-**Lure.register_prop(``id_of_the_mod_that_added_the_prop``,``scene_id``,``tscn_path``)**<br>Allows you to assign a specific scene to a modded prop, Lure will automatically turn the ``prop_code`` from your modded prop to ``mod_id.prop_code`` so if the prop you're assigning the scene to is not from your mod, make sure you call this function with the id of the mod that adds the prop.
+**Lure.add_actor(``mod_id``,``scene_id``,``tscn_path``)**<br>Allows you to add a new 'actor' to the game, actors are basically entities. With this you can load the scene for your modded props for example, or register things that can be networked on your custom maps
+
+When calling 'add_content' to a new prop item Lure will automatically turn the ``prop_code`` from the prop's ``ItemResource`` to ``mod_id.prop_code`` so if the prop item you're assigning the scene to is not from your mod, make sure you call this function with the id of the mod that adds the prop.
 
 ### Items
 
