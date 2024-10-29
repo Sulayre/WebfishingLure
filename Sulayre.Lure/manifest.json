@@ -1,0 +1,11 @@
+{
+    "Id": "Sulayre.Lure",
+    "PackPath": "Sulayre.Lure.pck",
+    "AssemblyPath": "Sulayre.Lure.dll",
+    "Metadata": {
+        "Name": "Lure",
+        "Author": "Sulayre, ZeaTheMays",
+        "Version": "3.1.0",
+        "Description": "API to make adding content to WEBFISHING easier, faster and compatible."
+    }
+}

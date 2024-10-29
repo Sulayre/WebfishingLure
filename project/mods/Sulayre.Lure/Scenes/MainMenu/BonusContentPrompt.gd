@@ -10,7 +10,7 @@ func _disable_prompt(bonus:bool):
 		result["bonus_prompt"] = false
 		result["bonus_content"] = bonus
 		if file.open(path,File.WRITE) == OK:
-			file.store_string(JSON.print(result))
+			file.store_string(JSON.print(result," "))
 			file.close()
 	queue_free()
 

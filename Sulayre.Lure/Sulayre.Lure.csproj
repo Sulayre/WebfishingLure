@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblySearchPaths>$(AssemblySearchPaths);$(GDWeavePath)/core</AssemblySearchPaths>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <Reference Include="GDWeave" Private="false" />
+        <Reference Include="Serilog" Private="false" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="manifest.json" CopyToOutputDirectory="PreserveNewest" />
+    </ItemGroup>
+
+    <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(GDWeavePath)' != ''">
+      <Exec
+          Command="echo D | xcopy /Y /I &quot;$(TargetDir)manifest.json&quot; &quot;$(GDWeavePath)\mods\$(AssemblyName)&quot;"
+          Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))'"
+        />
+      <Exec
+          Command="echo D | xcopy /Y /I &quot;$(TargetDir)$(AssemblyName).dll&quot; &quot;$(GDWeavePath)\mods\$(AssemblyName)&quot;"
+          Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))'"
+        />
+      <Exec
+          Command="echo D | xcopy /Y /I &quot;$(MSBuildProjectDirectory)\..\project\$(AssemblyName).pck&quot; &quot;$(GDWeavePath)\mods\$(AssemblyName)&quot;"
+          Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))'"
+        />
+    </Target>
+</Project>

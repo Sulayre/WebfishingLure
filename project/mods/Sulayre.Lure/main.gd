@@ -307,7 +307,7 @@ func _options_check():
 func _bonus_content_load():
 	add_content("Sulayre.Lure","kade_shirt","mod://Resources/Cosmetics/undershirt_graphic_tshirt_kade.tres")
 	add_content("Sulayre.Lure","misname_title","mod://Resources/Cosmetics/title_misname.tres")
-	add_map("Sulayre.Lure","test_map","mod://Scenes/Maps/example_map.tscn","Lure Test Map")
+	#add_map("Sulayre.Lure","test_map","mod://Scenes/Maps/example_map.tscn","Lure Test Map")
 # 3.5 sucks ass
 func _filter_save(new_save:Dictionary) -> Dictionary:
 	if Patches:
