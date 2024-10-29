@@ -23,6 +23,7 @@
 
 ## Known Issues
 - Modded items and cosmetics get wiped of the save file when restarting the game, this is intentional and temporary until further notice.
+- Spawning a modded prop in a session will most likely crash the game of everyone who doesn't have the mod that adds the prop you're placing, don't test this, its a theory with how actors work in the game.
 
 ## Requirements
 - [GDWeave](https://github.com/NotNite/GDWeave/tree/main)
