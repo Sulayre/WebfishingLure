@@ -13,6 +13,7 @@
 - Add new species with unique voices with modded and vanilla pattern compatibility!
 - Add custom patterns for Vanilla AND anyone’s modded species!
 - Add new items that can have any function from any node linked to it!
+- Make whole new maps without having to replace things from the base game!
 
 ### ...it also makes modding easier and less annoying with the following tweaks :)
 - Updates the character colors shader so now patterns can have additional static colors on their textures.
