@@ -82,7 +82,7 @@ Lure allows you to load asset paths with 3 different prefixes:
 
 **Lure.assign_cosmetic_mesh(``your_mod_id``, ``cosmetic_id``, ``species_id``, ``mesh_path``)**<br>Allows you to assign an alternative mesh to a specific cosmetic for a specific species, for example if you make a mask accessory, you'll need to make an alternative version for the dog, so its not clipping through the head, this is optional to make your cosmetics work but its heavily encouraged, this function works for both vanilla and modded species/cosmetics.
 
-### Props
+### Props and Modded Map Entities
 
 **Lure.add_actor(``mod_id``,``scene_id``,``tscn_path``)**<br>Allows you to add a new 'actor' to the game, actors are basically entities. With this you can load the scene for your modded props for example, or register things that can be networked on your custom maps
 
