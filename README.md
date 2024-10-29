@@ -2,6 +2,8 @@
   <img src="https://raw.githubusercontent.com/Sulayre/WebfishingLure/refs/heads/main/icon.png" alt="Lure Shrimp"/>
 </p>
 
+### For health reasons development of Lure's hotfixes and patches will slow down a bunch, if youd like to contribute feel free to make a pull request!
+
 ## Features
 ### Lure allows you to...
 - Add your own fish, props, bobbers, colors, titles, eyes, mouths and noses!
@@ -17,14 +19,16 @@
 - Saves modded items and cosmetic data on a separate file so the vanilla content doesn't get corrupted on uninstall!
 
 ## Known Issues
-- Items and cosmetics that were not created with Lure get tagged as 'missing' and get filtered out of the save file, might fix it in the future, its to avoid corruption, sorry.
-- Uninstalled items and cosmetics get wiped off the inventory (they get stored in the missing items save file), i'll add functionality to restore these upon reinstalling later
+- Modded items and cosmetics get wiped of the save file when restarting the game, this is intentional and temporary until further notice.
 
 ## Requirements
 - [GDWeave](https://github.com/NotNite/GDWeave/tree/main)
 
 ## How to Install
 - drag the folder inside the release's zip into ```<game install folder>\GDWeave\mods```
+
+## Important future features
+- LureKit, an in-game editor to make basic Lure mods easily without having to decompile the game.
 
 ## Development
 if your mod depends on Lure in any way, make sure to add ``"Sulayre.Lure"`` to the ``"Dependencies"`` array of your mod's manifest.json like this:
