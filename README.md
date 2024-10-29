@@ -4,7 +4,7 @@
 
 ### For health reasons development of Lure's hotfixes and patches will slow down a bunch, if you'd like to contribute feel free to make a pull request, theres a lot of bugs to find and fix!
 
-###[Mod download here](https://github.com/Sulayre/WebfishingLure/releases/latest)
+### [Mod download here](https://github.com/Sulayre/WebfishingLure/releases/latest)
 
 ## Features
 ### Lure allows you to...
