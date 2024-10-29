@@ -84,9 +84,11 @@ Lure allows you to load asset paths with 3 different prefixes:
 
 ### Props and Modded Map Entities
 
-**Lure.add_actor(``mod_id``,``scene_id``,``tscn_path``)**<br>Allows you to add a new 'actor' to the game, actors are basically entities. With this you can load the scene for your modded props for example, or register things that can be networked on your custom maps
+**Lure.add_actor(``mod_id``,``actor_id``,``tscn_path``)**<br>Allows you to add a new 'actor' to the game, actors are basically entities. With this you can store the scenes for your modded props for example, or register things that can be networked on your custom maps
 
-When calling 'add_content' to a new prop item Lure will automatically turn the ``prop_code`` from the prop's ``ItemResource`` to ``mod_id.prop_code`` so if the prop item you're assigning the scene to is not from your mod, make sure you call this function with the id of the mod that adds the prop.
+If you load your entity on your modded map with Network's _sync_create_actor function make sure the first argument is ``mod_id.actor_id``, not only the actor_id else you WILL crash. you prob already know this by know considering this is how all Lure ids work
+
+When calling 'add_content' to a new prop item Lure will automatically turn the ``prop_code`` variable (the actor id that the prop is gonna spawn) from the prop's ``ItemResource`` to ``mod_id.prop_code`` so if the prop item you're assigning the scene to is not from your mod, make sure you call ``add_actor`` with the ``mod_id`` being the id of the mod that adds the prop item.
 
 ### Items
 
