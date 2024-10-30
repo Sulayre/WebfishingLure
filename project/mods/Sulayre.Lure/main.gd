@@ -105,6 +105,8 @@ var modded_species = []
 
 var action_references = {}
 
+var launch_args = OS.get_cmdline_args()
+
 var cosmetic_list:Dictionary = {}
 var item_list:Dictionary = {}
 var _savewaiter:Thread = Thread.new()
@@ -120,6 +122,10 @@ func _enter_tree():
 		yield(PlayerData,"_loaded_save")
 	vanilla_cosmetics = Globals.cosmetic_data.keys()
 	vanilla_items = Globals.item_data.keys()
+	var lurekittrack = AudioStreamPlayer.new()
+	lurekittrack.name = "lurekit_menu"
+	lurekittrack.stream = preload("res://mods/Sulayre.Lure/creativeinstrumental.mp3")
+	GlobalAudio.add_child(lurekittrack)
 	#Loader._load_modded_save_data()
 
 # very stupid boilerplate since i did some tweaks on my decomp for testing so it doesnt break for yall
@@ -133,6 +139,8 @@ func _ready():
 		_bonus_content_load()
 	else:
 		_options_check()
+	if "lurekit" in launch_args:
+		get_tree().change_scene("res://mods/Sulayre.Lure/Scenes/LureKit/LureKitMain.tscn")
 	
 	
 func register_action(mod_id:String,action_id:String,function_holder:Node,function_name:String):
@@ -329,6 +337,7 @@ func _signals():
 func _on_enter(node:Node):
 	if node.name == "main_menu":
 		if bonus_prompt: node.add_child(prompt.instance())
+		node.add_child_below_node(node.get_node("TextureRect2"),preload("res://mods/Sulayre.Lure/Scenes/MainMenu/LureKitButton.tscn").instance())
 		Mapper.selected_map = null
 		emit_signal("main_menu_enter")
 	if node.name == "world":

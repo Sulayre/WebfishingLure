@@ -1,0 +1,104 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://mods/Sulayre.Lure/LureKitGerald.png" type="Texture" id=1]
+[ext_resource path="res://mods/Sulayre.Lure/Scenes/MainMenu/LureKitButton.gd" type="Script" id=2]
+[ext_resource path="res://Scenes/Menus/Main Menu/ui_generic_button.gd" type="Script" id=3]
+
+[sub_resource type="Animation" id=2]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gerald:rect_scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Gerald:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 17, 824 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Gerald:rect_size")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 256, 256 ) ]
+}
+
+[sub_resource type="Animation" id=1]
+resource_name = "hover"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Gerald:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 0.25, 1 ),
+"update": 0,
+"values": [ Vector2( 17, 824 ), Vector2( -12, 795 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Gerald:rect_size")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 0.2 ),
+"transitions": PoolRealArray( 0.25, 1 ),
+"update": 0,
+"values": [ Vector2( 256, 256 ), Vector2( 314, 314 ) ]
+}
+
+[node name="LureKitButton" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 1
+script = ExtResource( 2 )
+
+[node name="Gerald" type="TextureButton" parent="."]
+anchor_left = -0.00625
+anchor_top = 0.736148
+anchor_right = 0.156958
+anchor_bottom = 1.02685
+margin_left = 29.0
+margin_top = 28.9601
+margin_right = -28.3593
+margin_bottom = -28.9979
+texture_normal = ExtResource( 1 )
+expand = true
+stretch_mode = 5
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+reset_on_save = false
+anims/RESET = SubResource( 2 )
+anims/hover = SubResource( 1 )
+
+[connection signal="mouse_entered" from="Gerald" to="." method="_on_Gerald_mouse_entered"]
+[connection signal="mouse_exited" from="Gerald" to="." method="_on_Gerald_mouse_exited"]
+[connection signal="pressed" from="Gerald" to="." method="_on_Gerald_pressed"]

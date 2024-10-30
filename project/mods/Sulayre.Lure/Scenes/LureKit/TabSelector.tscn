@@ -1,0 +1,161 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://mods/Sulayre.Lure/Scenes/LureKit/UI/BtnTab.tscn" type="PackedScene" id=5]
+
+[node name="ScrollContainer" type="ScrollContainer"]
+margin_right = 512.0
+margin_bottom = 698.0
+size_flags_vertical = 3
+scroll_horizontal_enabled = false
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+margin_right = 500.0
+margin_bottom = 720.0
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="CenterContainer"]
+margin_left = 154.0
+margin_right = 346.0
+margin_bottom = 720.0
+size_flags_vertical = 3
+
+[node name="Label4" type="Label" parent="CenterContainer/VBoxContainer2"]
+margin_right = 192.0
+margin_bottom = 14.0
+text = "Mod Data"
+align = 1
+
+[node name="BtnTab13" parent="CenterContainer/VBoxContainer2" instance=ExtResource( 5 )]
+margin_top = 18.0
+margin_right = 192.0
+margin_bottom = 68.0
+size_flags_horizontal = 3
+disabled = true
+text = "Manifest Editor"
+tab_id = "manifest"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CenterContainer/VBoxContainer2"]
+margin_top = 72.0
+margin_right = 192.0
+margin_bottom = 72.0
+
+[node name="Label" type="Label" parent="CenterContainer/VBoxContainer2"]
+margin_top = 76.0
+margin_right = 192.0
+margin_bottom = 90.0
+text = "Cosmetics"
+align = 1
+
+[node name="BtnTab2" parent="CenterContainer/VBoxContainer2" instance=ExtResource( 5 )]
+margin_top = 94.0
+margin_right = 192.0
+margin_bottom = 144.0
+size_flags_horizontal = 3
+disabled = true
+text = "Clothing & Accessory Editor"
+tab_id = "clothing"
+
+[node name="BtnTab3" parent="CenterContainer/VBoxContainer2" instance=ExtResource( 5 )]
+margin_top = 148.0
+margin_right = 192.0
+margin_bottom = 198.0
+size_flags_horizontal = 3
+disabled = true
+text = "Eyes, Nose & Mouth Editor"
+tab_id = "face"
+
+[node name="BtnTab4" parent="CenterContainer/VBoxContainer2" instance=ExtResource( 5 )]
+margin_top = 202.0
+margin_right = 192.0
+margin_bottom = 252.0
+size_flags_horizontal = 3
+disabled = true
+text = "Create a New Title"
+tab_id = "title"
+
+[node name="BtnTab5" parent="CenterContainer/VBoxContainer2" instance=ExtResource( 5 )]
+margin_top = 256.0
+margin_right = 192.0
+margin_bottom = 306.0
+size_flags_horizontal = 3
+disabled = true
+text = "Add a New Color"
+tab_id = "color"
+
+[node name="BtnTab6" parent="CenterContainer/VBoxContainer2" instance=ExtResource( 5 )]
+margin_top = 310.0
+margin_right = 192.0
+margin_bottom = 360.0
+size_flags_horizontal = 3
+disabled = true
+text = "Pattern Creator"
+tab_id = "pattern"
+
+[node name="BtnTab7" parent="CenterContainer/VBoxContainer2" instance=ExtResource( 5 )]
+margin_top = 364.0
+margin_right = 192.0
+margin_bottom = 414.0
+size_flags_horizontal = 3
+disabled = true
+text = "Species Creator"
+tab_id = "species"
+
+[node name="Label2" type="Label" parent="CenterContainer/VBoxContainer2"]
+margin_top = 418.0
+margin_right = 192.0
+margin_bottom = 432.0
+text = "Items"
+align = 1
+
+[node name="BtnTab8" parent="CenterContainer/VBoxContainer2" instance=ExtResource( 5 )]
+margin_top = 436.0
+margin_right = 192.0
+margin_bottom = 486.0
+size_flags_horizontal = 3
+disabled = true
+text = "Create a Prop"
+tab_id = "prop"
+
+[node name="BtnTab9" parent="CenterContainer/VBoxContainer2" instance=ExtResource( 5 )]
+margin_top = 490.0
+margin_right = 192.0
+margin_bottom = 540.0
+size_flags_horizontal = 3
+disabled = true
+text = "Create a Tool"
+tab_id = "tool"
+
+[node name="BtnTab10" parent="CenterContainer/VBoxContainer2" instance=ExtResource( 5 )]
+margin_top = 544.0
+margin_right = 192.0
+margin_bottom = 594.0
+size_flags_horizontal = 3
+disabled = true
+text = "Create a new Fish/Trash/Bug"
+tab_id = "item"
+
+[node name="Label3" type="Label" parent="CenterContainer/VBoxContainer2"]
+margin_top = 598.0
+margin_right = 192.0
+margin_bottom = 612.0
+text = "Maps & Entities"
+align = 1
+
+[node name="BtnTab11" parent="CenterContainer/VBoxContainer2" instance=ExtResource( 5 )]
+margin_top = 616.0
+margin_right = 192.0
+margin_bottom = 666.0
+size_flags_horizontal = 3
+disabled = true
+text = "Map Helper"
+tab_id = "map"
+
+[node name="BtnTab12" parent="CenterContainer/VBoxContainer2" instance=ExtResource( 5 )]
+margin_top = 670.0
+margin_right = 192.0
+margin_bottom = 720.0
+size_flags_horizontal = 3
+disabled = true
+text = "Actor Creator"
+tab_id = "actor"

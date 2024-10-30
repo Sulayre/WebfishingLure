@@ -1,0 +1,12 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://mods/Sulayre.Lure/Scenes/LureKit/Tabs/Tabs/ModLoader/ModButton.gd" type="Script" id=1]
+
+[node name="ModButton" type="Button"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+rect_min_size = Vector2( 0, 48 )
+disabled = true
+script = ExtResource( 1 )
+
+[connection signal="pressed" from="." to="." method="_on_ModButton_pressed"]

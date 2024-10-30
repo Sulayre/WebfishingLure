@@ -16,17 +16,15 @@
     </ItemGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(GDWeavePath)' != ''">
-      <Exec
-          Command="echo D | xcopy /Y /I &quot;$(TargetDir)manifest.json&quot; &quot;$(GDWeavePath)\mods\$(AssemblyName)&quot;"
-          Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))'"
-        />
-      <Exec
-          Command="echo D | xcopy /Y /I &quot;$(TargetDir)$(AssemblyName).dll&quot; &quot;$(GDWeavePath)\mods\$(AssemblyName)&quot;"
-          Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))'"
-        />
-      <Exec
-          Command="echo D | xcopy /Y /I &quot;$(MSBuildProjectDirectory)\..\project\$(AssemblyName).pck&quot; &quot;$(GDWeavePath)\mods\$(AssemblyName)&quot;"
-          Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))'"
+        <ItemGroup>
+            <ModFiles Include="$(TargetDir)manifest.json"/>
+            <ModFiles Include="$(TargetDir)$(AssemblyName).dll"/>
+            <ModFiles Include="../project/$(AssemblyName).pck"/>
+        </ItemGroup>
+
+        <Copy
+            SourceFiles="@(ModFiles)"
+            DestinationFolder="$(GDWeavePath)/mods/$(AssemblyName)/"
         />
     </Target>
 </Project>
