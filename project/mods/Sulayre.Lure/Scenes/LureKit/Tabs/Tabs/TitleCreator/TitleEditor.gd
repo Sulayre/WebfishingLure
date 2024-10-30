@@ -1,6 +1,6 @@
 extends Panel
 
-var LureKit = get_tree().get_current_scene()
+onready var LureKit = get_tree().get_current_scene()
 
 func _on_GamePath_text_changed():
 	var id = $"%IDField"

@@ -22,6 +22,7 @@ func _refresh_list():
 					if typeof(parsed) == TYPE_DICTIONARY:
 						var modBtn:Button = preload("res://mods/Sulayre.Lure/Scenes/LureKit/Tabs/Tabs/ModLoader/ModButton.tscn").instance()
 						modBtn.name = parsed["Id"]
+						modBtn.stored_mod = parsed["Id"]
 						if "Metadata" in parsed:
 							modBtn.text = parsed["Metadata"]["Name"]
 							if "Tags" in parsed["Metadata"].keys():
@@ -29,7 +30,8 @@ func _refresh_list():
 									modBtn.disabled = false
 									modBtn.connect("_mod_btn_pressed",LureKit,"_load_mod")
 								else:
-									modBtn.text += " (Incompatible)"
+									if parsed["Id"] != "Sulayre.Lure":
+										modBtn.text += " (Incompatible)"
 							else:
 								modBtn.text += " (Incompatible)"
 						else:

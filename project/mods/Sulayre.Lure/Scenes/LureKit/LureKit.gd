@@ -74,10 +74,13 @@ func _ready():
 	$"%BtnPck".connect("pressed",self,"export_compiled_mod")
 
 func _on_ReturnBtn_pressed():
-	get_tree().change_scene("res://Scenes/Menus/Main Menu/main_menu.tscn")
+	if selected_mod_data: _toggle_warning(true,0)
+	else: get_tree().change_scene("res://Scenes/Menus/Splash/splash.tscn")
+		
 
 func tab_swap(tab_id=null):
 	var new_tab = null
+	if !active_tab and !tab_id: return
 	for tab in tabs:
 		var check = tab.name == tab_id
 		if check: new_tab = tab
@@ -115,7 +118,7 @@ func generate_array_source(lines:Array,file_path:String=""):
 	
 	return final_source
 
-func export_decompiled_mod(mod_data:={}):
+func export_decompiled_mod(mod_data:={}) -> bool:
 	if mod_data.size() == 0: mod_data = selected_mod_data
 	var dir:Directory = Directory.new()
 	if !dir.dir_exists(decomp_folder_path):
@@ -132,10 +135,14 @@ func export_decompiled_mod(mod_data:={}):
 		file.store_string(generate_array_source(selected_mod_code.duplicate()))
 		file.close()
 		PopupMessage._show_popup("Decompilation exported successfuly!")
+		return true
 	else:
 		PopupMessage._show_popup("There was an error exporting the decomp!")
+	return false
 
-func export_compiled_mod(mod_data:={}):
+# TODO: MOVE PCKS GENERATED IN THE EDITOR
+
+func export_compiled_mod(mod_data:={}) -> bool:
 	if mod_data.size() == 0: mod_data = selected_mod_data
 	var dir:Directory = Directory.new()
 	if dir.open(mods_folder_path) == OK:
@@ -162,8 +169,10 @@ func export_compiled_mod(mod_data:={}):
 			dir.rename(game_folder_path.plus_file(mod_id+".pck"),mod_dir.plus_file(mod_id+".pck"))
 			_empty_directory(RES_MOD_PATH)
 			PopupMessage._show_popup("Mod exported successfuly!")
+			return true
 		else:
 			PopupMessage._show_popup("There was an error compiling the mod :B")
+	return false
 
 func _empty_directory(path: String) -> void:
 	var dir := Directory.new()
@@ -188,15 +197,16 @@ func _on_LureKit_refresh_selected():
 #		else:
 #			printerr("can't refresh selected mod because the previous one could not get removed.")
 #			return
-	if selected_mod_data:
+	var selected = selected_mod_data != null
+	$"%SelectedMod".visible = selected
+	$"%ModSelectors".visible = !selected
+	$"%ModExporter".visible = selected
+	$"%OptionsScroller".visible = selected
+	$"%MenuHolder".size_flags_vertical = SIZE_EXPAND_FILL if selected else !SIZE_EXPAND_FILL
+	if selected:
 		selected_mod_code = MAIN_GD_TEMPLATE.duplicate(true)
 		var dir:Directory = Directory.new()
 		$"%selectedLabel".text = selected_mod_data["manifest"]["Id"]
-		$"%SelectedMod".visible = true
-		$"%ModSelectors".visible = false
-		$"%ModExporter".visible = true
-		$"%OptionsScroller".visible = true
-		$"%MenuHolder".size_flags_vertical = SIZE_EXPAND_FILL
 		print(RES_MOD_PATH)
 		if !dir.dir_exists(RES_MOD_PATH): dir.make_dir_recursive(RES_MOD_PATH)
 		if dir.open(RES_MOD_PATH) == OK:
@@ -213,7 +223,57 @@ func _on_LureKit_refresh_selected():
 	$"%BtnPck".disabled = selected_mod_data == null
 
 func _load_mod(mod_id):
+	print("pong")
+	var file = File.new()
+	if selected_mod_data:
+		_empty_directory(RES_MOD_PATH)
+		selected_mod_code = MAIN_GD_TEMPLATE.duplicate(true)
+	print(mods_folder_path+"/"+mod_id.plus_file("manifest.json"))
 	if file.open(mods_folder_path+"/"+mod_id.plus_file("manifest.json"),File.READ) == OK:
 		var txt = file.get_as_text()
 		var parsed = JSON.parse(txt).result
 		print(parsed)
+		var mod_data = DATA_TEMPLATE.duplicate(true)
+		mod_data["manifest"] = parsed
+		selected_mod_data = mod_data
+		emit_signal("refresh_selected")
+		tab_swap()
+		PopupMessage._show_popup("Mod imported successfuly!")
+
+func _deselect_mod():
+	if selected_mod_data:
+		_empty_directory(RES_MOD_PATH)
+		selected_mod_code = null
+		selected_mod_data = null
+	emit_signal("refresh_selected")
+	tab_swap()
+
+func _toggle_warning(active:bool=false,index:int=0):
+	$"SaveWarning".visible = active
+	$"%WrnGame".visible = index == 0
+	$"%WrnSwap".visible = index == 1
+
+func _wipe_mod():
+	if !$"SaveWarning".visible: return
+	if $"%WrnGame".visible:
+		get_tree().change_scene("res://Scenes/Menus/Splash/splash.tscn")
+	elif $"%WrnSwap".visible:
+		_deselect_mod()
+		_toggle_warning(false)
+
+
+func _on_BtnChange_pressed():
+	_toggle_warning(true,1)
+
+
+func _on_BtnWipe_pressed():
+	_wipe_mod()
+
+
+func _on_BtnPckSave_pressed():
+	if export_compiled_mod():
+		_wipe_mod()
+
+
+func _on_BtnReturn_pressed():
+	_toggle_warning(false)

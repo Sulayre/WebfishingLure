@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=29 format=2]
 
 [ext_resource path="res://mods/Sulayre.Lure/Scenes/LureKit/LureKitWorld.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Themes/main.tres" type="Theme" id=2]
@@ -18,6 +18,8 @@
 [ext_resource path="res://Assets/Themes/main_font_tiny.tres" type="DynamicFont" id=16]
 [ext_resource path="res://mods/Sulayre.Lure/Scenes/LureKit/ModList.gd" type="Script" id=17]
 [ext_resource path="res://mods/Sulayre.Lure/Scenes/LureKit/Tabs/Tabs/TitleCreator/TitleEditor.tscn" type="PackedScene" id=18]
+[ext_resource path="res://Assets/Themes/panel_green.tres" type="StyleBox" id=19]
+[ext_resource path="res://mods/Sulayre.Lure/Scenes/LureKit/settings.gd" type="Script" id=20]
 
 [sub_resource type="Gradient" id=4]
 interpolation_mode = 2
@@ -177,6 +179,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 theme = ExtResource( 2 )
 script = ExtResource( 9 )
+
+[node name="ResourceParser" type="Node" parent="."]
+script = ExtResource( 15 )
 
 [node name="background" type="ViewportContainer" parent="."]
 margin_right = 40.0
@@ -418,7 +423,7 @@ unique_name_in_owner = true
 visible = false
 margin_top = 252.0
 margin_right = 534.0
-margin_bottom = 385.0
+margin_bottom = 471.0
 
 [node name="Label2" type="Label" parent="HBoxContainer/AspectRatioContainer/Menu/VBoxContainer/MenuHolder/VBoxContainer/VBoxContainer/ModExporter"]
 margin_right = 534.0
@@ -429,24 +434,36 @@ custom_fonts/font = ExtResource( 16 )
 text = "If you want to work on a different mod restart the game!"
 align = 1
 
-[node name="BtnDecomp" type="Button" parent="HBoxContainer/AspectRatioContainer/Menu/VBoxContainer/MenuHolder/VBoxContainer/VBoxContainer/ModExporter"]
-unique_name_in_owner = true
+[node name="BtnChange" type="Button" parent="HBoxContainer/AspectRatioContainer/Menu/VBoxContainer/MenuHolder/VBoxContainer/VBoxContainer/ModExporter"]
 margin_top = 25.0
 margin_right = 534.0
-margin_bottom = 59.0
+margin_bottom = 75.0
+rect_min_size = Vector2( 0, 50 )
+text = "Work on Another Mod"
+script = ExtResource( 4 )
+
+[node name="BtnDecomp" type="Button" parent="HBoxContainer/AspectRatioContainer/Menu/VBoxContainer/MenuHolder/VBoxContainer/VBoxContainer/ModExporter"]
+unique_name_in_owner = true
+margin_top = 79.0
+margin_right = 534.0
+margin_bottom = 129.0
+rect_min_size = Vector2( 0, 50 )
+text = "Export Mod (Decompiled Godot Project)"
 script = ExtResource( 4 )
 
 [node name="BtnPck" type="Button" parent="HBoxContainer/AspectRatioContainer/Menu/VBoxContainer/MenuHolder/VBoxContainer/VBoxContainer/ModExporter"]
 unique_name_in_owner = true
-margin_top = 63.0
+margin_top = 133.0
 margin_right = 534.0
-margin_bottom = 97.0
+margin_bottom = 183.0
+rect_min_size = Vector2( 0, 50 )
+text = "Export Mod (Compiled PCK)"
 script = ExtResource( 4 )
 
 [node name="sep2" type="TextureRect" parent="HBoxContainer/AspectRatioContainer/Menu/VBoxContainer/MenuHolder/VBoxContainer/VBoxContainer/ModExporter"]
-margin_top = 101.0
+margin_top = 187.0
 margin_right = 534.0
-margin_bottom = 133.0
+margin_bottom = 219.0
 rect_min_size = Vector2( 0, 32 )
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.0
@@ -480,7 +497,7 @@ rect_min_size = Vector2( 0, 64 )
 size_flags_horizontal = 7
 custom_styles/hover = ExtResource( 13 )
 custom_styles/normal = ExtResource( 13 )
-text = "RETURN TO WEBFISHING (EXPORT YOUR WORK!)"
+text = "RETURN TO WEBFISHING"
 script = ExtResource( 4 )
 
 [node name="AspectRatioContainer2" type="AspectRatioContainer" parent="HBoxContainer"]
@@ -583,6 +600,7 @@ margin_top = 0.47998
 margin_right = -0.100098
 margin_bottom = -0.480042
 size_flags_vertical = 0
+script = ExtResource( 20 )
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/AspectRatioContainer2/Tabs/settings"]
 anchor_right = 1.0
@@ -822,8 +840,137 @@ size_flags_vertical = 3
 anims/HideTab = SubResource( 12 )
 anims/RESET = SubResource( 11 )
 
-[node name="ResourceGenerator" type="Node" parent="."]
-script = ExtResource( 15 )
+[node name="SaveWarning" type="Control" parent="."]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ColorRect" type="ColorRect" parent="SaveWarning"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color( 0.0627451, 0.109804, 0.192157, 0.431373 )
+
+[node name="VBoxContainer" type="VBoxContainer" parent="SaveWarning"]
+anchor_left = 0.294792
+anchor_top = 0.353704
+anchor_right = 0.705208
+anchor_bottom = 0.696296
+size_flags_horizontal = 2
+size_flags_vertical = 2
+alignment = 1
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="WrnSwap" type="RichTextLabel" parent="SaveWarning/VBoxContainer"]
+unique_name_in_owner = true
+margin_right = 788.0
+margin_bottom = 245.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 756, 182 )
+rect_clip_content = false
+size_flags_horizontal = 3
+size_flags_vertical = 6
+custom_colors/default_color = Color( 0.415686, 0.266667, 0.12549, 1 )
+bbcode_enabled = true
+bbcode_text = "[center][color=#ac0029]Selecting another mod WILL DELETE EVERYTHING you haven't exported yet.[/color]
+
+if you wanna continue working on your mod without losing your progress make sure you export it as a pck that way you can load it again later.
+
+are you sure you want to continue?[/center]"
+text = "Selecting another mod WILL DELETE EVERYTHING you haven't exported yet.
+
+if you wanna continue working on your mod without losing your progress make sure you export it as a pck that way you can load it again later.
+
+are you sure you want to continue?"
+fit_content_height = true
+scroll_active = false
+
+[node name="Panel" type="Panel" parent="SaveWarning/VBoxContainer/WrnSwap"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -18.0
+margin_top = -16.0
+margin_right = 19.0
+margin_bottom = 17.0
+
+[node name="WrnGame" type="RichTextLabel" parent="SaveWarning/VBoxContainer"]
+unique_name_in_owner = true
+visible = false
+margin_top = 249.0
+margin_right = 788.0
+margin_bottom = 494.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 756, 182 )
+rect_clip_content = false
+size_flags_horizontal = 3
+size_flags_vertical = 6
+custom_colors/default_color = Color( 0.415686, 0.266667, 0.12549, 1 )
+bbcode_enabled = true
+bbcode_text = "[center][color=#ac0029]Returning to the game WILL DELETE EVERYTHING you haven't exported yet.[/color]
+
+if you wanna continue working on your mod without losing your progress make sure you export it as a pck that way you can load it again later.
+
+are you sure you want to continue?[/center]"
+text = "Returning to the game WILL DELETE EVERYTHING you haven't exported yet.
+
+if you wanna continue working on your mod without losing your progress make sure you export it as a pck that way you can load it again later.
+
+are you sure you want to continue?"
+fit_content_height = true
+scroll_active = false
+
+[node name="Panel" type="Panel" parent="SaveWarning/VBoxContainer/WrnGame"]
+show_behind_parent = true
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = -18.0
+margin_top = -16.0
+margin_right = 19.0
+margin_bottom = 17.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="SaveWarning/VBoxContainer"]
+margin_top = 284.0
+margin_right = 788.0
+margin_bottom = 334.0
+rect_min_size = Vector2( 0, 50 )
+size_flags_horizontal = 3
+size_flags_vertical = 6
+alignment = 1
+
+[node name="BtnWipe" type="Button" parent="SaveWarning/VBoxContainer/HBoxContainer"]
+margin_left = 30.0
+margin_right = 230.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 50 )
+size_flags_horizontal = 6
+custom_styles/normal = ExtResource( 13 )
+text = "CONTINUE ANYWAYS"
+
+[node name="BtnPckSave" type="Button" parent="SaveWarning/VBoxContainer/HBoxContainer"]
+margin_left = 294.0
+margin_right = 494.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 6
+custom_styles/normal = ExtResource( 19 )
+text = "EXPORT PCK"
+
+[node name="BtnReturn" type="Button" parent="SaveWarning/VBoxContainer/HBoxContainer"]
+margin_left = 558.0
+margin_right = 758.0
+margin_bottom = 50.0
+rect_min_size = Vector2( 200, 0 )
+size_flags_horizontal = 6
+custom_styles/normal = ExtResource( 19 )
+text = "GO BACK"
 
 [connection signal="refresh_selected" from="." to="." method="_on_LureKit_refresh_selected"]
+[connection signal="pressed" from="HBoxContainer/AspectRatioContainer/Menu/VBoxContainer/MenuHolder/VBoxContainer/VBoxContainer/ModExporter/BtnChange" to="." method="_on_BtnChange_pressed"]
 [connection signal="pressed" from="HBoxContainer/AspectRatioContainer/Menu/VBoxContainer/MenuHolder/VBoxContainer/ReturnBtn2" to="." method="_on_ReturnBtn_pressed"]
+[connection signal="pressed" from="SaveWarning/VBoxContainer/HBoxContainer/BtnWipe" to="." method="_on_BtnWipe_pressed"]
+[connection signal="pressed" from="SaveWarning/VBoxContainer/HBoxContainer/BtnPckSave" to="." method="_on_BtnPckSave_pressed"]
+[connection signal="pressed" from="SaveWarning/VBoxContainer/HBoxContainer/BtnReturn" to="." method="_on_BtnReturn_pressed"]
