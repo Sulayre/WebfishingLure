@@ -1,5 +1,4 @@
 extends Node
 
+onready var LureKit = get_parent()
 
-func _ready():
-	pass

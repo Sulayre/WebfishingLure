@@ -41,6 +41,17 @@ const MAIN_GD_TEMPLATE = [
 const WEBFISHING_PATH = "D:/SteamLibrary/steamapps/common/WEBFISHING"
 const RES_MOD_PATH = "user://lurekit/editormod"
 
+var folders = {
+	"textures": "/Assets/Textures",
+	"audio": "/Assets/Audio",
+	"models": "/Assets/Models",
+	"cosmetics": "/Resources/Cosmetics",
+	"tools": "/Resources/Items/Tools",
+	"props": "/Resources/Items/Props",
+	"fish": "/Resources/Items/Fish",
+	"actors": "/Scenes/Actors"
+}
+
 signal refresh_selected()
 
 var game_folder_path = OS.get_executable_path().get_base_dir() if !OS.has_feature("editor") else WEBFISHING_PATH
@@ -56,7 +67,7 @@ var selected_mod_code
 onready var tabs = $"%Tabs".get_children()
 
 func _enter_tree():
-	generator = $ResourceGenerator
+	generator = $ResourceManager
 
 func _ready():
 	$"%GamePath".text = game_folder_path
@@ -190,13 +201,19 @@ func _empty_directory(path: String) -> void:
 	dir.list_dir_end()
 	dir.remove(path)
 
+func _folder_cloner(from: String,to: String) -> void:
+	var dir := Directory.new()
+	if dir.open(from) != OK:
+		return
+	dir.list_dir_begin(true, true)
+	var file_name := dir.get_next()
+	while file_name != "":
+		if dir.current_is_dir():
+			_folder_cloner(from.plus_file(file_name),to)
+		file_name = dir.get_next()
+	dir.list_dir_end()
 
 func _on_LureKit_refresh_selected():
-#	if previous_mod_data:
-#		f
-#		else:
-#			printerr("can't refresh selected mod because the previous one could not get removed.")
-#			return
 	var selected = selected_mod_data != null
 	$"%SelectedMod".visible = selected
 	$"%ModSelectors".visible = !selected
@@ -208,7 +225,7 @@ func _on_LureKit_refresh_selected():
 		var dir:Directory = Directory.new()
 		$"%selectedLabel".text = selected_mod_data["manifest"]["Id"]
 		print(RES_MOD_PATH)
-		if !dir.dir_exists(RES_MOD_PATH): dir.make_dir_recursive(RES_MOD_PATH)
+		dir.make_dir_recursive(RES_MOD_PATH)
 		if dir.open(RES_MOD_PATH) == OK:
 			dir.make_dir_recursive("Assets/Textures")
 			dir.make_dir("Assets/Models")

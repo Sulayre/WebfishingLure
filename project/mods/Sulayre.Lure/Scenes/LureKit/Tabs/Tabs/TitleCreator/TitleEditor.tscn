@@ -91,6 +91,7 @@ text = "Title ID "
 
 [node name="InvalidID" type="Label" parent="VBoxContainer/VBoxContainer/HBoxContainer/GameExeFolder/HBoxContainer"]
 unique_name_in_owner = true
+visible = false
 margin_left = 87.0
 margin_right = 779.0
 margin_bottom = 34.0
@@ -242,11 +243,27 @@ rect_min_size = Vector2( 0, 100 )
 size_flags_vertical = 0
 alignment = 1
 
-[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer/GameExeFolder3"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer/GameExeFolder3"]
 margin_right = 1563.0
+margin_bottom = 34.0
+
+[node name="Label2" type="Label" parent="VBoxContainer/VBoxContainer/GameExeFolder3/HBoxContainer"]
+margin_right = 309.0
 margin_bottom = 34.0
 custom_fonts/font = ExtResource( 4 )
 text = "Title Text (Supports BBCode!)"
+
+[node name="InvalidTitle" type="Label" parent="VBoxContainer/VBoxContainer/GameExeFolder3/HBoxContainer"]
+unique_name_in_owner = true
+visible = false
+margin_left = 313.0
+margin_right = 1563.0
+margin_bottom = 34.0
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 0.67451, 0, 0.160784, 1 )
+custom_fonts/font = ExtResource( 4 )
+text = "Title text can't be empty!"
+align = 2
 
 [node name="Label5" type="Label" parent="VBoxContainer/VBoxContainer/GameExeFolder3"]
 margin_top = 38.0
@@ -309,11 +326,9 @@ rect_clip_content = false
 size_flags_vertical = 2
 custom_fonts/normal_font = SubResource( 13 )
 bbcode_enabled = true
-bbcode_text = "[center]adsda"
-text = "adsda"
 fit_content_height = true
 
-[node name="Button" type="Button" parent="."]
+[node name="CreateButton" type="Button" parent="."]
 anchor_left = 0.32
 anchor_top = 0.941
 anchor_right = 0.683
@@ -327,6 +342,10 @@ grow_vertical = 2
 rect_min_size = Vector2( 300, 64 )
 size_flags_horizontal = 4
 size_flags_vertical = 6
+disabled = true
 text = "Add to Mod"
 
 [connection signal="text_changed" from="VBoxContainer/VBoxContainer/HBoxContainer/GameExeFolder/Field/IDField" to="." method="_on_GamePath_text_changed"]
+[connection signal="focus_exited" from="VBoxContainer/VBoxContainer/GameExeFolder4/Field/NameField" to="." method="_on_NameField_focus_exited"]
+[connection signal="text_changed" from="VBoxContainer/VBoxContainer/GameExeFolder3/Field/TextField" to="." method="_on_TextField_text_changed"]
+[connection signal="pressed" from="CreateButton" to="." method="_on_CreateButton_pressed"]

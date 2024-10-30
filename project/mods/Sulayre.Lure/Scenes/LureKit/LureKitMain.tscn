@@ -180,7 +180,7 @@ anchor_bottom = 1.0
 theme = ExtResource( 2 )
 script = ExtResource( 9 )
 
-[node name="ResourceParser" type="Node" parent="."]
+[node name="ResourceManager" type="Node" parent="."]
 script = ExtResource( 15 )
 
 [node name="background" type="ViewportContainer" parent="."]
@@ -421,9 +421,9 @@ tab_id = "load"
 [node name="ModExporter" type="VBoxContainer" parent="HBoxContainer/AspectRatioContainer/Menu/VBoxContainer/MenuHolder/VBoxContainer/VBoxContainer"]
 unique_name_in_owner = true
 visible = false
-margin_top = 252.0
+margin_top = 144.0
 margin_right = 534.0
-margin_bottom = 471.0
+margin_bottom = 417.0
 
 [node name="Label2" type="Label" parent="HBoxContainer/AspectRatioContainer/Menu/VBoxContainer/MenuHolder/VBoxContainer/VBoxContainer/ModExporter"]
 margin_right = 534.0
@@ -434,36 +434,43 @@ custom_fonts/font = ExtResource( 16 )
 text = "If you want to work on a different mod restart the game!"
 align = 1
 
-[node name="BtnChange" type="Button" parent="HBoxContainer/AspectRatioContainer/Menu/VBoxContainer/MenuHolder/VBoxContainer/VBoxContainer/ModExporter"]
+[node name="BtnContent" parent="HBoxContainer/AspectRatioContainer/Menu/VBoxContainer/MenuHolder/VBoxContainer/VBoxContainer/ModExporter" instance=ExtResource( 12 )]
 margin_top = 25.0
 margin_right = 534.0
 margin_bottom = 75.0
+text = "Check Mod's Content"
+tab_id = "content"
+
+[node name="BtnChange" type="Button" parent="HBoxContainer/AspectRatioContainer/Menu/VBoxContainer/MenuHolder/VBoxContainer/VBoxContainer/ModExporter"]
+margin_top = 79.0
+margin_right = 534.0
+margin_bottom = 129.0
 rect_min_size = Vector2( 0, 50 )
 text = "Work on Another Mod"
 script = ExtResource( 4 )
 
 [node name="BtnDecomp" type="Button" parent="HBoxContainer/AspectRatioContainer/Menu/VBoxContainer/MenuHolder/VBoxContainer/VBoxContainer/ModExporter"]
 unique_name_in_owner = true
-margin_top = 79.0
+margin_top = 133.0
 margin_right = 534.0
-margin_bottom = 129.0
+margin_bottom = 183.0
 rect_min_size = Vector2( 0, 50 )
 text = "Export Mod (Decompiled Godot Project)"
 script = ExtResource( 4 )
 
 [node name="BtnPck" type="Button" parent="HBoxContainer/AspectRatioContainer/Menu/VBoxContainer/MenuHolder/VBoxContainer/VBoxContainer/ModExporter"]
 unique_name_in_owner = true
-margin_top = 133.0
+margin_top = 187.0
 margin_right = 534.0
-margin_bottom = 183.0
+margin_bottom = 237.0
 rect_min_size = Vector2( 0, 50 )
 text = "Export Mod (Compiled PCK)"
 script = ExtResource( 4 )
 
 [node name="sep2" type="TextureRect" parent="HBoxContainer/AspectRatioContainer/Menu/VBoxContainer/MenuHolder/VBoxContainer/VBoxContainer/ModExporter"]
-margin_top = 187.0
+margin_top = 241.0
 margin_right = 534.0
-margin_bottom = 219.0
+margin_bottom = 273.0
 rect_min_size = Vector2( 0, 32 )
 size_flags_horizontal = 3
 size_flags_stretch_ratio = 3.0
@@ -783,6 +790,7 @@ __meta__ = {
 visible = false
 
 [node name="load" type="Panel" parent="HBoxContainer/AspectRatioContainer2/Tabs"]
+visible = false
 anchor_left = 0.190329
 anchor_top = 0.138889
 anchor_right = 0.809671
@@ -836,6 +844,67 @@ margin_bottom = 612.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
+[node name="content" type="Panel" parent="HBoxContainer/AspectRatioContainer2/Tabs"]
+visible = false
+anchor_left = 0.221193
+anchor_top = 0.0907407
+anchor_right = 0.778807
+anchor_bottom = 0.908333
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/AspectRatioContainer2/Tabs/content"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 34.0
+margin_top = 30.0
+margin_right = -34.0
+margin_bottom = -30.0
+
+[node name="Label" type="Label" parent="HBoxContainer/AspectRatioContainer2/Tabs/content/VBoxContainer"]
+margin_right = 474.0
+margin_bottom = 66.0
+custom_fonts/font = SubResource( 9 )
+text = "Selected Mod's Content"
+align = 1
+
+[node name="Label2" type="Label" parent="HBoxContainer/AspectRatioContainer2/Tabs/content/VBoxContainer"]
+margin_top = 70.0
+margin_right = 474.0
+margin_bottom = 104.0
+text = "Your mod adds the following things"
+align = 1
+
+[node name="sep2" type="TextureRect" parent="HBoxContainer/AspectRatioContainer2/Tabs/content/VBoxContainer"]
+margin_top = 108.0
+margin_right = 474.0
+margin_bottom = 140.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 3.0
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 4
+
+[node name="Panel" type="Panel" parent="HBoxContainer/AspectRatioContainer2/Tabs/content/VBoxContainer"]
+margin_top = 144.0
+margin_right = 474.0
+margin_bottom = 823.0
+size_flags_vertical = 3
+custom_styles/panel = ExtResource( 11 )
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/AspectRatioContainer2/Tabs/content/VBoxContainer/Panel"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="ContentList" type="VBoxContainer" parent="HBoxContainer/AspectRatioContainer2/Tabs/content/VBoxContainer/Panel/ScrollContainer"]
+unique_name_in_owner = true
+margin_right = 474.0
+margin_bottom = 679.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/HideTab = SubResource( 12 )
 anims/RESET = SubResource( 11 )
@@ -864,8 +933,8 @@ __meta__ = {
 
 [node name="WrnSwap" type="RichTextLabel" parent="SaveWarning/VBoxContainer"]
 unique_name_in_owner = true
-margin_right = 788.0
-margin_bottom = 245.0
+margin_right = 787.0
+margin_bottom = 280.0
 grow_horizontal = 2
 grow_vertical = 2
 rect_min_size = Vector2( 756, 182 )
@@ -933,17 +1002,17 @@ margin_right = 19.0
 margin_bottom = 17.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="SaveWarning/VBoxContainer"]
-margin_top = 284.0
-margin_right = 788.0
-margin_bottom = 334.0
+margin_top = 301.0
+margin_right = 787.0
+margin_bottom = 351.0
 rect_min_size = Vector2( 0, 50 )
 size_flags_horizontal = 3
 size_flags_vertical = 6
 alignment = 1
 
 [node name="BtnWipe" type="Button" parent="SaveWarning/VBoxContainer/HBoxContainer"]
-margin_left = 30.0
-margin_right = 230.0
+margin_left = 29.0
+margin_right = 229.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 200, 50 )
 size_flags_horizontal = 6
@@ -951,8 +1020,8 @@ custom_styles/normal = ExtResource( 13 )
 text = "CONTINUE ANYWAYS"
 
 [node name="BtnPckSave" type="Button" parent="SaveWarning/VBoxContainer/HBoxContainer"]
-margin_left = 294.0
-margin_right = 494.0
+margin_left = 293.0
+margin_right = 493.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 6
@@ -960,8 +1029,8 @@ custom_styles/normal = ExtResource( 19 )
 text = "EXPORT PCK"
 
 [node name="BtnReturn" type="Button" parent="SaveWarning/VBoxContainer/HBoxContainer"]
-margin_left = 558.0
-margin_right = 758.0
+margin_left = 557.0
+margin_right = 757.0
 margin_bottom = 50.0
 rect_min_size = Vector2( 200, 0 )
 size_flags_horizontal = 6

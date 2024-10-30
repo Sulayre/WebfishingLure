@@ -23,7 +23,7 @@ func _check_complete():
 
 
 func _on_ModId_text_changed():
-	var valid = id.text.is_valid_filename()
+	var valid = id.text.is_valid_filename() and !(" " in id.text)
 	$"%InvalidId".visible = !valid
 	requirements.id = valid
 	if valid: pck.text = id.text + ".pck"

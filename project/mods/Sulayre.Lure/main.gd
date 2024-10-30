@@ -122,10 +122,10 @@ func _enter_tree():
 		yield(PlayerData,"_loaded_save")
 	vanilla_cosmetics = Globals.cosmetic_data.keys()
 	vanilla_items = Globals.item_data.keys()
-	var lurekittrack = AudioStreamPlayer.new()
-	lurekittrack.name = "lurekit_menu"
-	lurekittrack.stream = preload("res://mods/Sulayre.Lure/creativeinstrumental.mp3")
-	GlobalAudio.add_child(lurekittrack)
+	#var lurekittrack = AudioStreamPlayer.new()
+	#lurekittrack.name = "lurekit_menu"
+	##lurekittrack.stream = preload("res://mods/Sulayre.Lure/creativeinstrumental.mp3")
+	#GlobalAudio.add_child(lurekittrack)
 	#Loader._load_modded_save_data()
 
 # very stupid boilerplate since i did some tweaks on my decomp for testing so it doesnt break for yall
@@ -337,7 +337,7 @@ func _signals():
 func _on_enter(node:Node):
 	if node.name == "main_menu":
 		if bonus_prompt: node.add_child(prompt.instance())
-		node.add_child_below_node(node.get_node("TextureRect2"),preload("res://mods/Sulayre.Lure/Scenes/MainMenu/LureKitButton.tscn").instance())
+		node.get_node("VBoxContainer").add_child_below_node(node.get_node("VBoxContainer/settings"),preload("res://mods/Sulayre.Lure/Scenes/MainMenu/LureKitButton.tscn").instance())
 		Mapper.selected_map = null
 		emit_signal("main_menu_enter")
 	if node.name == "world":

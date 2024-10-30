@@ -1,16 +1,12 @@
 extends ViewportContainer
 
+onready var LureKit = get_parent()
 
-func _ready():
-	PlayerData.connect("_hide_hud_toggle", self, "_hide_hud_toggle")
-	PlayerData.emit_signal("_hide_hud_toggle", false)
-	$Viewport / main / track_camera / Camera.current = true
-
-func _hide_hud_toggle(on):
-	print(on)
-	$shader_ignore.visible = not on
-
-func _import_child(child):
-	child.get_parent().call_deferred("remove_child", child)
-	yield (child, "tree_exited")
-	$shader_ignore.add_child(child)
+func _store_resource(resource:Resource):
+	if LureKit.selected_mod_data:
+		#there's no way afaik to use match and the is keyword together so
+		if resource is CosmeticResource:
+			ResourceSaver.save(LureKit.RES_MOD_PATH.plus_file("Resources/Cosmetics"),resource)
+		elif resource is ItemResource:
+			ResourceSaver.save(LureKit.RES_MOD_PATH.plus_file("Resources/Cosmetics"),resource)
+		
