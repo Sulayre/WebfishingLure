@@ -62,16 +62,23 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.PrVar);
 					yield return new IdentifierToken("lobb_lure");
 					yield return new Token(TokenType.OpAssign);
-					yield return new IdentifierToken("get_node");
-					yield return new Token(TokenType.ParenthesisOpen);
-					yield return new ConstantToken(new StringVariant("/root/SulayreLure/Patches"));
-					yield return new Token(TokenType.ParenthesisClose);
+					yield return new IdentifierToken("lobb_version");
 					yield return new Token(TokenType.Period);
-					yield return new IdentifierToken("_is_lure_lobby");
+					yield return new IdentifierToken("ends_with");
 					yield return new Token(TokenType.ParenthesisOpen);
+					yield return new ConstantToken(new StringVariant(".lure"));
+					yield return new Token(TokenType.ParenthesisClose);
+					yield return new Token(TokenType.Newline, 2);
+
+
+					yield return new Token(TokenType.BuiltInFunc, (uint?)BuiltinFunction.TextPrintSpaced);
+					yield return new Token(TokenType.ParenthesisOpen);
+					yield return new IdentifierToken("lobb_lure");
+					yield return new Token(TokenType.Comma);
 					yield return new IdentifierToken("lobb_version");
 					yield return new Token(TokenType.ParenthesisClose);
 					yield return new Token(TokenType.Newline, 2);
+
 					//func _filter_lobby_map(id,version:String) -> String:
 					yield return new IdentifierToken("lobb_version");
 					yield return new Token(TokenType.OpAssign);
@@ -101,12 +108,45 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.ParenthesisClose);
 					yield return new Token(TokenType.Newline, 2);
 
+					yield return new Token(TokenType.PrVar);
+					yield return new IdentifierToken("has_map");
+					yield return new Token(TokenType.OpAssign);
+					yield return new IdentifierToken("get_node");
+					yield return new Token(TokenType.ParenthesisOpen);
+					yield return new ConstantToken(new StringVariant("/root/SulayreLure/Util"));
+					yield return new Token(TokenType.ParenthesisClose);
+					yield return new Token(TokenType.Period);
+					yield return new IdentifierToken("map_exists");
+					yield return new Token(TokenType.ParenthesisOpen);
+					yield return new IdentifierToken("lobby_map");
+					yield return new Token(TokenType.ParenthesisClose);
+					yield return new Token(TokenType.OpOr);
+					yield return new IdentifierToken("lobby_map");
+					yield return new Token(TokenType.OpEqual);
+					yield return new ConstantToken(new StringVariant(""));
+
+					yield return new Token(TokenType.Newline, 2);
+
+					yield return new Token(TokenType.PrVar);
+					yield return new IdentifierToken("lobby_filter");
+					yield return new Token(TokenType.OpAssign);
+					yield return new IdentifierToken("Steam");
+					yield return new Token(TokenType.Period);
+					yield return new IdentifierToken("getLobbyData");
+					yield return new Token(TokenType.ParenthesisOpen);
+					yield return new IdentifierToken("lobby");
+					yield return new Token(TokenType.Comma);
+					yield return new ConstantToken(new StringVariant("lurefilter"));
+					yield return new Token(TokenType.ParenthesisClose);
+
+					yield return new Token(TokenType.Newline, 2);
+
 				}
 				else if (datedwaiter.Check(token))
 				{
 					yield return token;
 					yield return new Token(TokenType.Comma);
-					yield return new IdentifierToken("lobby_map");
+					yield return new IdentifierToken("has_map");
 					yield return new Token(TokenType.Comma);
 					yield return new IdentifierToken("getLobbyData");
 					yield return new Token(TokenType.ParenthesisOpen);
@@ -116,10 +156,15 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.Period);
 					yield return new IdentifierToken("MAX_PLAYERS");
 					yield return new Token(TokenType.OpAdd);
+					yield return new IdentifierToken("int");
+					yield return new Token(TokenType.ParenthesisOpen);
 					yield return new ConstantToken(new StringVariant("lure_max_diff"));
+					yield return new Token(TokenType.ParenthesisClose);
+					yield return new Token(TokenType.ParenthesisClose);
 					yield return new Token(TokenType.Comma);
 					yield return new IdentifierToken("lobb_lure");
-					yield return new Token(TokenType.ParenthesisClose);
+					yield return new Token(TokenType.Comma);
+					yield return new IdentifierToken("lobby_filter");
 					yield return new Token(TokenType.Newline, 2);
 				}
 				else

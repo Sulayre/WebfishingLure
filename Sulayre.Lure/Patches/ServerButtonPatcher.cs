@@ -16,7 +16,7 @@ namespace Sulayre.Lure.Patches
 
 			var extendswaiter = new MultiTokenWaiter([
 				t => t.Type is TokenType.PrExtends,
-				t => t is IdentifierToken{Name:"Control"},
+				t => t.Type is TokenType.Identifier,
 				t => t.Type is TokenType.Newline,
 			], allowPartialMatch: false);
 
@@ -64,22 +64,28 @@ namespace Sulayre.Lure.Patches
 				}
 				else if (extendswaiter.Check(token))
 				{
-					yield return new Token(TokenType.PrOnready);
-					yield return new Token(TokenType.PrVar);
-					yield return new IdentifierToken("Lure");
-					yield return new Token(TokenType.OpAssign);
-					yield return new IdentifierToken("get_node");
-					yield return new Token(TokenType.ParenthesisOpen);
-					yield return new ConstantToken(new StringVariant("/root/SulayreLure"));
-					yield return new Token(TokenType.ParenthesisClose);
-					yield return new Token(TokenType.Newline);
+
+					yield return token;
 
 					yield return new Token(TokenType.PrVar);
 					yield return new IdentifierToken("lure_on");
+					yield return new Token(TokenType.Colon);
+					yield return new Token(TokenType.OpAssign);
+					yield return new ConstantToken(new BoolVariant(false));
 					yield return new Token(TokenType.Newline);
 
 					yield return new Token(TokenType.PrVar);
 					yield return new IdentifierToken("is_full");
+					yield return new Token(TokenType.Colon);
+					yield return new Token(TokenType.OpAssign);
+					yield return new ConstantToken(new BoolVariant(false));
+					yield return new Token(TokenType.Newline);
+
+					yield return new Token(TokenType.PrVar);
+					yield return new IdentifierToken("filter");
+					yield return new Token(TokenType.Colon);
+					yield return new Token(TokenType.OpAssign);
+					yield return new ConstantToken(new StringVariant(""));
 					yield return new Token(TokenType.Newline);
 				}
 				else if (setupwaiter.Check(token))
@@ -87,7 +93,7 @@ namespace Sulayre.Lure.Patches
 					yield return token;
 
 					yield return new Token(TokenType.Comma);
-					yield return new IdentifierToken("map_id");
+					yield return new IdentifierToken("has_map");
 					yield return new Token(TokenType.OpAssign);
 					yield return new ConstantToken(new StringVariant(""));
 					yield return new Token(TokenType.Comma);
@@ -98,6 +104,10 @@ namespace Sulayre.Lure.Patches
 					yield return new IdentifierToken("is_lure");
 					yield return new Token(TokenType.OpAssign);
 					yield return new ConstantToken(new BoolVariant(false));
+					yield return new Token(TokenType.Comma);
+					yield return new IdentifierToken("lobby_filter");
+					yield return new Token(TokenType.OpAssign);
+					yield return new ConstantToken(new StringVariant(""));
 
 
 				}
@@ -111,47 +121,36 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.OpAssign);
 					yield return new IdentifierToken("is_lure");
 
+					yield return new Token(TokenType.Newline, 1);
+
 					yield return new IdentifierToken("is_full");
 					yield return new Token(TokenType.OpAssign);
 					yield return new IdentifierToken("player_count");
 					yield return new Token(TokenType.OpEqual);
 					yield return new IdentifierToken("max_players");
 
+					yield return new Token(TokenType.Newline, 1);
+
+					yield return new IdentifierToken("filter");
+					yield return new Token(TokenType.OpAssign);
+					yield return new IdentifierToken("lobby_filter");
+
+					yield return new Token(TokenType.Newline, 1);
 
 					yield return new IdentifierToken("add_to_group");
 					yield return new Token(TokenType.ParenthesisOpen);
 					yield return new ConstantToken(new StringVariant("LobbyNode"));
 					yield return new Token(TokenType.ParenthesisClose);
 
-					yield return new Token(TokenType.CfIf);
-					yield return new IdentifierToken("map_id");
-					yield return new Token(TokenType.OpNotEqual);
-					yield return new ConstantToken(new StringVariant(""));
-					yield return new Token(TokenType.Colon);
+					yield return new Token(TokenType.Newline, 1);
 
-					yield return new Token(TokenType.Newline, 2);
-
-					yield return new Token(TokenType.BuiltInFunc, (uint?)BuiltinFunction.TextPrint);
-					yield return new Token(TokenType.ParenthesisOpen);
-					yield return new ConstantToken(new StringVariant("found a modded lobby!"));
-					yield return new Token(TokenType.ParenthesisClose);
-
-					yield return new Token(TokenType.Newline, 2);
 
 					yield return new Token(TokenType.CfIf);
 					yield return new Token(TokenType.OpNot);
-					yield return new IdentifierToken("get_node");
-					yield return new Token(TokenType.ParenthesisOpen);
-					yield return new ConstantToken(new StringVariant("/root/SulayreLure/Util"));
-					yield return new Token(TokenType.ParenthesisClose);
-					yield return new Token(TokenType.Period);
-					yield return new IdentifierToken("map_exists");
-					yield return new Token(TokenType.ParenthesisOpen);
-					yield return new IdentifierToken("map_id");
-					yield return new Token(TokenType.ParenthesisClose);
+					yield return new IdentifierToken("has_map");
 					yield return new Token(TokenType.Colon);
 
-					yield return new Token(TokenType.Newline, 3);
+					yield return new Token(TokenType.Newline, 2);
 
 					yield return new IdentifierToken("get_node");
 					yield return new Token(TokenType.ParenthesisOpen);
@@ -162,7 +161,7 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.OpAssign);
 					yield return new ConstantToken(new BoolVariant(true));
 
-					yield return new Token(TokenType.Newline, 3);
+					yield return new Token(TokenType.Newline, 2);
 
 					yield return new IdentifierToken("get_node");
 					yield return new Token(TokenType.ParenthesisOpen);

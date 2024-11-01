@@ -6,3 +6,4 @@ func _process(delta):
 		$LureOnly.disabled = mainmenu.disabled or mainmenu.refreshing
 		$ShowFull.disabled = mainmenu.disabled or mainmenu.refreshing
 		$ShowMismatch.disabled = mainmenu.disabled or mainmenu.refreshing
+		$DedicatedOnly.disabled = mainmenu.disabled or mainmenu.refreshing

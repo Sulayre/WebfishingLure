@@ -108,6 +108,7 @@ var action_references = {}
 var filter_lure:bool
 var filter_full:bool
 var filter_mismatch:bool
+var filter_dedicated:bool
 
 var cosmetic_list:Dictionary = {}
 var item_list:Dictionary = {}
@@ -374,6 +375,10 @@ func _filter_lure(active):
 func _filter_mismatch(active):
 	filter_mismatch = !active
 	_refresh_filters()
+	
+func _filter_dedicated(active):
+	filter_mismatch = active
+	_refresh_filters()
 
 func _refresh_filters():
 	for lobby_node in get_tree().get_nodes_in_group("LobbyNode"):
@@ -383,7 +388,9 @@ func _refresh_filters():
 		var filtering_full = lobby_node.is_full and filter_full
 		var filtering_mismatch = valid_mismatch_lobby and filter_mismatch
 		var filtering_lure = !lobby_node.lure_on and filter_lure
-		lobby_node.visible = !(filtering_lure or filtering_full or filtering_mismatch)
+		var dedicated_find = lobby_node.filter.findn("dedicated") != -1
+		var filtering_dedicated = dedicated_find and filter_dedicated
+		lobby_node.visible = !(filtering_lure or filtering_full or filtering_mismatch or filtering_dedicated)
 
 func _swap_count(count):
 	Network.MAX_PLAYERS_LURE = count
