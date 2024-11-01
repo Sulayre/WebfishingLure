@@ -3,6 +3,7 @@
 *.user
 /local
 
+*.gdc
 bin/
 obj/
 GDWeave/

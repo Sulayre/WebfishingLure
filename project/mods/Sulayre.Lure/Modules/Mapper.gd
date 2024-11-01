@@ -12,21 +12,7 @@ func _refresh_players(node):
 		if "player" in entity.name:
 			player_bodies.append(entity)
 	print(player_bodies)
-
-func _on_main():
-	var mode:OptionButton = get_tree().current_scene.get_node_or_null("%serv_options")
-	var options:OptionButton = mode.duplicate()
-	options.name = "serv_maps"
-	var container:HBoxContainer = mode.get_parent()
-	var label:Label = container.get_node("Label")
-	prints(options.name,container.name,label.name)
-	container.add_child_below_node(label,options)
-	options.connect("item_selected",self,"_swap_map")
-	options.add_item("Original Map")
-	var maps = Lure.modded_maps
-	for map_data in maps:
-		options.add_item(map_data["name"])
-		
+	
 func _swap_map(index):
 	match index:
 		-1:
