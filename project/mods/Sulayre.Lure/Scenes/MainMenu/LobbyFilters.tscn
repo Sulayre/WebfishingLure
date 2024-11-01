@@ -1,0 +1,81 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scenes/Menus/Main Menu/ui_generic_button.gd" type="Script" id=1]
+[ext_resource path="res://mods/Sulayre.Lure/Scenes/MainMenu/LobbyFilters.gd" type="Script" id=2]
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.352941, 0.458824, 0.352941, 1 )
+border_color = Color( 0.415686, 0.266667, 0.12549, 1 )
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[sub_resource type="StyleBoxFlat" id=1]
+bg_color = Color( 0.67451, 0, 0.160784, 1 )
+border_color = Color( 0.415686, 0.266667, 0.12549, 1 )
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+
+[node name="LobbyFilters" type="HBoxContainer"]
+anchor_left = 0.014
+anchor_top = 0.373
+anchor_right = 0.329569
+anchor_bottom = 0.426
+margin_left = -0.128
+margin_top = 0.29599
+margin_right = 0.335938
+margin_bottom = -0.0480042
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="ShowFull" type="Button" parent="."]
+margin_left = 11.0
+margin_right = 187.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 176, 0 )
+size_flags_horizontal = 6
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 1 )
+toggle_mode = true
+pressed = true
+text = "SHOW FULL"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="ShowMismatch" type="Button" parent="."]
+margin_left = 214.0
+margin_right = 390.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 176, 0 )
+size_flags_horizontal = 6
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 1 )
+toggle_mode = true
+pressed = true
+text = "SHOW MISMATCH"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": true
+}
+
+[node name="LureOnly" type="Button" parent="."]
+margin_left = 418.0
+margin_right = 594.0
+margin_bottom = 56.0
+rect_min_size = Vector2( 176, 0 )
+size_flags_horizontal = 6
+custom_styles/pressed = SubResource( 2 )
+custom_styles/normal = SubResource( 1 )
+toggle_mode = true
+text = "LURE ONLY"
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": true
+}

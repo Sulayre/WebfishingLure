@@ -13,6 +13,15 @@ namespace Sulayre.Lure.Patches
 		{
 			// wait for any newline token after any extends token
 
+			var constmaxwaiter = new MultiTokenWaiter([
+				t => t.Type is TokenType.PrConst,
+				t => t is IdentifierToken{Name:"MAX_PLAYERS"},
+				t => t.Type is TokenType.OpAssign,
+				t => t is ConstantToken{Value: IntVariant {Value: 12}},
+				t => t.Type is TokenType.Newline,
+
+			], allowPartialMatch: false);
+
 			var waiter = new MultiTokenWaiter([
 				t => t.Type is TokenType.Comma,
 				t => t is IdentifierToken{Name:"ver"},
@@ -24,6 +33,29 @@ namespace Sulayre.Lure.Patches
 			var waitercode = new MultiTokenWaiter([
 				t => t.Type is TokenType.OpAssign,
 				t => t is IdentifierToken{Name:"LOBBY"},
+				t => t.Type is TokenType.Newline,
+
+			], allowPartialMatch: false);
+
+			var networkmax = new MultiTokenWaiter([
+				t => t is IdentifierToken{Name:"Network"},
+				t => t.Type is TokenType.Period,
+				t => t is IdentifierToken{Name:"MAX_PLAYERS"},
+
+			], allowPartialMatch: false);
+
+			var createmax = new MultiTokenWaiter([
+				t => t is IdentifierToken{Name:"lobby_type"},
+				t => t.Type is TokenType.Comma,
+				t => t is IdentifierToken{Name:"MAX_PLAYERS"},
+
+			], allowPartialMatch: false);
+
+			var maxlobbydata = new MultiTokenWaiter([
+				t => t is IdentifierToken{Name:"lobby_id"},
+				t => t.Type is TokenType.Comma,
+				t => t is ConstantToken{Value: BoolVariant {Value: true}},
+				t => t.Type is TokenType.ParenthesisClose,
 				t => t.Type is TokenType.Newline,
 
 			], allowPartialMatch: false);
@@ -49,6 +81,16 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.ParenthesisClose);
 					yield return new Token(TokenType.Newline,1);
 				}
+				else if (constmaxwaiter.Check(token))
+				{
+					yield return token;
+
+					yield return new Token(TokenType.PrVar);
+					yield return new IdentifierToken("MAX_PLAYERS_LURE");
+					yield return new Token(TokenType.OpAssign);
+					yield return new IdentifierToken("MAX_PLAYERS");
+					yield return new Token(TokenType.Newline);
+				}
 				else if (waitercode.Check(token))
 				{
 					yield return token;
@@ -68,6 +110,46 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.ParenthesisClose);
 					yield return new Token(TokenType.Newline, 2);
 				}
+				else if (createmax.Check(token))
+				{
+					yield return new IdentifierToken("MAX_PLAYERS_LURE");
+				}
+				else if (maxlobbydata.Check(token))
+				{
+					yield return token;
+					yield return new IdentifierToken("Steam");
+					yield return new Token(TokenType.Period);
+					yield return new IdentifierToken("setLobbyData");
+					yield return new Token(TokenType.ParenthesisOpen);
+					yield return new IdentifierToken("lobby_id");
+					yield return new Token(TokenType.Comma);
+					yield return new ConstantToken(new StringVariant("lure_max_diff"));
+					yield return new Token(TokenType.Comma);
+					yield return new IdentifierToken("MAX_PLAYERS_LURE");
+					yield return new Token(TokenType.OpSub);
+					yield return new IdentifierToken("MAX_PLAYERS");
+					yield return new Token(TokenType.ParenthesisClose);
+					yield return new Token(TokenType.Newline,1);
+
+				}
+				else if (networkmax.Check(token))
+				{
+					yield return token;
+					yield return new Token(TokenType.OpAdd);
+					yield return new IdentifierToken("int");
+					yield return new Token(TokenType.ParenthesisOpen);
+					yield return new IdentifierToken("Steam");
+					yield return new Token(TokenType.Period);
+					yield return new IdentifierToken("getLobbyData");
+					yield return new Token(TokenType.ParenthesisOpen);
+					yield return new IdentifierToken("LOBBY");
+					yield return new Token(TokenType.Comma);
+					yield return new ConstantToken(new StringVariant("lure_max_diff"));
+					yield return new Token(TokenType.ParenthesisClose);
+					yield return new Token(TokenType.ParenthesisClose);
+					networkmax.Reset();
+				}
+				else
 				{
 					// return the original token
 					yield return token;

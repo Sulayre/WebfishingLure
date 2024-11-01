@@ -254,3 +254,6 @@ func _check_map_install(map_id:String) -> bool:
 	var exists = Lure.Util.map_exists(map_id)
 	print(PREFIX+"map is installed!") if exists else print(PREFIX+"map not installed.")
 	return exists
+
+func _is_lure_lobby(version:String):
+	return true if version.ends_with(".lure") else false

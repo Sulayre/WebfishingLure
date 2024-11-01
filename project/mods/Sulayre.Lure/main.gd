@@ -105,6 +105,10 @@ var modded_species = []
 
 var action_references = {}
 
+var filter_lure:bool
+var filter_full:bool
+var filter_mismatch:bool
+
 var cosmetic_list:Dictionary = {}
 var item_list:Dictionary = {}
 var _savewaiter:Thread = Thread.new()
@@ -321,23 +325,79 @@ func _filter_save(new_save:Dictionary) -> Dictionary:
 
 func _signals():
 	root.connect("child_entered_tree",self,"_on_enter")
-	
-	self.connect("main_menu_enter",Mapper,"_on_main")
-	
-	self.connect("world_enter",Mapper,"_load_map")
+	connect("world_enter",Mapper,"_load_map")
+	Network.connect("_user_connected",self,"_max_player_lock",[],CONNECT_DEFERRED)
 
 func _on_enter(node:Node):
 	if node.name == "main_menu":
 		if bonus_prompt: node.add_child(prompt.instance())
 		Mapper.selected_map = null
+		# first we setup the map selector and the max player selector
+		var mainmenu = get_tree().get_current_scene()
+		
+		var buttonbundle = preload("res://mods/Sulayre.Lure/Scenes/MainMenu/LobbySettings.tscn").instance()
+		
+		var options:OptionButton = buttonbundle.get_node("map")
+		var plrcounter:SpinBox = buttonbundle.get_node("count")
+		
+		var container:HBoxContainer = mainmenu.get_node("lobby_browser/Panel/Panel/HBoxContainer")
+		var label:Label = container.get_node("Label")
+		
+		container.add_child_below_node(label,buttonbundle)
+		label.set_stretch_ratio(3)
+		options.connect("item_selected",Mapper,"_swap_map")
+		plrcounter.connect("value_changed",self,"_swap_count")
+		options.add_item("Original Map")
+		var maps = modded_maps
+		for map_data in maps:
+			options.add_item(map_data["name"])
+		# then we setup the lobby filters
+		if !OS.has_feature("editor"):
+			var filterbundle = preload("res://mods/Sulayre.Lure/Scenes/MainMenu/LobbyFilters.tscn").instance()
+			mainmenu.get_node("lobby_browser/Panel").add_child(filterbundle)
+			filterbundle.get_node("LureOnly").connect("toggled",self,"_filter_lure")
+			filterbundle.get_node("ShowFull").connect("toggled",self,"_filter_full")
+			filterbundle.get_node("ShowMismatch").connect("toggled",self,"_filter_mismatch")
 		emit_signal("main_menu_enter")
 	if node.name == "world":
 		print("world enter")
 		node.get_node("Viewport/main/entities").connect("child_entered_tree",Mapper,"_refresh_players")
 		emit_signal("world_enter")
 
-# Actions
+func _filter_full(active):
+	filter_full = !active
+	_refresh_filters()
+func _filter_lure(active):
+	filter_lure = active
+	_refresh_filters()
 
+func _filter_mismatch(active):
+	filter_mismatch = !active
+	_refresh_filters()
+
+func _refresh_filters():
+	for lobby_node in get_tree().get_nodes_in_group("LobbyNode"):
+		var btn = lobby_node.get_node("Panel/HBoxContainer/Button")
+		var lbl = lobby_node.get_node("Panel/HBoxContainer/Label")
+		var valid_mismatch_lobby = btn.disabled and lbl.text.begins_with("[VERSION MISMATCH] ")
+		var filtering_full = lobby_node.is_full and filter_full
+		var filtering_mismatch = valid_mismatch_lobby and filter_mismatch
+		var filtering_lure = !lobby_node.lure_on and filter_lure
+		lobby_node.visible = !(filtering_lure or filtering_full or filtering_mismatch)
+
+func _swap_count(count):
+	Network.MAX_PLAYERS_LURE = count
+
+#i don't think this will be necessary but just in case imma lock the server away from vanilla players
+#if we meet the lure max player count, i say its not necessary cus the lobby already has a set max
+#players but vanilla players can try to join regardless i think
+func _max_player_lock(id):
+	if !Mapper.selected_map:
+		if Steam.getNumLobbyMembers(Network.STEAM_LOBBY_ID) == Network.MAX_PLAYERS_LURE:
+			Steam.setLobbyData(Network.STEAM_LOBBY_ID, "version",str(Globals.GAME_VERSION)+".lure")
+		else:
+			Steam.setLobbyData(Network.STEAM_LOBBY_ID, "version",str(Globals.GAME_VERSION))
+# Actions
 func _test_action(arg1):
 	print("action pressed + ",arg1)
 
