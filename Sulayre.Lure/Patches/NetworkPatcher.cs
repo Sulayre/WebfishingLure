@@ -51,15 +51,6 @@ namespace Sulayre.Lure.Patches
 
 			], allowPartialMatch: false);
 
-			var maxlobbydata = new MultiTokenWaiter([
-				t => t is IdentifierToken{Name:"lobby_id"},
-				t => t.Type is TokenType.Comma,
-				t => t is ConstantToken{Value: BoolVariant {Value: true}},
-				t => t.Type is TokenType.ParenthesisClose,
-				t => t.Type is TokenType.Newline,
-
-			], allowPartialMatch: false);
-
 			// loop through all tokens in the script
 			foreach (var token in tokens)
 			{
@@ -114,37 +105,17 @@ namespace Sulayre.Lure.Patches
 				{
 					yield return new IdentifierToken("MAX_PLAYERS_LURE");
 				}
-				else if (maxlobbydata.Check(token))
-				{
-					yield return token;
-					yield return new IdentifierToken("Steam");
-					yield return new Token(TokenType.Period);
-					yield return new IdentifierToken("setLobbyData");
-					yield return new Token(TokenType.ParenthesisOpen);
-					yield return new IdentifierToken("lobby_id");
-					yield return new Token(TokenType.Comma);
-					yield return new ConstantToken(new StringVariant("lure_max_diff"));
-					yield return new Token(TokenType.Comma);
-					yield return new IdentifierToken("MAX_PLAYERS_LURE");
-					yield return new Token(TokenType.OpSub);
-					yield return new IdentifierToken("MAX_PLAYERS");
-					yield return new Token(TokenType.ParenthesisClose);
-					yield return new Token(TokenType.Newline,1);
-
-				}
 				else if (networkmax.Check(token))
 				{
 					yield return token;
+					yield return new Token(TokenType.OpLess);
+					yield return new IdentifierToken("MAX_PLAYERS");
 					yield return new Token(TokenType.OpAdd);
-					yield return new IdentifierToken("int");
-					yield return new Token(TokenType.ParenthesisOpen);
 					yield return new IdentifierToken("Steam");
 					yield return new Token(TokenType.Period);
-					yield return new IdentifierToken("getLobbyData");
+					yield return new IdentifierToken("getLobbyMemberLimit");
 					yield return new Token(TokenType.ParenthesisOpen);
 					yield return new IdentifierToken("LOBBY");
-					yield return new Token(TokenType.Comma);
-					yield return new ConstantToken(new StringVariant("lure_max_diff"));
 					yield return new Token(TokenType.ParenthesisClose);
 					yield return new Token(TokenType.ParenthesisClose);
 					networkmax.Reset();

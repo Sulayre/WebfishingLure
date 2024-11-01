@@ -141,6 +141,19 @@ namespace Sulayre.Lure.Patches
 
 					yield return new Token(TokenType.Newline, 2);
 
+					yield return new Token(TokenType.PrVar);
+					yield return new IdentifierToken("lobby_max");
+					yield return new Token(TokenType.OpAssign);
+
+					yield return new IdentifierToken("Steam");
+					yield return new Token(TokenType.Period);
+					yield return new IdentifierToken("getLobbyMemberLimit");
+					yield return new Token(TokenType.ParenthesisOpen);
+					yield return new IdentifierToken("lobby");
+					yield return new Token(TokenType.ParenthesisClose);
+
+					yield return new Token(TokenType.Newline, 2);
+
 				}
 				else if (datedwaiter.Check(token))
 				{
@@ -148,19 +161,7 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.Comma);
 					yield return new IdentifierToken("has_map");
 					yield return new Token(TokenType.Comma);
-					yield return new IdentifierToken("getLobbyData");
-					yield return new Token(TokenType.ParenthesisOpen);
-					yield return new IdentifierToken("lobby");
-					yield return new Token(TokenType.Comma);
-					yield return new IdentifierToken("Network");
-					yield return new Token(TokenType.Period);
-					yield return new IdentifierToken("MAX_PLAYERS");
-					yield return new Token(TokenType.OpAdd);
-					yield return new IdentifierToken("int");
-					yield return new Token(TokenType.ParenthesisOpen);
-					yield return new ConstantToken(new StringVariant("lure_max_diff"));
-					yield return new Token(TokenType.ParenthesisClose);
-					yield return new Token(TokenType.ParenthesisClose);
+					yield return new IdentifierToken("lobby_max");
 					yield return new Token(TokenType.Comma);
 					yield return new IdentifierToken("lobb_lure");
 					yield return new Token(TokenType.Comma);
