@@ -2,7 +2,6 @@
   <img src="https://raw.githubusercontent.com/Sulayre/WebfishingLure/refs/heads/main/icon.png" alt="Lure Shrimp"/>
 </p>
 
-### For health reasons development of Lure's hotfixes and patches will slow down a bunch, if you'd like to contribute feel free to make a pull request, theres a lot of bugs to find and fix!
 If you would like to contribute to Lure but arent a programmer feel free to drop a donation at [Sulayre's Ko-Fi](https://ko-fi.com/sulayre). Lure started as a side project, but your contribution helps him be able to work on it full time!
 
 ### [Mod download here](https://github.com/Sulayre/WebfishingLure/releases/latest)
