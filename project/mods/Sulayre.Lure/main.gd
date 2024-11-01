@@ -359,6 +359,7 @@ func _on_enter(node:Node):
 			filterbundle.get_node("LureOnly").connect("toggled",self,"_filter_lure")
 			filterbundle.get_node("ShowFull").connect("toggled",self,"_filter_full")
 			filterbundle.get_node("ShowMismatch").connect("toggled",self,"_filter_mismatch")
+			filterbundle.get_node("DedicatedOnly").connect("toggled",self,"_filter_dedicated")
 		emit_signal("main_menu_enter")
 	if node.name == "world":
 		print("world enter")
@@ -377,7 +378,7 @@ func _filter_mismatch(active):
 	_refresh_filters()
 	
 func _filter_dedicated(active):
-	filter_mismatch = active
+	filter_dedicated = active
 	_refresh_filters()
 
 func _refresh_filters():
@@ -389,7 +390,7 @@ func _refresh_filters():
 		var filtering_mismatch = valid_mismatch_lobby and filter_mismatch
 		var filtering_lure = !lobby_node.lure_on and filter_lure
 		var dedicated_find = lobby_node.filter.findn("dedicated") != -1
-		var filtering_dedicated = dedicated_find and filter_dedicated
+		var filtering_dedicated = !dedicated_find and filter_dedicated
 		lobby_node.visible = !(filtering_lure or filtering_full or filtering_mismatch or filtering_dedicated)
 
 func _swap_count(count):
