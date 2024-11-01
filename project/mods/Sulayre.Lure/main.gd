@@ -356,10 +356,10 @@ func _on_enter(node:Node):
 		if !OS.has_feature("editor"):
 			var filterbundle = preload("res://mods/Sulayre.Lure/Scenes/MainMenu/LobbyFilters.tscn").instance()
 			mainmenu.get_node("lobby_browser/Panel").add_child(filterbundle)
-			filterbundle.get_node("LureOnly").connect("toggled",self,"_filter_lure")
-			filterbundle.get_node("ShowFull").connect("toggled",self,"_filter_full")
-			filterbundle.get_node("ShowMismatch").connect("toggled",self,"_filter_mismatch")
-			filterbundle.get_node("DedicatedOnly").connect("toggled",self,"_filter_dedicated")
+			filterbundle.get_node("%LureOnly").connect("toggled",self,"_filter_lure")
+			filterbundle.get_node("%ShowFull").connect("toggled",self,"_filter_full")
+			filterbundle.get_node("%ShowMismatch").connect("toggled",self,"_filter_mismatch")
+			filterbundle.get_node("%DedicatedOnly").connect("toggled",self,"_filter_dedicated")
 		emit_signal("main_menu_enter")
 	if node.name == "world":
 		print("world enter")

@@ -103,12 +103,18 @@ namespace Sulayre.Lure.Patches
 				}
 				else if (createmax.Check(token))
 				{
+					yield return new ConstantToken(new IntVariant(2));
+					yield return new Token(TokenType.CfIf);
+					yield return new IdentifierToken("type");
+					yield return new Token(TokenType.OpEqual);
+					yield return new ConstantToken(new IntVariant(2));
+					yield return new Token(TokenType.CfElse);
 					yield return new IdentifierToken("MAX_PLAYERS_LURE");
 				}
 				else if (networkmax.Check(token))
 				{
 					yield return token;
-					yield return new Token(TokenType.OpLess);
+					yield return new Token(TokenType.OpSub);
 					yield return new IdentifierToken("MAX_PLAYERS");
 					yield return new Token(TokenType.OpAdd);
 					yield return new IdentifierToken("Steam");
