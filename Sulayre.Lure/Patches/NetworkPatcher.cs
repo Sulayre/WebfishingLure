@@ -117,7 +117,6 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.ParenthesisOpen);
 					yield return new IdentifierToken("LOBBY");
 					yield return new Token(TokenType.ParenthesisClose);
-					yield return new Token(TokenType.ParenthesisClose);
 					networkmax.Reset();
 				}
 				else
