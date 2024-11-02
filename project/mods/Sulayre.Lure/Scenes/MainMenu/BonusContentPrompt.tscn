@@ -2,7 +2,7 @@
 
 [ext_resource path="res://Assets/Themes/main.tres" type="Theme" id=1]
 [ext_resource path="res://Scenes/Menus/Main Menu/ui_generic_button.gd" type="Script" id=2]
-[ext_resource path="res://mods/Sulayre.Lure/LureLobster.png" type="Texture" id=3]
+[ext_resource path="res://mods/Sulayre.Lure/Assets/Textures/LureLobster.png" type="Texture" id=3]
 [ext_resource path="res://mods/Sulayre.Lure/Scenes/MainMenu/BonusContentPrompt.gd" type="Script" id=4]
 
 [node name="BonusContentPrompt" type="Control"]

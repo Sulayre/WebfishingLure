@@ -100,8 +100,12 @@ var animation_buffer = {}
 var modded_voices = {}
 var modded_actors = {}
 var modded_maps = []
-
 var modded_species = []
+var journal_categories = [\
+	["freshwater", ["lake"]], \
+	["saltwater", ["ocean"]], \
+	["misc", ["water_trash", "deep", "rain", "alien"]],\
+	["modded", []]]
 
 var action_references = {}
 
@@ -138,8 +142,10 @@ func _ready():
 		_bonus_content_load()
 	else:
 		_options_check()
-	
-	
+
+func loot_table(table_id:String):
+	return "LURE_LOOT_TABLE_"+table_id
+
 func register_action(mod_id:String,action_id:String,function_holder:Node,function_name:String):
 	if Util._validate_paths(mod_id,"res://"):
 		if !function_holder:
@@ -172,6 +178,9 @@ func assign_species_voice(mod_id:String,species_id:String,bark_path:String,growl
 		#print(modded_voices)
 	else:
 		Printer.out(VOICE_BARK_MISSING,true)
+
+
+	
 
 # Adds a new map into the map selector
 func add_map(mod_id:String,map_id:String,scene_path:String,map_name:String=""):
@@ -292,6 +301,11 @@ func _load_modules():
 	connect("lurlog",Printer,"out")
 	print(listing)
 
+# := <t&&arg> typehint default value
+# = <arg> default value, nullable/variant
+# :<t> obligatory argument, typehint
+# if you set a variable as optional all the ones to the right must also be optional
+
 # extra shit
 func _options_check():
 	var file = File.new()
@@ -312,7 +326,9 @@ func _options_check():
 func _bonus_content_load():
 	add_content("Sulayre.Lure","kade_shirt","mod://Resources/Cosmetics/undershirt_graphic_tshirt_kade.tres")
 	add_content("Sulayre.Lure","misname_title","mod://Resources/Cosmetics/title_misname.tres")
-	#add_map("Sulayre.Lure","test_map","mod://Scenes/Maps/example_map.tscn","Lure Test Map")
+	add_map("Sulayre.Lure","test_map","res://mods/Sulayre.Lure/Scenes/Maps/example_map.tscn","Lure Example Map")
+	add_content("Sulayre.Lure","gerald","res://mods/Sulayre.Lure/Resources/Items/test_fish.tres",[loot_table("test")])
+
 # 3.5 sucks ass
 func _filter_save(new_save:Dictionary) -> Dictionary:
 	if Patches:
@@ -327,7 +343,6 @@ func _filter_save(new_save:Dictionary) -> Dictionary:
 func _signals():
 	root.connect("child_entered_tree",self,"_on_enter")
 	connect("world_enter",Mapper,"_load_map")
-	Network.connect("_user_connected",self,"_max_player_lock",[],CONNECT_DEFERRED)
 
 func _on_enter(node:Node):
 	if node.name == "main_menu":
@@ -362,7 +377,6 @@ func _on_enter(node:Node):
 			filterbundle.get_node("%DedicatedOnly").connect("toggled",self,"_filter_dedicated")
 		emit_signal("main_menu_enter")
 	if node.name == "world":
-		print("world enter")
 		node.get_node("Viewport/main/entities").connect("child_entered_tree",Mapper,"_refresh_players")
 		emit_signal("world_enter")
 
@@ -382,6 +396,7 @@ func _filter_dedicated(active):
 	_refresh_filters()
 
 func _refresh_filters():
+	if OS.has_feature("editor"): return
 	for lobby_node in get_tree().get_nodes_in_group("LobbyNode"):
 		var btn = lobby_node.get_node("Panel/HBoxContainer/Button")
 		var lbl = lobby_node.get_node("Panel/HBoxContainer/Label")
@@ -396,15 +411,6 @@ func _refresh_filters():
 func _swap_count(count):
 	Network.MAX_PLAYERS_LURE = count
 
-#i don't think this will be necessary but just in case imma lock the server away from vanilla players
-#if we meet the lure max player count, i say its not necessary cus the lobby already has a set max
-#players but vanilla players can try to join regardless i think
-func _max_player_lock(id):
-	if !Mapper.selected_map:
-		if Steam.getNumLobbyMembers(Network.STEAM_LOBBY_ID) == Network.MAX_PLAYERS_LURE:
-			Steam.setLobbyData(Network.STEAM_LOBBY_ID, "version",str(Globals.GAME_VERSION)+".lure")
-		else:
-			Steam.setLobbyData(Network.STEAM_LOBBY_ID, "version",str(Globals.GAME_VERSION))
 # Actions
 func _test_action(arg1):
 	print("action pressed + ",arg1)

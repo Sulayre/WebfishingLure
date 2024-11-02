@@ -37,8 +37,19 @@ func _register_resource(resource_data:Dictionary):
 					#else:
 						#prints(Lure.FLAGS.FREE_UNLOCK,resource_data.flags)
 				if loaded_resource.category == "fish" or loaded_resource.category == "bug" or (loaded_resource.category == "none" and (loaded_resource.loot_table == "seashell" or loaded_resource.category == "trash")):
-					print(PlayerData.journal_logs)
-					if !PlayerData.journal_logs[loaded_resource.loot_table].has(final_id):
+					var journal_logs = PlayerData.journal_logs
+					#print(PlayerData.journal_logs)
+					for flag in resource_data["flags"]:
+						if flag.begins_with("LURE_LOOT_TABLE_"):
+							loaded_resource.loot_table = flag.replace("LURE_LOOT_TABLE_","")
+							if !(loaded_resource.loot_table in Lure.journal_categories[3][1]):
+								!Lure.journal_categories[3][1].append(loaded_resource.loot_table)
+							break
+					if !journal_logs.get(loaded_resource.loot_table,null):
+						journal_logs[loaded_resource.loot_table] = {}
+					var journal_log = journal_logs[loaded_resource.loot_table]
+					print(journal_log)
+					if !journal_log.has(final_id):
 						PlayerData._log_item(final_id,0.0,0,true)
 					Lure.Util._regenerate_loot_table(loaded_resource.category,loaded_resource.loot_table)
 			elif loaded_resource is CosmeticResource:

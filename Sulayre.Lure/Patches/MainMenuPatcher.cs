@@ -70,15 +70,6 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.ParenthesisClose);
 					yield return new Token(TokenType.Newline, 2);
 
-
-					yield return new Token(TokenType.BuiltInFunc, (uint?)BuiltinFunction.TextPrintSpaced);
-					yield return new Token(TokenType.ParenthesisOpen);
-					yield return new IdentifierToken("lobb_lure");
-					yield return new Token(TokenType.Comma);
-					yield return new IdentifierToken("lobb_version");
-					yield return new Token(TokenType.ParenthesisClose);
-					yield return new Token(TokenType.Newline, 2);
-
 					//func _filter_lobby_map(id,version:String) -> String:
 					yield return new IdentifierToken("lobb_version");
 					yield return new Token(TokenType.OpAssign);

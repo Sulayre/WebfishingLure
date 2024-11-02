@@ -1,9 +1,7 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://Scenes/Map/Zones/aquarium_zone.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/Map/Zones/tutorial_zone.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Scenes/Map/Zones/tent_zone.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Scenes/Map/Zones/hub_building_zone.tscn" type="PackedScene" id=4]
 [ext_resource path="res://mods/Sulayre.Lure/Scenes/Maps/example_map.gd" type="Script" id=5]
 [ext_resource path="res://Assets/world_env.tres" type="Environment" id=6]
 [ext_resource path="res://Scenes/Map/Zones/IslandZones/island_tiny_zone.tscn" type="PackedScene" id=7]
@@ -12,7 +10,7 @@
 [ext_resource path="res://mods/Sulayre.Lure/Scenes/Maps/Zones/example_zone.tscn" type="PackedScene" id=10]
 [ext_resource path="res://mods/Sulayre.Lure/Scenes/Maps/exampleEnvironment.gd" type="Script" id=11]
 
-[node name="test_map" type="Spatial"]
+[node name="example_map" type="Spatial"]
 script = ExtResource( 5 )
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
@@ -31,12 +29,6 @@ transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 5.65817, 0 )
 [node name="zones" type="Node" parent="."]
 
 [node name="main_zone" parent="zones" instance=ExtResource( 10 )]
-
-[node name="tent_zone" parent="zones" instance=ExtResource( 3 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.501282, 0.713387, -400.066 )
-
-[node name="hub_building_zone" parent="zones" instance=ExtResource( 4 )]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 128.986, -0.909164, -405.098 )
 
 [node name="aquarium_zone" parent="zones" instance=ExtResource( 1 )]
 transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -131.437, 3.33302, -396.581 )

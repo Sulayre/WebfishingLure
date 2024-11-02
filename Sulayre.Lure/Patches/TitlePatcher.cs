@@ -77,16 +77,16 @@ namespace Sulayre.Lure.Patches
 
 					yield return new Token(TokenType.Newline, 1);
 
-					// new_label.add_font_override("normal_font",preload("res://Assets/Themes/main_font.tres"))
+					// new_label.add_font_override("normal_font",prel
 					yield return new IdentifierToken("new_label");
 					yield return new Token(TokenType.Period);
 					yield return new IdentifierToken("add_font_override");
 					yield return new Token(TokenType.ParenthesisOpen);
 					yield return new ConstantToken(new StringVariant("normal_font"));
 					yield return new Token(TokenType.Comma);
-					yield return new Token(TokenType.PrPreload);
+					yield return new Token(TokenType.BuiltInFunc, (uint?)BuiltinFunction.ResourceLoad);
 					yield return new Token(TokenType.ParenthesisOpen);
-					yield return new ConstantToken(new StringVariant("res://Assets/Themes/main_font_name.tres"));
+					yield return new ConstantToken(new StringVariant("res://mods/Sulayre.Lure/Assets/Fonts/title_font.tres"));
 					yield return new Token(TokenType.ParenthesisClose);
 					yield return new Token(TokenType.ParenthesisClose);
 

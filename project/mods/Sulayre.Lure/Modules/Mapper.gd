@@ -35,8 +35,6 @@ func _load_map():
 		
 		var new_title = "[color=#D87093][Lure Modded Map][/color] "+lobby_name
 		
-		print(new_map)
-		
 		print(PREFIX+"Modded lobby name: ",new_title)
 		
 		Steam.setLobbyData(lobby_id, "name",new_title)
@@ -49,10 +47,10 @@ func _load_map():
 		print(PREFIX+"Modded lobby map name: ",Steam.getLobbyData(lobby_id, "lure_map_name"))
 		
 		map_holder.add_child(new_map)
-		print(map_holder.get_children())
 		world.map = new_map
 		map_holder.remove_child(old_map)
 		new_map.name = "main_map"
+		prints(map_holder.get_children(),world.map)
 		
 		var groups = [
 			"fish_spawn",
