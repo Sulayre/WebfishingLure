@@ -140,6 +140,8 @@ the way you would call the custom action is by setting the action or release_act
 
 ``flags`` is an optional array argument that Lure uses to toggle certain functionality on your new content, here's a list of flags and their uses:
 
+- ``Lure.loot_table(loot_table_name)`` is a special flag that lets you set a non-vanilla loot table to a fish, that way custom maps can have specific types of fish show up. This allows you to for example add new fish to other people's custom maps if they have a special loot_table!
+
 *the following 2 flags will add your new cosmetic/tool/prop to your inventory automatically, but with different conditions*
 - ``FREE_UNLOCK`` will make the cosmetic/item/prop remain unlocked forever.
 - ``LOCK_AFTER_SHOP_UPDATE``  will make the cosmetic/item/prop remain unlocked until the modded item shop integration update is out, it will lock them after that update drops and the flag will become obsolete.
@@ -148,8 +150,6 @@ the way you would call the custom action is by setting the action or release_act
 - ``SHOP_POSSUM`` adds the cosmetic or item to the possum's shop.
 - ``SHOP_FROG`` adds the cosmetic or item to the frog's shop.
 - ``SHOP_BEACH`` adds the cosmetic or item to the shop at the beach.
-
-*The following flags are not implemented yet, don't add them to your add_content arguments since its missing from the latest release.*
 - ``VENDING_MACHINE`` adds the cosmetic or item to the vending machine.
 
 keep in mind that to access the flags you need to reference them inside Lure's ``FLAGS`` enum, so a real example would look like this:
