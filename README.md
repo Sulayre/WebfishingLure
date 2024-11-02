@@ -14,7 +14,8 @@ If you would like to contribute to Lure but arent a programmer feel free to drop
 - Add custom patterns for Vanilla AND anyone’s modded species!
 - Add new items that can have any function from any node linked to it!
 - Make whole new maps without having to replace things from the base game!
-
+- Filter lobby search to easily find modded lobbies or dedicated servers!
+  
 ### ...it also makes modding easier and less annoying with the following tweaks :)
 - Updates the character colors shader so now patterns can have additional static colors on their textures.
 - Items/Cosmetics loaded with lure have a unique prefix related to the mod's folder they were loaded from, allowing multiple mods to have same the same item/cosmetic file names.
