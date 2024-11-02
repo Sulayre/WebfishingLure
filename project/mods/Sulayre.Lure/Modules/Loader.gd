@@ -40,11 +40,12 @@ func _register_resource(resource_data:Dictionary):
 					var journal_logs = PlayerData.journal_logs
 					#print(PlayerData.journal_logs)
 					for flag in resource_data["flags"]:
-						if flag.begins_with("LURE_LOOT_TABLE_"):
-							loaded_resource.loot_table = flag.replace("LURE_LOOT_TABLE_","")
-							if !(loaded_resource.loot_table in Lure.journal_categories[3][1]):
-								!Lure.journal_categories[3][1].append(loaded_resource.loot_table)
-							break
+						if flag is String:
+							if flag.begins_with("LURE_LOOT_TABLE_"):
+								loaded_resource.loot_table = flag.replace("LURE_LOOT_TABLE_","")
+								if !(loaded_resource.loot_table in Lure.journal_categories[3][1]):
+									!Lure.journal_categories[3][1].append(loaded_resource.loot_table)
+								break
 					if !journal_logs.get(loaded_resource.loot_table,null):
 						journal_logs[loaded_resource.loot_table] = {}
 					var journal_log = journal_logs[loaded_resource.loot_table]

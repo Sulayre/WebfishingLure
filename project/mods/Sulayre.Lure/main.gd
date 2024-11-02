@@ -327,7 +327,7 @@ func _bonus_content_load():
 	add_content("Sulayre.Lure","kade_shirt","mod://Resources/Cosmetics/undershirt_graphic_tshirt_kade.tres")
 	add_content("Sulayre.Lure","misname_title","mod://Resources/Cosmetics/title_misname.tres")
 	add_map("Sulayre.Lure","test_map","res://mods/Sulayre.Lure/Scenes/Maps/example_map.tscn","Lure Example Map")
-	add_content("Sulayre.Lure","gerald","res://mods/Sulayre.Lure/Resources/Items/test_fish.tres",[loot_table("test")])
+	add_content("Sulayre.Lure","gerald","res://mods/Sulayre.Lure/Resources/Items/test_fish.tres",loot_table("test"))
 
 # 3.5 sucks ass
 func _filter_save(new_save:Dictionary) -> Dictionary:
