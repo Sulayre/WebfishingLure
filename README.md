@@ -6,6 +6,9 @@ If you would like to contribute to Lure but arent a programmer feel free to drop
 
 ### [Mod download here](https://github.com/Sulayre/WebfishingLure/releases/latest)
 
+### If you host a WEBFISHING dedicated server and want your server to show up in the "Dedicated" lobby list filter run the following line when running your server setup:
+``Steam.setLobbyData(lobby_id, "lurefilter", "dedicated")``
+
 ## Features
 ### Lure allows you to...
 - Add your own fish, props, bobbers, colors, titles, eyes, mouths and noses!
