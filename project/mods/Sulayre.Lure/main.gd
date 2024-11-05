@@ -414,6 +414,8 @@ func _refresh_filters():
 func _swap_count(count):
 	Network.MAX_PLAYERS_LURE = count
 
+func _instance_actor(dict):
+	if not World:
 		World = get_node("/root/world")
 
 	var actor_type = dict["actor_type"]
