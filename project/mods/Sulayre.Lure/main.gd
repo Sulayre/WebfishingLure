@@ -415,6 +415,7 @@ func _swap_count(count):
 	Network.MAX_PLAYERS_LURE = count
 
 func _instance_actor(dict):
+	if not OS.has_feature("editor"): return
 	if not World:
 		World = get_node("/root/world")
 
