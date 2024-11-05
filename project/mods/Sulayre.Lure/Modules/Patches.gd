@@ -13,6 +13,8 @@ const SAVE_TEMPLATE = {
 	"saved_aqua_fish":{},
 }
 
+
+
 func _custom_species_patterns(mesh:MeshInstance,pattern:CosmeticResource,species:String="none"):
 	var modded_species:Array = Lure.modded_species
 	var index = modded_species.find(species)
@@ -258,3 +260,47 @@ func _check_map_install(map_id:String) -> bool:
 	var exists = Lure.Util.map_exists(map_id)
 	#print(PREFIX+"map is installed!") if exists else print(PREFIX+"map not installed.")
 	return exists
+
+#{accessory:[], bobber:bobber_default, eye:eye_halfclosed, hat:hat_none, legs:legs_none, mouth:mouth_default, nose:nose_cat, overshirt:overshirt_none, pattern:pattern_none, primary_color:pcolor_white, secondary_color:scolor_tan, species:species_dog, tail:tail_cat, title:title_rank_1, undershirt:shirt_none}
+func _improved_fallback(cosmetics) -> Dictionary:
+	var filtered = cosmetics.duplicate(true)
+	for e_k in cosmetics.keys():
+		var e_v = cosmetics[e_k]
+		if e_k == "accessory":
+			for cosmetic in e_v:
+				if !Lure.cosmetic_list.has(cosmetic) and !Lure.vanilla_cosmetics.has(cosmetic):
+					filtered[e_k].erase(cosmetic)
+		else:
+			if !Lure.cosmetic_list.has(e_v) and !Lure.vanilla_cosmetics.has(e_v):
+				var fallback:String
+				match e_k:
+					"species":
+						fallback = "species_cat"
+					"pattern":
+						fallback = "pattern_none"
+					"primary_color":
+						fallback = "pcolor_white"
+					"secondary_color":
+						fallback = "scolor_white"
+					"hat":
+						fallback = "hat_none"
+					"undershirt":
+						fallback = "shirt_none"
+					"overshirt":
+						fallback = "overshirt_none"
+					"title":
+						fallback = "title_none"
+					"bobber":
+						fallback = "bobber_default"
+					"eye":
+						fallback = "eye_halfclosed"
+					"nose":
+						fallback = "nose_cat"
+					"mouth":
+						fallback = "mouth_default"
+					"tail":
+						fallback = "tail_none"
+					"legs":
+						fallback = "legs_none"
+				filtered[e_k] = fallback
+	return filtered

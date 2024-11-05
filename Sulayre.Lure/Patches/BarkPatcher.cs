@@ -33,6 +33,13 @@ namespace Sulayre.Lure.Patches
 				t => t is IdentifierToken{Name:"species"},
 				t => t.Type is TokenType.BracketClose,
 			], allowPartialMatch: false);
+			
+			var waiter_fallback = new MultiTokenWaiter([
+				t => t is IdentifierToken{Name:"valid"},
+				t => t.Type is TokenType.OpAssign,
+				t => t is ConstantToken{Value: BoolVariant {Value: true}},
+				t => t.Type is TokenType.Newline,
+			], allowPartialMatch: false);
 
 			// loop through all tokens in the script
 			foreach (var token in tokens)
@@ -96,6 +103,23 @@ namespace Sulayre.Lure.Patches
 					yield return new IdentifierToken("species");
 					yield return new Token(TokenType.ParenthesisClose);
 
+					yield return new Token(TokenType.Newline, 1);
+				}
+				else if (waiter_fallback.Check(token))
+				{
+					yield return token;
+					//data = get_node("/root/SulayreLure/Patches")._improved_fallback(data)
+					yield return new IdentifierToken("data");
+					yield return new Token(TokenType.OpAssign);
+					yield return new IdentifierToken("get_node");
+					yield return new Token(TokenType.ParenthesisOpen);
+					yield return new ConstantToken(new StringVariant("/root/SulayreLure/Patches"));
+					yield return new Token(TokenType.ParenthesisClose);
+					yield return new Token(TokenType.Period);
+					yield return new IdentifierToken("_improved_fallback");
+					yield return new Token(TokenType.ParenthesisOpen);
+					yield return new IdentifierToken("data");
+					yield return new Token(TokenType.ParenthesisClose);
 					yield return new Token(TokenType.Newline, 1);
 				}
 				else

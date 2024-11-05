@@ -627,6 +627,22 @@ const vanilla_items = [
 	"fish_lake_goldfish",
 ]
 
+const fallback = {
+	"species": "species_cat",
+	"pattern": "pattern_none",
+	"primary_color": "pcolor_white",
+	"secondary_color": "scolor_white",
+	"hat": "hat_none",
+	"undershirt": "shirt_none",
+	"overshirt": "overshirt_none",
+	"title": "title_none",
+	"bobber": "bobber_default",
+	"eye": "eye_halfclosed",
+	"nose": "nose_cat",
+	"mouth": "mouth_default",
+	"tail": "tail_none",
+	"legs": "legs_none"
+}
 
 var texture_buffer = []
 var mesh_buffer = []
@@ -646,8 +662,6 @@ var journal_categories = [\
 	["modded", []]]
 
 var action_references = {}
-
-var World:Node
 
 var filter_lure:bool
 var filter_full:bool
@@ -979,9 +993,9 @@ func _swap_count(count):
 
 func _instance_actor(dict):
 	if not OS.has_feature("editor"): return
-	if not World:
-		World = get_node("/root/world")
-
+	var world = get_node_or_null("/root/world")
+	if !world: return
+	
 	var actor_type = dict["actor_type"]
 	var pos = dict["at"]
 	var zone = dict["zone"]
@@ -989,7 +1003,7 @@ func _instance_actor(dict):
 	var owner_id = dict["creator_id"]
 	var params = dict["data"]
 
-	if not World.ACTOR_BANK.keys().has(actor_type):
+	if not world.ACTOR_BANK.keys().has(actor_type):
 		var actor = modded_actors[actor_type].instance()
 		actor.visible = false
 		actor.global_transform.origin = pos
@@ -997,11 +1011,11 @@ func _instance_actor(dict):
 		actor.owner_id = owner_id
 		actor.current_zone = zone
 		actor.actor_type = actor_type
-		actor.world = World
+		actor.world = world
 		for param in params.keys():
 			actor.set(param, params[param])
 
-		World.entities.add_child(actor)
+		world.entities.add_child(actor)
 		actor.global_transform.origin = pos
 
 		print("created actor, ", actor_type, " w owner id ", owner_id)
