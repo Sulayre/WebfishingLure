@@ -13,6 +13,9 @@ func _species_loader(id:String,resource:CosmeticResource):
 	#print("species "+id+" now has index ",resource.cos_internal_id)
 
 func _register_resource(resource_data:Dictionary):
+	if Globals.GAME_VERSION != 1.08:
+		print("LURE HAS NOT BEEN UPDATED TO RUN THIS VERSION OF THE GAME, LURE WONT ADD NEW ITEMS TO PREVENT SAVE CORRUPTION!!!!")
+		return
 	var dir = Directory.new()
 	var mod_id = resource_data.mod
 	var item_id = resource_data.id
@@ -25,6 +28,7 @@ func _register_resource(resource_data:Dictionary):
 			if loaded_resource is ItemResource:
 				Globals.item_data[final_id] = {"file":loaded_resource}
 				Lure.item_list[final_id] = {"resource":loaded_resource, "flags":resource_data.flags}
+				Lure.loaded_items.append(final_id)
 				if loaded_resource.category == "tool" or loaded_resource.category == "furniture":
 					#print(PREFIX+"Item has either tool or furniture as category, checking ownership.")
 					#print(loaded_resource.prop_code+" ",Lure.modded_props)
@@ -43,18 +47,20 @@ func _register_resource(resource_data:Dictionary):
 						if flag is String:
 							if flag.begins_with("LURE_LOOT_TABLE_"):
 								loaded_resource.loot_table = flag.replace("LURE_LOOT_TABLE_","")
-								if !(loaded_resource.loot_table in Lure.journal_categories[3][1]):
+								var final_loot = loaded_resource.loot_table
+								if !(final_loot in Lure.journal_categories[3][1]):
 									!Lure.journal_categories[3][1].append(loaded_resource.loot_table)
 								break
 					if !journal_logs.get(loaded_resource.loot_table,null):
 						journal_logs[loaded_resource.loot_table] = {}
 					var journal_log = journal_logs[loaded_resource.loot_table]
-					print(journal_log)
+					#print(journal_log)
 					if !journal_log.has(final_id):
 						PlayerData._log_item(final_id,0.0,0,true)
 					Lure.Util._regenerate_loot_table(loaded_resource.category,loaded_resource.loot_table)
 			elif loaded_resource is CosmeticResource:
 				Lure.cosmetic_list[final_id] = {"resource":loaded_resource, "flags":resource_data.flags}
+				Lure.loaded_cosmetics.append(final_id)
 				Globals.cosmetic_data[final_id] = {"file":loaded_resource}
 				match loaded_resource.category:
 					"species":
@@ -67,7 +73,7 @@ func _register_resource(resource_data:Dictionary):
 			else:
 				Lure.emit_signal("lurlog",Lure.RESOURCE_CLASS_INCORRECT)
 				return
-			print(PREFIX+final_id+" has been loaded successfully! ("+res_path+")")
+			#print(PREFIX+final_id+" has been loaded successfully! ("+res_path+")")
 			_refresh_modded_unlocks()
 		7:
 			dir = null
@@ -90,7 +96,7 @@ func _refresh_patterns():
 	for texture_data in Lure.texture_buffer:
 		var pattern = patterns[texture_data.pattern]
 		if !pattern:
-			Lure.emit_signal("lurlog",Lure.TEXTURE_BUFFER_MISSING_PATTERN_REFERENCE)
+			#Lure.emit_signal("lurlog",Lure.TEXTURE_BUFFER_MISSING_PATTERN_REFERENCE)
 			continue
 		var found:bool
 		for species in Lure.modded_species:
@@ -105,9 +111,9 @@ func _refresh_patterns():
 				#print(PREFIX+"Attached new texture to pattern '"+texture_data.pattern+"' for species '"+texture_data.species+"'")
 				found = true
 				break
-		if !found:
+		#if !found:
 			#print(modded_species)
-			Lure.emit_signal("lurlog",Lure.TEXTURE_BUFFER_MISSING_SPECIES_REFERENCE)
+			#Lure.emit_signal("lurlog",Lure.TEXTURE_BUFFER_MISSING_SPECIES_REFERENCE)
 
 func _refresh_alt_meshes():
 	var cosmetics = {}
@@ -128,7 +134,7 @@ func _refresh_alt_meshes():
 		var mesh = cosmetics[mesh_data.cosmetic]
 		if !mesh:
 			#print(mesh_data.cosmetic," "," ",cosmetics.keys())
-			Lure.emit_signal("lurlog",Lure.MESH_BUFFER_MISSING_COSMETIC_REFERENCE)
+			#Lure.emit_signal("lurlog",Lure.MESH_BUFFER_MISSING_COSMETIC_REFERENCE)
 			continue
 		var found:bool
 		for species in Lure.modded_species:
@@ -144,8 +150,8 @@ func _refresh_alt_meshes():
 				#print(PREFIX+"Attached new alt mesh to cosmetic '"+mesh_data.cosmetic+"' for species '"+mesh_data.species+"'"+"with internal index",index)
 				found = true
 				break
-		if !found:
-			Lure.emit_signal("lurlog",Lure.MESH_BUFFER_MISSING_SPECIES_REFERENCE)
+		#if !found:
+		#	Lure.emit_signal("lurlog",Lure.MESH_BUFFER_MISSING_SPECIES_REFERENCE)
 
 func _refresh_modded_unlocks():
 	#print(PREFIX+"Refreshing modded automatic unlocks.")
@@ -189,33 +195,42 @@ func _load_modded_save_data():
 				match c:
 					"inventory":
 						for i in d:
-							print(PREFIX,i.id)
-							PlayerData.inventory.append(i)
+							if i.id in Lure.loaded_items:
+								print(PREFIX,i.id)
+								PlayerData.inventory.append(i)
 								
 					"hotbar":
 						for i in save["hotbar"].keys():
-							print(PREFIX,i,": ",save["hotbar"][i])
-							PlayerData.hotbar[i] = save["hotbar"][i]
+							if i.id in Lure.loaded_items:
+								print(PREFIX,i,": ",save["hotbar"][i])
+								PlayerData.hotbar[i] = save["hotbar"][i]
 					"cosmetics_unlocked":
 						for c_u in d:
-							print(PREFIX,c_u)
 							if !PlayerData.cosmetics_unlocked.has(c_u):
-								PlayerData.cosmetics_unlocked.append(c_u)
+								if Lure.loaded_cosmetics.has(c_u):
+									print(PREFIX,c_u)
+									PlayerData.cosmetics_unlocked.append(c_u)
 					"cosmetics_equipped":
 						for e_k in save[c].keys():
 							var e_v = save[c][e_k]
 							if e_k == "accessory":
 								for cosmetic in e_v:
 									if PlayerData.cosmetics_equipped["accessory"].size() < 4:
-										PlayerData.cosmetics_equipped["accessory"].append(cosmetic)
+										if Lure.loaded_cosmetics.has(cosmetic):
+											print(PREFIX,cosmetic)
+											PlayerData.cosmetics_equipped["accessory"].append(cosmetic)
 									else: break
 							else:
-								PlayerData.cosmetics_equipped[e_k] = e_v
+								if Lure.loaded_cosmetics.has(e_v):
+									PlayerData.cosmetics_equipped[e_k] = e_v
 							print(PREFIX,e_k,"/",e_v)
 					"journal":
 						for p in save["journal"].keys():
+							if !Lure.modded_pools.has(p):
+								print(Lure.modded_pools)
+								continue
 							if !PlayerData.journal_logs.has(p):
-								PlayerData.journal_logs[p] = {}
+									PlayerData.journal_logs[p] = {}
 							for id in save["journal"][p].keys():
 								var entry = save["journal"][p][id]
 								PlayerData.journal_logs[p][id] = entry

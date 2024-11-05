@@ -1,0 +1,229 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://Assets/Textures/UI/ui_buttons9.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Textures/UI/ui_buttons10.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Themes/main.tres" type="Theme" id=3]
+[ext_resource path="res://Scenes/HUD/EmoteWheel/emote_button_grid.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/Textures/UI/ui_buttons7.png" type="Texture" id=5]
+[ext_resource path="res://mods/Sulayre.Lure/Scenes/HUD/extended_emote_wheel.gd" type="Script" id=6]
+[ext_resource path="res://Assets/Textures/UI/ui_buttons8.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Textures/UI/ui_buttons5.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Textures/UI/ui_buttons6.png" type="Texture" id=9]
+[ext_resource path="res://Assets/Textures/UI/ui_buttons2.png" type="Texture" id=10]
+[ext_resource path="res://Assets/Textures/UI/ui_buttons3.png" type="Texture" id=11]
+[ext_resource path="res://Assets/Textures/UI/chat_arrow3.png" type="Texture" id=12]
+[ext_resource path="res://Assets/Textures/UI/radial_wheel1.png" type="Texture" id=13]
+[ext_resource path="res://Assets/Textures/UI/chat_arrow4.png" type="Texture" id=14]
+
+[sub_resource type="StyleBoxEmpty" id=1]
+
+[sub_resource type="Animation" id=2]
+resource_name = "Arrows"
+loop = true
+
+[sub_resource type="Animation" id=3]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("wheel/HBoxContainer/Left:rect_position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 545, 502 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("wheel/HBoxContainer/Right:rect_position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 1299, 511 ) ]
+}
+
+[node name="extended_emote_wheel" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme = ExtResource( 3 )
+script = ExtResource( 6 )
+
+[node name="Button" type="Button" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+flat = true
+
+[node name="CenterContainer" type="Control" parent="."]
+anchor_left = 0.331
+anchor_top = 0.2
+anchor_right = 0.669
+anchor_bottom = 0.8
+margin_left = 0.479919
+margin_right = -0.480103
+mouse_filter = 2
+
+[node name="TextureRect" type="TextureRect" parent="CenterContainer"]
+margin_right = 648.0
+margin_bottom = 648.0
+rect_rotation = 22.0
+rect_pivot_offset = Vector2( 324, 324 )
+texture = ExtResource( 13 )
+expand = true
+stretch_mode = 6
+
+[node name="wheel" type="AspectRatioContainer" parent="."]
+anchor_left = 0.2
+anchor_top = 0.2
+anchor_right = 0.8
+anchor_bottom = 0.8
+grow_horizontal = 2
+grow_vertical = 2
+rect_pivot_offset = Vector2( 576, 324 )
+mouse_filter = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="wheel"]
+margin_left = 184.0
+margin_top = 292.0
+margin_right = 968.083
+margin_bottom = 356.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_vertical = 4
+alignment = 1
+
+[node name="Left" type="TextureButton" parent="wheel/HBoxContainer"]
+unique_name_in_owner = true
+margin_left = 545.0
+margin_top = 502.0
+margin_right = 609.0
+margin_bottom = 566.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 64, 64 )
+mouse_filter = 1
+texture_normal = ExtResource( 12 )
+expand = true
+stretch_mode = 4
+
+[node name="ReferenceRect" type="ReferenceRect" parent="wheel/HBoxContainer"]
+margin_left = 68.0
+margin_right = 716.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 648, 0 )
+size_flags_horizontal = 3
+
+[node name="Right" type="TextureButton" parent="wheel/HBoxContainer"]
+unique_name_in_owner = true
+margin_left = 1299.0
+margin_top = 511.0
+margin_right = 1363.0
+margin_bottom = 575.0
+grow_horizontal = 2
+grow_vertical = 2
+rect_min_size = Vector2( 64, 64 )
+mouse_filter = 1
+texture_normal = ExtResource( 14 )
+expand = true
+stretch_mode = 5
+
+[node name="GridContainer" type="GridContainer" parent="wheel" groups=["emote_page"]]
+visible = false
+margin_left = 252.0
+margin_right = 900.0
+margin_bottom = 648.0
+columns = 3
+
+[node name="7" parent="wheel/GridContainer" instance=ExtResource( 4 )]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_right = 214.0
+margin_bottom = 214.0
+emote_icon = ExtResource( 11 )
+
+[node name="0" parent="wheel/GridContainer" instance=ExtResource( 4 )]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_left = 218.0
+margin_right = 431.0
+margin_bottom = 214.0
+emote_id = "sit"
+emote_icon = ExtResource( 10 )
+
+[node name="1" parent="wheel/GridContainer" instance=ExtResource( 4 )]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_left = 435.0
+margin_right = 648.0
+margin_bottom = 214.0
+emote_id = "emote_love"
+emotion = "love"
+emote_icon = ExtResource( 7 )
+
+[node name="2" parent="wheel/GridContainer" instance=ExtResource( 4 )]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_top = 218.0
+margin_right = 214.0
+margin_bottom = 431.0
+emote_id = "emote_angry"
+emotion = "angry"
+emote_icon = ExtResource( 9 )
+
+[node name="filler" type="Panel" parent="wheel/GridContainer" groups=["emote_ignore"]]
+margin_left = 218.0
+margin_top = 218.0
+margin_right = 431.0
+margin_bottom = 431.0
+mouse_filter = 2
+custom_styles/panel = SubResource( 1 )
+
+[node name="3" parent="wheel/GridContainer" instance=ExtResource( 4 )]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_left = 435.0
+margin_top = 218.0
+margin_right = 648.0
+margin_bottom = 431.0
+emote_id = "emote_sad"
+emotion = "sad"
+emote_icon = ExtResource( 8 )
+
+[node name="4" parent="wheel/GridContainer" instance=ExtResource( 4 )]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_top = 435.0
+margin_right = 214.0
+margin_bottom = 648.0
+emote_id = "emote_surprised"
+emotion = "surprised"
+emote_icon = ExtResource( 1 )
+
+[node name="5" parent="wheel/GridContainer" instance=ExtResource( 4 )]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_left = 218.0
+margin_top = 435.0
+margin_right = 431.0
+margin_bottom = 648.0
+emote_id = "emote_cheer"
+emotion = "happy"
+emote_icon = ExtResource( 5 )
+
+[node name="6" parent="wheel/GridContainer" instance=ExtResource( 4 )]
+self_modulate = Color( 1, 1, 1, 0 )
+margin_left = 435.0
+margin_top = 435.0
+margin_right = 648.0
+margin_bottom = 648.0
+emote_id = "emote_bark"
+emotion = "bark_ready"
+emote_icon = ExtResource( 2 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+autoplay = "Arrows"
+anims/Arrows = SubResource( 2 )
+anims/RESET = SubResource( 3 )
+
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]
+[connection signal="pressed" from="wheel/HBoxContainer/Left" to="." method="_on_Left_pressed"]
+[connection signal="pressed" from="wheel/HBoxContainer/Right" to="." method="_on_Right_pressed"]

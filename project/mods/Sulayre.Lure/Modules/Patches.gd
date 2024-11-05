@@ -55,6 +55,10 @@ func _instance_species_voices(manager:Spatial):
 			manager.add_child(new_sound)
 			print(PREFIX+"added SFX '"+formatted+"' to sound manager")
 
+func _load_emotes(animplr:AnimationPlayer):
+	for emote in Lure.modded_emotes:
+		animplr.add_animation(emote["id"],emote["animation"])
+
 func _get_voice_bundle(species_id:String) -> Array:
 	# temporary
 	match species_id:
@@ -108,11 +112,11 @@ func _filter_save(new_save:Dictionary) -> Dictionary:
 	for k in modded_save.keys():
 		if new_save[k] == null: continue
 		match k:
-			#"saved_aqua_fish":
-			#	if item_list.has(new_save[k]["id"]):
-			#		modded_save[k] = new_save[k]["id"]
-			#		filtered_save[k] = {"id": "empty", "ref": 0, "size": 50.0, "quality": PlayerData.ITEM_QUALITIES.NORMAL}
-					
+			"saved_aqua_fish":
+				if item_list.has(new_save[k]["id"]):
+					modded_save[k] = new_save[k]["id"]
+					filtered_save[k] = {"id": "empty", "ref": 0, "size": 50.0, "quality": PlayerData.ITEM_QUALITIES.NORMAL}
+				
 			"inventory":
 				for item_data in new_save[k]:
 					if item_list.has(item_data["id"]):
@@ -232,7 +236,7 @@ func _load_lobby_map(id,version:String) -> String:
 		print(map_id)
 		if _check_map_install(map_id):
 			Lure.Mapper.selected_map = Lure.Util._get_map_data(map_id)
-			print(Lure.Mapper.selected_map)
+			#print(Lure.Mapper.selected_map)
 			var version_raw = version.replace(".lure","")
 			return version_raw
 	return version
@@ -250,7 +254,7 @@ func _replace_lobby_map_name(id,lobby_name:String,version:String) -> String:
 	return lobby_name
 
 func _check_map_install(map_id:String) -> bool:
-	prints(PREFIX,"checking map install for",map_id)
+	#prints(PREFIX,"checking map install for",map_id)
 	var exists = Lure.Util.map_exists(map_id)
-	print(PREFIX+"map is installed!") if exists else print(PREFIX+"map not installed.")
+	#print(PREFIX+"map is installed!") if exists else print(PREFIX+"map not installed.")
 	return exists

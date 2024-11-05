@@ -9,6 +9,9 @@ namespace Sulayre.Lure.Patches
 		public bool ShouldRun(string path) => path == "res://Scenes/Entities/Player/player.gdc";
 
 		// returns a list of tokens for the new script, with the input being the original script's tokens
+		
+		// this one also takes care of patching animations cus im not gonna bother making a new patch file for 1 function call
+		
 		public IEnumerable<Token> Modify(string path, IEnumerable<Token> tokens)
 		{
 			// wait for any newline token after any extends token
@@ -52,6 +55,22 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.ParenthesisClose);
 
 					yield return new Token(TokenType.Newline, 1);
+					
+					yield return new IdentifierToken("get_node");
+					yield return new Token(TokenType.ParenthesisOpen);
+					yield return new ConstantToken(new StringVariant("/root/SulayreLure/Patches"));
+					yield return new Token(TokenType.ParenthesisClose);
+					yield return new Token(TokenType.Period);
+					yield return new IdentifierToken("_load_emotes");
+					yield return new Token(TokenType.ParenthesisOpen);
+					yield return new IdentifierToken("get_node");
+					yield return new Token(TokenType.ParenthesisOpen);
+					yield return new ConstantToken(new StringVariant("body/player_body/AnimationPlayer"));
+					yield return new Token(TokenType.ParenthesisClose);
+					yield return new Token(TokenType.ParenthesisClose);
+
+					yield return new Token(TokenType.Newline, 1);
+
 
 
 				}

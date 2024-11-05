@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://Scenes/Menus/Main Menu/ui_generic_button.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Themes/main.tres" type="Theme" id=2]
 
 [node name="LureSettings" type="HBoxContainer"]
 margin_left = 406.0
@@ -8,20 +9,30 @@ margin_right = 801.0
 margin_bottom = 38.0
 size_flags_horizontal = 11
 size_flags_stretch_ratio = 3.0
+theme = ExtResource( 2 )
 alignment = 1
 
 [node name="count" type="SpinBox" parent="."]
-margin_right = 156.0
+margin_right = 100.0
 margin_bottom = 38.0
-size_flags_horizontal = 3
+size_flags_horizontal = 0
 min_value = 2.0
 max_value = 250.0
 value = 12.0
 align = 1
-suffix = "Players"
+
+[node name="Label" type="Label" parent="."]
+margin_left = 104.0
+margin_top = 2.0
+margin_right = 199.0
+margin_bottom = 36.0
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.75
+custom_colors/font_color = Color( 0.419608, 0.266667, 0.12549, 1 )
+text = "Players"
 
 [node name="map" type="OptionButton" parent="."]
-margin_left = 160.0
+margin_left = 203.0
 margin_right = 395.0
 margin_bottom = 38.0
 size_flags_horizontal = 3
