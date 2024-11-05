@@ -6,6 +6,9 @@ If you would like to contribute to Lure but arent a programmer feel free to drop
 
 ### [Mod download here](https://github.com/Sulayre/WebfishingLure/releases/latest)
 
+### If you host a WEBFISHING dedicated server and want your server to show up in the "Dedicated" lobby list filter run the following line when running your server setup:
+``Steam.setLobbyData(lobby_id, "lurefilter", "dedicated")``
+
 ## Features
 ### Lure allows you to...
 - Add your own fish, props, bobbers, colors, titles, eyes, mouths and noses!
@@ -13,6 +16,7 @@ If you would like to contribute to Lure but arent a programmer feel free to drop
 - Add new species with unique voices with modded and vanilla pattern compatibility!
 - Add custom patterns for Vanilla AND anyone’s modded species!
 - Add new items that can have any function from any node linked to it!
+- Add custom emotes!
 - Make whole new maps without having to replace things from the base game!
 - Filter lobby search to easily find modded lobbies or dedicated servers!
   
@@ -23,8 +27,7 @@ If you would like to contribute to Lure but arent a programmer feel free to drop
 - Saves modded items and cosmetic data on a separate file so the vanilla content doesn't get corrupted on uninstall!
 
 ## Known Issues
-- Modded items and cosmetics get wiped of the save file when restarting the game, this is intentional and temporary until further notice.
-- Spawning a modded prop in a session will most likely crash the game of everyone who doesn't have the mod that adds the prop you're placing, don't test this, its a theory with how actors work in the game.
+- Joining friends through Steam causes map desync.
 
 ## Requirements
 - [GDWeave](https://github.com/NotNite/GDWeave/tree/main)
@@ -55,6 +58,7 @@ To access Lure's functions in your code, add the following line at the start of 
   - [Item Behavior](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#items)
   - [Adding Maps](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#maps)
   - [Adding Items, Props and Cosmetics/Species](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#loading-the-items-props-and-cosmetics)
+  - [Adding new emotes]()
 - [Utility Functions](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#utility-functions)
 
 ## Loading assets with Lure
@@ -132,6 +136,13 @@ the way you would call the custom action is by setting the action or release_act
 
 *NOTE: Avoid using OBJ files on your custom map, they are SUPER buggy, please use GLB/GLTF instead !!*
 
+## Emotes
+
+``add_emote(mod_id,emote_id,animation_path,icon_path,optional_emotion_name)``<br>adds a new emote into the game, no tutorial on how to achieve this atm.
+
+export the rig from Zea's template with new animations made with animations saved with the non-linear animation editor in blender (don't forge the NLA + animation settings when exporting) then open the glb in godot and with the animationplayer selected choose the animation u made and export it separately, the path to the .tres is the animation_path argument
+if you don't know what that means look up a tutorial on youtube idk
+
 ### Loading the Items, Props and Cosmetics...
 
 **Lure.add_content(``your_mod_id``,``resource_id``,``item_or_cosmetic_path``,``flags``)**<br>Loads a new cosmetic/item into the game, the final identifier of the cosmetic/item will be ``your_mod_id.the_resource_id``, this is to avoid mods cosmetics/items overriding other mods' so keep this in mind when using function that require a resource's identifier.  <u>Make sure you run this function last if you need to use any of the previously mentioned assign functions!</u>
@@ -158,3 +169,5 @@ keep in mind that to access the flags you need to reference them inside Lure's `
 ## Utility Functions
 
 **Lure.get_other_mod_asset_path(``path``)**<br>gives you the absolute ``res://`` path of another mod's asset, you're probably not gonna use this but i wanted to add it just in case, make sure the given path uses the ``mods/<mod_id>://`` prefix mentioned above.
+
+**Lure.loot_table(,``loot_table_name``)<br>lets you add a new loot table into the game call this function as argument inside the array of add_content. Only 1 loot table per fish atm, i guess you can register_content twice?
