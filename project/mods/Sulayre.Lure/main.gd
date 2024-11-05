@@ -647,6 +647,8 @@ var journal_categories = [\
 
 var action_references = {}
 
+var World:Node
+
 var filter_lure:bool
 var filter_full:bool
 var filter_mismatch:bool
@@ -667,6 +669,7 @@ func _ready():
 	_signals()
 	if OS.has_feature("editor"):
 		_bonus_content_load()
+		Network.connect("_instance_actor", self, "_instance_actor")
 	else:
 		_options_check()
 
@@ -973,6 +976,38 @@ func _refresh_filters():
 
 func _swap_count(count):
 	Network.MAX_PLAYERS_LURE = count
+
+func _instance_actor(dict):
+	if not OS.has_feature("editor"): return
+	if not World:
+		World = get_node("/root/world")
+
+	var actor_type = dict["actor_type"]
+	var pos = dict["at"]
+	var zone = dict["zone"]
+	var actor_id = dict["actor_id"]
+	var owner_id = dict["creator_id"]
+	var params = dict["data"]
+
+	if not World.ACTOR_BANK.keys().has(actor_type):
+		var actor = modded_actors[actor_type].instance()
+		actor.visible = false
+		actor.global_transform.origin = pos
+		actor.actor_id = actor_id
+		actor.owner_id = owner_id
+		actor.current_zone = zone
+		actor.actor_type = actor_type
+		actor.world = World
+		for param in params.keys():
+			actor.set(param, params[param])
+
+		World.entities.add_child(actor)
+		actor.global_transform.origin = pos
+
+		print("created actor, ", actor_type, " w owner id ", owner_id)
+		if owner_id == Network.STEAM_ID:
+			Network.OWNED_ACTORS.append(actor)
+			actor.add_to_group("owned_actor")
 
 # Actions
 func _test_action(arg1):
