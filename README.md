@@ -58,7 +58,7 @@ To access Lure's functions in your code, add the following line at the start of 
   - [Item Behavior](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#items)
   - [Adding Maps](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#maps)
   - [Adding Items, Props and Cosmetics/Species](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#loading-the-items-props-and-cosmetics)
-  - [Adding new emotes]()
+  - [Adding new emotes](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#cosmetics)
 - [Utility Functions](https://github.com/Sulayre/WebfishingLure/blob/main/README.md#utility-functions)
 
 ## Loading assets with Lure
@@ -136,7 +136,7 @@ the way you would call the custom action is by setting the action or release_act
 
 *NOTE: Avoid using OBJ files on your custom map, they are SUPER buggy, please use GLB/GLTF instead !!*
 
-## Emotes
+### Emotes
 
 ``add_emote(mod_id,emote_id,animation_path,icon_path,optional_emotion_name)``<br>adds a new emote into the game, no tutorial on how to achieve this atm.
 
