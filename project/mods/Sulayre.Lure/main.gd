@@ -73,6 +73,23 @@ const PREFIX = "[LURE/MAIN]: "
 
 const VANILLA_SPECIES = ["species_cat","species_dog"]
 
+const vanilla_tables = [
+	"none",
+	"lake",
+	"ocean",
+	"deep",
+	"prehistoric",
+	"bush_bug",
+	"shoreline_bug",
+	"tree_bug",
+	"seashell",
+	"trash",
+	"water_trash",
+	"rain",
+	"alien",
+	"metal"
+]
+
 # SIGNALS
 signal main_menu_enter
 signal game_enter
@@ -663,6 +680,8 @@ var journal_categories = [\
 
 var action_references = {}
 
+var filters = []
+
 var filter_lure:bool
 var filter_full:bool
 var filter_mismatch:bool
@@ -688,7 +707,7 @@ func _ready():
 		_options_check()
 
 func loot_table(table_id:String):
-	if !modded_pools.has(table_id): modded_pools.append(table_id)
+	if !modded_pools.has(table_id) and !vanilla_tables.has(table_id): modded_pools.append(table_id)
 	return "LURE_LOOT_TABLE_"+table_id
 
 func register_action(mod_id:String,action_id:String,function_holder:Node,function_name:String):
@@ -891,7 +910,8 @@ func _bonus_content_load():
 	add_content("Sulayre.Lure","misname_title","mod://Resources/Cosmetics/title_misname.tres")
 	add_map("Sulayre.Lure","test_map","res://mods/Sulayre.Lure/Scenes/Maps/example_map.tscn","Lure Example Map")
 	#add_emote("Sulayre.Lure","dab","res://mods/Sulayre.Lure/Assets/Animations/dab.tres","res://Assets/Textures/catchpopup.png","angry")
-	add_content("Sulayre.Lure","gerald","res://mods/Sulayre.Lure/Resources/Items/test_fish.tres",[loot_table("test")])
+	#add_content("Sulayre.Lure","gerald","res://mods/Sulayre.Lure/Resources/Items/test_fish.tres",[loot_table("test"),loot_table("lake")])
+	add_content("Sulayre.Lure","sun_hat","res://mods/Sulayre.Lure/Resources/Cosmetics/hat_emil.tres")
 
 # 3.5 sucks ass
 func _filter_save(new_save:Dictionary) -> Dictionary:

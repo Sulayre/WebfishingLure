@@ -3,7 +3,7 @@
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-      <GDWeavePath>//mnt/39f260b2-ffd5-4af1-afc0-41bd8f17a32d/SteamLibrary/steamapps/common/WEBFISHING/GDWeave/</GDWeavePath>
+        <GDWeavePath>//mnt/39f260b2-ffd5-4af1-afc0-41bd8f17a32d/SteamLibrary/steamapps/common/WEBFISHING/GDWeave/</GDWeavePath>
         <AssemblySearchPaths>$(AssemblySearchPaths);$(GDWeavePath)/core</AssemblySearchPaths>
     </PropertyGroup>
 

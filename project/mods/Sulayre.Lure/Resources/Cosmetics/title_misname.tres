@@ -6,7 +6,9 @@
 [resource]
 script = ExtResource( 1 )
 name = "Misname's Achievement"
-desc = "Don't forget to say thanks!"
+desc = "Don't forget to say thanks!
+
+(Lure Bonus Content)"
 title = "[color=#FF00FF]We only added this title because a slugcat ported the entire Skyrim map to Lure's map loader update as soon as the update dropped[/color]"
 icon = ExtResource( 2 )
 species_alt_mesh = [  ]

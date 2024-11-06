@@ -12,7 +12,9 @@ albedo_texture = ExtResource( 3 )
 [resource]
 script = ExtResource( 1 )
 name = "Froggy Chair T-Shirt"
-desc = "KadeDev?"
+desc = "KadeDev?
+
+(Lure Bonus Content)"
 title = ""
 icon = ExtResource( 2 )
 mesh = ExtResource( 5 )
