@@ -61,17 +61,19 @@ anchor_bottom = 1.0
 flat = true
 
 [node name="CenterContainer" type="Control" parent="."]
-anchor_left = 0.331
-anchor_top = 0.2
-anchor_right = 0.669
-anchor_bottom = 0.8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 margin_left = 0.479919
 margin_right = -0.480103
 mouse_filter = 2
 
 [node name="TextureRect" type="TextureRect" parent="CenterContainer"]
-margin_right = 648.0
-margin_bottom = 648.0
+margin_left = -324.0
+margin_top = -324.0
+margin_right = 324.0
+margin_bottom = 324.0
 rect_rotation = 22.0
 rect_pivot_offset = Vector2( 324, 324 )
 texture = ExtResource( 13 )
@@ -91,7 +93,7 @@ mouse_filter = 2
 [node name="HBoxContainer" type="HBoxContainer" parent="wheel"]
 margin_left = 184.0
 margin_top = 292.0
-margin_right = 968.083
+margin_right = 968.0
 margin_bottom = 356.0
 grow_horizontal = 2
 grow_vertical = 2
