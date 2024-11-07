@@ -13,13 +13,14 @@
 
     <ItemGroup>
         <None Include="manifest.json" CopyToOutputDirectory="PreserveNewest" />
+        <None Include="../project/$(AssemblyName).pck" CopyToOutputDirectory="PreserveNewest"/>
     </ItemGroup>
 
     <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(GDWeavePath)' != ''">
         <ItemGroup>
             <ModFiles Include="$(TargetDir)manifest.json"/>
             <ModFiles Include="$(TargetDir)$(AssemblyName).dll"/>
-            <ModFiles Include="../project/$(AssemblyName).pck"/>
+            <ModFiles Include="$(TargetDir)$(AssemblyName).pck"/>
         </ItemGroup>
 
         <Copy

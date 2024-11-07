@@ -727,12 +727,12 @@ func _enter_tree():
 
 func _ready():
 	_signals()
+	Network.connect("_instance_actor", self, "_instance_mod_actor")
 	if OS.has_feature("editor"):
 		_bonus_content_load()
-		Network.connect("_instance_actor", self, "_instance_actor")
 	else:
 		_options_check()
-	add_content("Sulayre.Lure","classic_body","res://mods/Sulayre.Lure/Resources/Cosmetics/default_body.tres",[FLAGS.FREE_UNLOCK,custom_category("bodies")])
+	#add_content("Sulayre.Lure","classic_body","res://mods/Sulayre.Lure/Resources/Cosmetics/default_body.tres",[FLAGS.FREE_UNLOCK,custom_category("bodies")])
 	Loader._vanilla_unlock_security()
 
 func loot_table(table_id:String):
@@ -1083,40 +1083,61 @@ func _refresh_filters():
 func _swap_count(count):
 	Network.MAX_PLAYERS_LURE = count
 
-func _instance_actor(dict):
-	#if not OS.has_feature("editor"): return
-	return
+func _instance_mod_actor(dict, network_sender = - 1):
 	var world = get_node_or_null("/root/world")
 	if !world: return
-	
-	print(dict)
+	print("test")
+	if not Network._validate_packet_information(dict, ["actor_type", "at", "zone", "actor_id", "creator_id", "rot", "zone_owner"], [TYPE_STRING, TYPE_VECTOR3, TYPE_STRING, TYPE_INT, TYPE_INT, TYPE_VECTOR3, TYPE_INT]):
+		print("INVALID ACTOR DATA")
+		return 
 	
 	var actor_type = dict["actor_type"]
 	var pos = dict["at"]
+	var rot = dict["rot"]
 	var zone = dict["zone"]
+	var zone_owner = dict["zone_owner"]
 	var actor_id = dict["actor_id"]
-	var owner_id = dict["creator_id"]
-	var params = dict["data"]
-
-	if not world.ACTOR_BANK.keys().has(actor_type):
-		var actor = modded_actors[actor_type].instance()
-		actor.visible = false
-		actor.global_transform.origin = pos
-		actor.actor_id = actor_id
-		actor.owner_id = owner_id
-		actor.current_zone = zone
-		actor.actor_type = actor_type
-		actor.world = world
-		for param in params.keys():
-			actor.set(param, params[param])
-
-		world.entities.add_child(actor)
-		actor.global_transform.origin = pos
-
-		print("created actor, ", actor_type, " w owner id ", owner_id)
-		if owner_id == Network.STEAM_ID:
-			Network.OWNED_ACTORS.append(actor)
-			actor.add_to_group("owned_actor")
+	var owner_id = dict["creator_id"] if network_sender == - 1 else network_sender
+	
+	if not modded_actors.keys().has(actor_type): return 
+	
+	var BANK_DATA = modded_actors[actor_type]
+	var host_only = BANK_DATA[1]
+	var max_allowed = BANK_DATA[2]
+	
+	
+	
+	if network_sender != - 1 and Network.STEAM_LOBBY_ID <= 0:
+		if host_only and Steam.getLobbyOwner(Network.STEAM_LOBBY_ID) != network_sender:
+			print("Actor Instance Canceled, trying to spawn host-only actor as non-host.")
+			return 
+		
+		var count = 0
+		for actor in get_tree().get_nodes_in_group("actor"):
+			if actor.owner_id == network_sender and actor.actor_type == actor_type:
+				count += 1
+		if count > max_allowed:
+			print("Actor Instance Cancelled, too many active of type for owner id.")
+			return 
+	
+	var actor = BANK_DATA[0].instance()
+	actor.visible = false
+	actor.global_transform.origin = pos
+	actor.rotation = rot
+	actor.actor_id = actor_id
+	actor.owner_id = owner_id
+	actor.current_zone = zone
+	actor.current_zone_owner = zone_owner
+	actor.actor_type = actor_type
+	actor.world = world
+	
+	world.entities.add_child(actor)
+	actor.global_transform.origin = pos
+	
+	print("created modded actor, ", actor_type, " w owner id ", owner_id)
+	if owner_id == Network.STEAM_ID:
+		Network.OWNED_ACTORS.append(actor)
+		actor.add_to_group("owned_actor")
 
 # Actions
 func _test_action(arg1):

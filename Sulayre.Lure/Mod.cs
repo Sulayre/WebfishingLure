@@ -13,7 +13,7 @@ public class Mod : IMod {
 		modInterface.RegisterScriptMod(new PatternPatcher());
 		modInterface.RegisterScriptMod(new FacePatcher());
 		modInterface.RegisterScriptMod(new BarkPatcher());
-        modInterface.RegisterScriptMod(new PropPatcher());
+        //modInterface.RegisterScriptMod(new PropPatcher());
 		modInterface.RegisterScriptMod(new ItemPatcher());
 		modInterface.RegisterScriptMod(new SavePatcher());
 		modInterface.RegisterScriptMod(new TitlePatcher());
