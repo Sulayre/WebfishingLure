@@ -3,9 +3,9 @@ extends Node
 signal mod_loaded(mod) # mod: LureMod
 signal mods_loaded
 
-const Prelude := preload("res://mods/Lure/prelude.gd")
+const LureMod := preload("res://mods/Lure/classes/lure_mod.gd")
 const MODULES := {
-	"Loader": preload("res://mods/Lure/Modules/loader.gd"),
+	"Loader": preload("res://mods/Lure/modules/loader.gd"),
 }
 
 var mods: Dictionary setget _set_nullifier
@@ -34,14 +34,14 @@ func select_mod(mod_id: String) -> int:
 
 
 # Returns a mod matching the given mod ID
-func get_mod(mod_id: String) -> Prelude.LureMod:
+func get_mod(mod_id: String) -> LureMod:
 	return mods.get(mod_id)
 
 
 # Register a mod with Lure
 # Do not call this if you don't know what you're doing: Mod registry is automatic.
-func _register_mod(mod: Prelude.LureMod) -> void:
-	if not mod is Prelude.LureMod:
+func _register_mod(mod: LureMod) -> void:
+	if not mod is LureMod:
 		return
 	
 	if not mod in mods:

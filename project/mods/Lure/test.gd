@@ -1,4 +1,4 @@
-extends "res://mods/Lure/prelude.gd".LureMod
+extends "res://mods/Lure/classes/lure_mod.gd"
 
 
 func _ready() -> void:
