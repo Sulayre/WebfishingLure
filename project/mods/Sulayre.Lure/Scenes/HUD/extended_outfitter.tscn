@@ -1,0 +1,1094 @@
+[gd_scene load_steps=13 format=2]
+
+[ext_resource path="res://Assets/world_env.tres" type="Environment" id=1]
+[ext_resource path="res://Assets/Themes/main.tres" type="Theme" id=2]
+[ext_resource path="res://Assets/Themes/panel_med.tres" type="StyleBox" id=3]
+[ext_resource path="res://Scenes/Menus/Main Menu/ui_generic_button.gd" type="Script" id=4]
+[ext_resource path="res://Assets/Textures/UI/knot_sep.png" type="Texture" id=5]
+[ext_resource path="res://Scenes/HUD/voice_modif.gd" type="Script" id=6]
+[ext_resource path="res://Assets/Textures/CosmeticIcons/cosmetic_icons1.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Textures/UI/newbadge.png" type="Texture" id=8]
+[ext_resource path="res://mods/Sulayre.Lure/Scenes/HUD/extended_outfitter.gd" type="Script" id=9]
+
+[sub_resource type="BoxShape" id=1]
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[sub_resource type="StyleBoxEmpty" id=3]
+
+[node name="outfit" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme = ExtResource( 2 )
+script = ExtResource( 9 )
+
+[node name="Panel3" type="Panel" parent="."]
+anchor_left = 0.6
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 12.0
+margin_top = 12.0
+margin_right = -12.0
+margin_bottom = -12.0
+custom_styles/panel = ExtResource( 3 )
+
+[node name="player_view" type="ViewportContainer" parent="Panel3"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+stretch = true
+
+[node name="Viewport" type="Viewport" parent="Panel3/player_view"]
+size = Vector2( 744, 1056 )
+own_world = true
+transparent_bg = true
+handle_input_locally = false
+render_target_update_mode = 3
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="Panel3/player_view/Viewport"]
+environment = ExtResource( 1 )
+
+[node name="Camera" type="Camera" parent="Panel3/player_view/Viewport"]
+transform = Transform( -0.89766, 0.0203589, -0.440218, 0, 0.998932, 0.0461978, 0.440689, 0.0414699, -0.896702, -1.187, 0.525, -2.394 )
+current = true
+
+[node name="StaticBody" type="StaticBody" parent="Panel3/player_view/Viewport"]
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -2.00061, 0 )
+
+[node name="CollisionShape" type="CollisionShape" parent="Panel3/player_view/Viewport/StaticBody"]
+shape = SubResource( 1 )
+
+[node name="HScrollBar" type="HSlider" parent="Panel3"]
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 16.0
+margin_top = -32.0
+margin_right = -16.0
+margin_bottom = -16.0
+max_value = 360.0
+step = 0.1
+
+[node name="style_display" type="Control" parent="Panel3"]
+visible = false
+anchor_right = 1.0
+anchor_bottom = 0.2
+margin_left = 12.0
+margin_top = 12.0
+margin_right = -12.0
+margin_bottom = 0.199997
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel3/style_display"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="TextureRect" type="TextureRect" parent="Panel3/style_display/HBoxContainer"]
+margin_right = 87.0
+margin_bottom = 108.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+texture = ExtResource( 7 )
+expand = true
+stretch_mode = 6
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel3/style_display/HBoxContainer"]
+margin_left = 91.0
+margin_right = 267.0
+margin_bottom = 108.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.0
+alignment = 1
+
+[node name="Label" type="Label" parent="Panel3/style_display/HBoxContainer/VBoxContainer"]
+margin_top = 18.0
+margin_right = 176.0
+margin_bottom = 52.0
+custom_colors/font_color = Color( 1, 0.933333, 0.835294, 1 )
+text = "text"
+
+[node name="Label2" type="Label" parent="Panel3/style_display/HBoxContainer/VBoxContainer"]
+margin_top = 56.0
+margin_right = 176.0
+margin_bottom = 90.0
+custom_colors/font_color = Color( 1, 0.933333, 0.835294, 1 )
+text = "text"
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="Panel3/style_display/HBoxContainer"]
+margin_left = 271.0
+margin_right = 403.0
+margin_bottom = 108.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 1.5
+
+[node name="Container2" type="Container" parent="Panel3/style_display/HBoxContainer/VBoxContainer2"]
+margin_right = 132.0
+margin_bottom = 22.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel3/style_display/HBoxContainer/VBoxContainer2"]
+margin_top = 26.0
+margin_right = 132.0
+margin_bottom = 81.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+size_flags_stretch_ratio = 2.5
+custom_constants/separation = 16
+
+[node name="prev_style" type="Button" parent="Panel3/style_display/HBoxContainer/VBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
+margin_right = 58.0
+margin_bottom = 55.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "<"
+
+[node name="next_style" type="Button" parent="Panel3/style_display/HBoxContainer/VBoxContainer2/HBoxContainer"]
+unique_name_in_owner = true
+margin_left = 74.0
+margin_right = 132.0
+margin_bottom = 55.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = ">"
+
+[node name="Container" type="Container" parent="Panel3/style_display/HBoxContainer/VBoxContainer2"]
+margin_top = 85.0
+margin_right = 132.0
+margin_bottom = 108.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="."]
+anchor_top = 0.1
+anchor_right = 0.6
+anchor_bottom = 0.1
+margin_top = -13.0
+margin_bottom = 47.0
+mouse_filter = 1
+scroll_vertical_enabled = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ScrollContainer"]
+margin_top = 13.0
+margin_right = 848.0
+margin_bottom = 47.0
+size_flags_horizontal = 0
+size_flags_vertical = 6
+custom_constants/separation = 12
+
+[node name="mod_btn" type="Button" parent="ScrollContainer/HBoxContainer"]
+margin_right = 160.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 160, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "PLACEHOLDER"
+script = ExtResource( 4 )
+
+[node name="new_icon" type="TextureRect" parent="ScrollContainer/HBoxContainer/mod_btn"]
+anchor_right = 0.294
+anchor_bottom = 0.305
+margin_left = -9.0
+margin_top = -18.0
+margin_right = -8.04
+margin_bottom = 19.63
+texture = ExtResource( 8 )
+
+[node name="body" type="Button" parent="ScrollContainer/HBoxContainer"]
+margin_left = 172.0
+margin_right = 332.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 160, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "BODY"
+script = ExtResource( 4 )
+
+[node name="new_icon" type="TextureRect" parent="ScrollContainer/HBoxContainer/body"]
+anchor_right = 0.294
+anchor_bottom = 0.305
+margin_left = -9.0
+margin_top = -18.0
+margin_right = -8.04
+margin_bottom = 19.63
+texture = ExtResource( 8 )
+
+[node name="face" type="Button" parent="ScrollContainer/HBoxContainer"]
+margin_left = 344.0
+margin_right = 504.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 160, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "FACE"
+script = ExtResource( 4 )
+
+[node name="new_icon" type="TextureRect" parent="ScrollContainer/HBoxContainer/face"]
+anchor_right = 0.294
+anchor_bottom = 0.305
+margin_left = -9.0
+margin_top = -18.0
+margin_right = -8.04
+margin_bottom = 19.63
+texture = ExtResource( 8 )
+
+[node name="clothes" type="Button" parent="ScrollContainer/HBoxContainer"]
+margin_left = 516.0
+margin_right = 676.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 160, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "CLOTHES"
+script = ExtResource( 4 )
+
+[node name="new_icon" type="TextureRect" parent="ScrollContainer/HBoxContainer/clothes"]
+anchor_right = 0.294
+anchor_bottom = 0.305
+margin_left = -9.0
+margin_top = -18.0
+margin_right = -8.04
+margin_bottom = 19.63
+texture = ExtResource( 8 )
+
+[node name="misc" type="Button" parent="ScrollContainer/HBoxContainer"]
+margin_left = 688.0
+margin_right = 848.0
+margin_bottom = 34.0
+rect_min_size = Vector2( 160, 0 )
+size_flags_horizontal = 3
+size_flags_vertical = 3
+text = "MISC"
+script = ExtResource( 4 )
+
+[node name="new_icon" type="TextureRect" parent="ScrollContainer/HBoxContainer/misc"]
+anchor_right = 0.294
+anchor_bottom = 0.305
+margin_left = -9.0
+margin_top = -18.0
+margin_right = -8.04
+margin_bottom = 19.63
+texture = ExtResource( 8 )
+
+[node name="Panel4" type="Panel" parent="."]
+anchor_top = 0.17
+anchor_right = 0.6
+anchor_bottom = 1.0
+margin_left = 12.0
+margin_right = -12.0
+margin_bottom = -12.0
+custom_styles/panel = ExtResource( 3 )
+
+[node name="tabs" type="MarginContainer" parent="Panel4"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 12.0
+margin_top = 12.0
+margin_right = -12.0
+margin_bottom = -12.0
+
+[node name="body" type="ScrollContainer" parent="Panel4/tabs"]
+margin_right = 1104.0
+margin_bottom = 860.0
+scroll_horizontal_enabled = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel4/tabs/body"]
+margin_right = 1092.0
+margin_bottom = 892.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VSeparator" type="VSeparator" parent="Panel4/tabs/body/HBoxContainer"]
+margin_right = 4.0
+margin_bottom = 892.0
+custom_styles/separator = SubResource( 2 )
+
+[node name="vbox" type="VBoxContainer" parent="Panel4/tabs/body/HBoxContainer"]
+margin_left = 8.0
+margin_right = 1092.0
+margin_bottom = 892.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="mod_label" type="Label" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_right = 1084.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 0, 64 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 0.933333, 0.835294, 1 )
+text = "template"
+valign = 1
+
+[node name="mod_cont" type="GridContainer" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_top = 68.0
+margin_right = 1084.0
+margin_bottom = 68.0
+custom_constants/vseparation = 12
+custom_constants/hseparation = 12
+columns = 6
+
+[node name="mod_space" type="HSeparator" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_top = 72.0
+margin_right = 1084.0
+margin_bottom = 88.0
+custom_constants/separation = 16
+custom_styles/separator = SubResource( 3 )
+
+[node name="mod_sep" type="TextureRect" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_top = 92.0
+margin_right = 1084.0
+margin_bottom = 124.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 4
+
+[node name="Label" type="Label" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_top = 128.0
+margin_right = 1084.0
+margin_bottom = 192.0
+rect_min_size = Vector2( 0, 64 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 0.933333, 0.835294, 1 )
+text = "species                                                                            "
+valign = 1
+
+[node name="species_cont" type="GridContainer" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+unique_name_in_owner = true
+margin_top = 196.0
+margin_right = 1084.0
+margin_bottom = 196.0
+custom_constants/vseparation = 12
+custom_constants/hseparation = 12
+columns = 6
+
+[node name="HSeparator2" type="HSeparator" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_top = 200.0
+margin_right = 1084.0
+margin_bottom = 216.0
+custom_constants/separation = 16
+custom_styles/separator = SubResource( 3 )
+
+[node name="sep2" type="TextureRect" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_top = 220.0
+margin_right = 1084.0
+margin_bottom = 252.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 4
+
+[node name="Label6" type="Label" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_top = 256.0
+margin_right = 1084.0
+margin_bottom = 320.0
+rect_min_size = Vector2( 0, 64 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 0.933333, 0.835294, 1 )
+text = "bodies                                                                           "
+valign = 1
+
+[node name="bodies_cont" type="GridContainer" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+unique_name_in_owner = true
+margin_top = 324.0
+margin_right = 1084.0
+margin_bottom = 324.0
+custom_constants/vseparation = 12
+custom_constants/hseparation = 12
+columns = 6
+
+[node name="HSeparator6" type="HSeparator" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_top = 328.0
+margin_right = 1084.0
+margin_bottom = 344.0
+custom_constants/separation = 16
+custom_styles/separator = SubResource( 3 )
+
+[node name="sep6" type="TextureRect" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_top = 348.0
+margin_right = 1084.0
+margin_bottom = 380.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_top = 384.0
+margin_right = 1084.0
+margin_bottom = 448.0
+rect_min_size = Vector2( 0, 64 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 0.933333, 0.835294, 1 )
+text = "pattern                                                                  "
+valign = 1
+
+[node name="pattern_cont" type="GridContainer" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+unique_name_in_owner = true
+margin_top = 452.0
+margin_right = 1084.0
+margin_bottom = 452.0
+custom_constants/vseparation = 12
+custom_constants/hseparation = 12
+columns = 6
+
+[node name="HSeparator4" type="HSeparator" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_top = 456.0
+margin_right = 1084.0
+margin_bottom = 472.0
+custom_constants/separation = 16
+custom_styles/separator = SubResource( 3 )
+
+[node name="sep4" type="TextureRect" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_top = 476.0
+margin_right = 1084.0
+margin_bottom = 508.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 4
+
+[node name="Label4" type="Label" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_top = 512.0
+margin_right = 1084.0
+margin_bottom = 576.0
+rect_min_size = Vector2( 0, 64 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 0.933333, 0.835294, 1 )
+text = "primary color                                                                  "
+valign = 1
+
+[node name="primary_color_cont" type="GridContainer" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+unique_name_in_owner = true
+margin_top = 580.0
+margin_right = 1084.0
+margin_bottom = 580.0
+custom_constants/vseparation = 12
+custom_constants/hseparation = 12
+columns = 6
+
+[node name="HSeparator3" type="HSeparator" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_top = 584.0
+margin_right = 1084.0
+margin_bottom = 600.0
+custom_constants/separation = 16
+custom_styles/separator = SubResource( 3 )
+
+[node name="sep3" type="TextureRect" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_top = 604.0
+margin_right = 1084.0
+margin_bottom = 636.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 4
+
+[node name="Label3" type="Label" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_top = 640.0
+margin_right = 1084.0
+margin_bottom = 704.0
+rect_min_size = Vector2( 0, 64 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 0.933333, 0.835294, 1 )
+text = "secondary color                                                              "
+valign = 1
+
+[node name="sec_color_cont" type="GridContainer" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+unique_name_in_owner = true
+margin_top = 708.0
+margin_right = 1084.0
+margin_bottom = 708.0
+custom_constants/vseparation = 12
+custom_constants/hseparation = 12
+columns = 6
+
+[node name="HSeparator" type="HSeparator" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_top = 712.0
+margin_right = 1084.0
+margin_bottom = 728.0
+custom_constants/separation = 16
+custom_styles/separator = SubResource( 3 )
+
+[node name="sep" type="TextureRect" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_top = 732.0
+margin_right = 1084.0
+margin_bottom = 764.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 4
+
+[node name="Label5" type="Label" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_top = 768.0
+margin_right = 1084.0
+margin_bottom = 832.0
+rect_min_size = Vector2( 0, 64 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 0.933333, 0.835294, 1 )
+text = "tail                                                              "
+valign = 1
+
+[node name="tail_cont" type="GridContainer" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+unique_name_in_owner = true
+margin_top = 836.0
+margin_right = 1084.0
+margin_bottom = 836.0
+custom_constants/vseparation = 12
+custom_constants/hseparation = 12
+columns = 6
+
+[node name="HSeparator5" type="HSeparator" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_top = 840.0
+margin_right = 1084.0
+margin_bottom = 856.0
+custom_constants/separation = 16
+custom_styles/separator = SubResource( 3 )
+
+[node name="sep5" type="TextureRect" parent="Panel4/tabs/body/HBoxContainer/vbox"]
+margin_top = 860.0
+margin_right = 1084.0
+margin_bottom = 892.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 4
+
+[node name="face" type="ScrollContainer" parent="Panel4/tabs"]
+visible = false
+margin_right = 1104.0
+margin_bottom = 860.0
+scroll_horizontal_enabled = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel4/tabs/face"]
+margin_right = 1104.0
+margin_bottom = 860.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VSeparator" type="VSeparator" parent="Panel4/tabs/face/HBoxContainer"]
+margin_right = 4.0
+margin_bottom = 40.0
+custom_styles/separator = SubResource( 2 )
+
+[node name="vbox" type="VBoxContainer" parent="Panel4/tabs/face/HBoxContainer"]
+margin_right = 620.0
+margin_bottom = 380.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Panel4/tabs/face/HBoxContainer/vbox"]
+margin_right = 620.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 0, 64 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 0.933333, 0.835294, 1 )
+text = "eyes                                                                             "
+valign = 1
+
+[node name="eye_cont" type="GridContainer" parent="Panel4/tabs/face/HBoxContainer/vbox"]
+unique_name_in_owner = true
+margin_top = 68.0
+margin_right = 620.0
+margin_bottom = 68.0
+custom_constants/vseparation = 12
+custom_constants/hseparation = 12
+columns = 6
+
+[node name="HSeparator2" type="HSeparator" parent="Panel4/tabs/face/HBoxContainer/vbox"]
+margin_top = 72.0
+margin_right = 620.0
+margin_bottom = 88.0
+custom_constants/separation = 16
+custom_styles/separator = SubResource( 3 )
+
+[node name="sep2" type="TextureRect" parent="Panel4/tabs/face/HBoxContainer/vbox"]
+margin_top = 92.0
+margin_right = 620.0
+margin_bottom = 124.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Panel4/tabs/face/HBoxContainer/vbox"]
+margin_top = 128.0
+margin_right = 620.0
+margin_bottom = 192.0
+rect_min_size = Vector2( 0, 64 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 0.933333, 0.835294, 1 )
+text = "nose                                                                  "
+valign = 1
+
+[node name="nose_cont" type="GridContainer" parent="Panel4/tabs/face/HBoxContainer/vbox"]
+unique_name_in_owner = true
+margin_top = 196.0
+margin_right = 620.0
+margin_bottom = 196.0
+custom_constants/vseparation = 12
+custom_constants/hseparation = 12
+columns = 6
+
+[node name="HSeparator4" type="HSeparator" parent="Panel4/tabs/face/HBoxContainer/vbox"]
+margin_top = 200.0
+margin_right = 620.0
+margin_bottom = 216.0
+custom_constants/separation = 16
+custom_styles/separator = SubResource( 3 )
+
+[node name="sep4" type="TextureRect" parent="Panel4/tabs/face/HBoxContainer/vbox"]
+margin_top = 220.0
+margin_right = 620.0
+margin_bottom = 252.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 4
+
+[node name="Label4" type="Label" parent="Panel4/tabs/face/HBoxContainer/vbox"]
+margin_top = 256.0
+margin_right = 620.0
+margin_bottom = 320.0
+rect_min_size = Vector2( 0, 64 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 0.933333, 0.835294, 1 )
+text = "mouth                                                                               "
+valign = 1
+
+[node name="mouth_cont" type="GridContainer" parent="Panel4/tabs/face/HBoxContainer/vbox"]
+unique_name_in_owner = true
+margin_top = 324.0
+margin_right = 620.0
+margin_bottom = 324.0
+custom_constants/vseparation = 12
+custom_constants/hseparation = 12
+columns = 6
+
+[node name="HSeparator" type="HSeparator" parent="Panel4/tabs/face/HBoxContainer/vbox"]
+margin_top = 328.0
+margin_right = 620.0
+margin_bottom = 344.0
+custom_constants/separation = 16
+custom_styles/separator = SubResource( 3 )
+
+[node name="sep" type="TextureRect" parent="Panel4/tabs/face/HBoxContainer/vbox"]
+margin_top = 348.0
+margin_right = 620.0
+margin_bottom = 380.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 4
+
+[node name="clothes" type="ScrollContainer" parent="Panel4/tabs"]
+visible = false
+margin_right = 1104.0
+margin_bottom = 860.0
+scroll_horizontal_enabled = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel4/tabs/clothes"]
+margin_right = 1104.0
+margin_bottom = 860.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VSeparator" type="VSeparator" parent="Panel4/tabs/clothes/HBoxContainer"]
+margin_right = 4.0
+margin_bottom = 636.0
+custom_styles/separator = SubResource( 2 )
+
+[node name="vbox" type="VBoxContainer" parent="Panel4/tabs/clothes/HBoxContainer"]
+margin_left = 8.0
+margin_right = 616.0
+margin_bottom = 636.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Panel4/tabs/clothes/HBoxContainer/vbox"]
+margin_right = 608.0
+margin_bottom = 64.0
+rect_min_size = Vector2( 0, 64 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 0.933333, 0.835294, 1 )
+text = "hat                                                                             "
+valign = 1
+
+[node name="hat_cont" type="GridContainer" parent="Panel4/tabs/clothes/HBoxContainer/vbox"]
+unique_name_in_owner = true
+margin_top = 68.0
+margin_right = 608.0
+margin_bottom = 68.0
+custom_constants/vseparation = 12
+custom_constants/hseparation = 12
+columns = 6
+
+[node name="HSeparator2" type="HSeparator" parent="Panel4/tabs/clothes/HBoxContainer/vbox"]
+margin_top = 72.0
+margin_right = 608.0
+margin_bottom = 88.0
+custom_constants/separation = 16
+custom_styles/separator = SubResource( 3 )
+
+[node name="sep2" type="TextureRect" parent="Panel4/tabs/clothes/HBoxContainer/vbox"]
+margin_top = 92.0
+margin_right = 608.0
+margin_bottom = 124.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Panel4/tabs/clothes/HBoxContainer/vbox"]
+margin_top = 128.0
+margin_right = 608.0
+margin_bottom = 192.0
+rect_min_size = Vector2( 0, 64 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 0.933333, 0.835294, 1 )
+text = "undershirt                                                                  "
+valign = 1
+
+[node name="undershirt_cont" type="GridContainer" parent="Panel4/tabs/clothes/HBoxContainer/vbox"]
+unique_name_in_owner = true
+margin_top = 196.0
+margin_right = 608.0
+margin_bottom = 196.0
+custom_constants/vseparation = 12
+custom_constants/hseparation = 12
+columns = 6
+
+[node name="HSeparator4" type="HSeparator" parent="Panel4/tabs/clothes/HBoxContainer/vbox"]
+margin_top = 200.0
+margin_right = 608.0
+margin_bottom = 216.0
+custom_constants/separation = 16
+custom_styles/separator = SubResource( 3 )
+
+[node name="sep4" type="TextureRect" parent="Panel4/tabs/clothes/HBoxContainer/vbox"]
+margin_top = 220.0
+margin_right = 608.0
+margin_bottom = 252.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 4
+
+[node name="Label3" type="Label" parent="Panel4/tabs/clothes/HBoxContainer/vbox"]
+margin_top = 256.0
+margin_right = 608.0
+margin_bottom = 320.0
+rect_min_size = Vector2( 0, 64 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 0.933333, 0.835294, 1 )
+text = "overshirt                                                                  "
+valign = 1
+
+[node name="overshirt_cont" type="GridContainer" parent="Panel4/tabs/clothes/HBoxContainer/vbox"]
+unique_name_in_owner = true
+margin_top = 324.0
+margin_right = 608.0
+margin_bottom = 324.0
+custom_constants/vseparation = 12
+custom_constants/hseparation = 12
+columns = 6
+
+[node name="HSeparator5" type="HSeparator" parent="Panel4/tabs/clothes/HBoxContainer/vbox"]
+margin_top = 328.0
+margin_right = 608.0
+margin_bottom = 344.0
+custom_constants/separation = 16
+custom_styles/separator = SubResource( 3 )
+
+[node name="sep5" type="TextureRect" parent="Panel4/tabs/clothes/HBoxContainer/vbox"]
+margin_top = 348.0
+margin_right = 608.0
+margin_bottom = 380.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 4
+
+[node name="Label4" type="Label" parent="Panel4/tabs/clothes/HBoxContainer/vbox"]
+margin_top = 384.0
+margin_right = 608.0
+margin_bottom = 448.0
+rect_min_size = Vector2( 0, 64 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 0.933333, 0.835294, 1 )
+text = "legs                                                       "
+valign = 1
+
+[node name="leg_cont" type="GridContainer" parent="Panel4/tabs/clothes/HBoxContainer/vbox"]
+unique_name_in_owner = true
+margin_top = 452.0
+margin_right = 608.0
+margin_bottom = 452.0
+custom_constants/vseparation = 12
+custom_constants/hseparation = 12
+columns = 6
+
+[node name="HSeparator" type="HSeparator" parent="Panel4/tabs/clothes/HBoxContainer/vbox"]
+margin_top = 456.0
+margin_right = 608.0
+margin_bottom = 472.0
+custom_constants/separation = 16
+custom_styles/separator = SubResource( 3 )
+
+[node name="sep" type="TextureRect" parent="Panel4/tabs/clothes/HBoxContainer/vbox"]
+margin_top = 476.0
+margin_right = 608.0
+margin_bottom = 508.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 4
+
+[node name="Label5" type="Label" parent="Panel4/tabs/clothes/HBoxContainer/vbox"]
+margin_top = 512.0
+margin_right = 608.0
+margin_bottom = 576.0
+rect_min_size = Vector2( 0, 64 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 0.933333, 0.835294, 1 )
+text = "accessories [max 4]                                                       "
+valign = 1
+
+[node name="acc_cont" type="GridContainer" parent="Panel4/tabs/clothes/HBoxContainer/vbox"]
+unique_name_in_owner = true
+margin_top = 580.0
+margin_right = 608.0
+margin_bottom = 580.0
+custom_constants/vseparation = 12
+custom_constants/hseparation = 12
+columns = 6
+
+[node name="HSeparator3" type="HSeparator" parent="Panel4/tabs/clothes/HBoxContainer/vbox"]
+margin_top = 584.0
+margin_right = 608.0
+margin_bottom = 600.0
+custom_constants/separation = 16
+custom_styles/separator = SubResource( 3 )
+
+[node name="sep3" type="TextureRect" parent="Panel4/tabs/clothes/HBoxContainer/vbox"]
+margin_top = 604.0
+margin_right = 608.0
+margin_bottom = 636.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 4
+
+[node name="misc" type="ScrollContainer" parent="Panel4/tabs"]
+visible = false
+margin_right = 1104.0
+margin_bottom = 860.0
+scroll_horizontal_enabled = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel4/tabs/misc"]
+margin_right = 1104.0
+margin_bottom = 860.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VSeparator" type="VSeparator" parent="Panel4/tabs/misc/HBoxContainer"]
+margin_right = 4.0
+margin_bottom = 40.0
+custom_styles/separator = SubResource( 2 )
+
+[node name="vbox" type="VBoxContainer" parent="Panel4/tabs/misc/HBoxContainer"]
+margin_right = 607.0
+margin_bottom = 252.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="Label" type="Label" parent="Panel4/tabs/misc/HBoxContainer/vbox"]
+margin_top = 56.0
+margin_right = 607.0
+margin_bottom = 120.0
+rect_min_size = Vector2( 0, 64 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 0.933333, 0.835294, 1 )
+text = "title                                                                                "
+valign = 1
+
+[node name="title_cont" type="VBoxContainer" parent="Panel4/tabs/misc/HBoxContainer/vbox"]
+unique_name_in_owner = true
+margin_top = 124.0
+margin_right = 607.0
+margin_bottom = 124.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+custom_constants/separation = 10
+
+[node name="HSeparator2" type="HSeparator" parent="Panel4/tabs/misc/HBoxContainer/vbox"]
+margin_top = 128.0
+margin_right = 607.0
+margin_bottom = 144.0
+custom_constants/separation = 16
+custom_styles/separator = SubResource( 3 )
+
+[node name="sep2" type="TextureRect" parent="Panel4/tabs/misc/HBoxContainer/vbox"]
+margin_top = 148.0
+margin_right = 607.0
+margin_bottom = 180.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 4
+
+[node name="Label2" type="Label" parent="Panel4/tabs/misc/HBoxContainer/vbox"]
+margin_top = 184.0
+margin_right = 607.0
+margin_bottom = 248.0
+rect_min_size = Vector2( 0, 64 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 0.933333, 0.835294, 1 )
+text = "bobber                                                                  "
+valign = 1
+
+[node name="bob_cont" type="GridContainer" parent="Panel4/tabs/misc/HBoxContainer/vbox"]
+unique_name_in_owner = true
+margin_top = 252.0
+margin_right = 607.0
+margin_bottom = 252.0
+custom_constants/vseparation = 12
+custom_constants/hseparation = 12
+columns = 6
+
+[node name="HSeparator" type="HSeparator" parent="Panel4/tabs/misc/HBoxContainer/vbox"]
+margin_right = 607.0
+margin_bottom = 16.0
+custom_constants/separation = 16
+custom_styles/separator = SubResource( 3 )
+
+[node name="sep" type="TextureRect" parent="Panel4/tabs/misc/HBoxContainer/vbox"]
+margin_top = 20.0
+margin_right = 607.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 4
+
+[node name="Label3" type="Label" parent="Panel4/tabs/misc/HBoxContainer/vbox"]
+margin_top = 184.0
+margin_right = 607.0
+margin_bottom = 248.0
+rect_min_size = Vector2( 0, 64 )
+size_flags_horizontal = 3
+custom_colors/font_color = Color( 1, 0.933333, 0.835294, 1 )
+text = "voice options                                                                  "
+valign = 1
+
+[node name="HSeparator3" type="HSeparator" parent="Panel4/tabs/misc/HBoxContainer/vbox"]
+margin_right = 607.0
+margin_bottom = 16.0
+custom_constants/separation = 16
+custom_styles/separator = SubResource( 3 )
+
+[node name="voice_options" type="VBoxContainer" parent="Panel4/tabs/misc/HBoxContainer/vbox"]
+margin_right = 40.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+script = ExtResource( 6 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel4/tabs/misc/HBoxContainer/vbox/voice_options"]
+margin_right = 40.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+
+[node name="Label" type="Label" parent="Panel4/tabs/misc/HBoxContainer/vbox/voice_options/HBoxContainer"]
+margin_right = 40.0
+margin_bottom = 34.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+
+[node name="HSlider" type="HSlider" parent="Panel4/tabs/misc/HBoxContainer/vbox/voice_options/HBoxContainer"]
+margin_right = 40.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+size_flags_stretch_ratio = 2.0
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Panel4/tabs/misc/HBoxContainer/vbox/voice_options"]
+margin_right = 40.0
+margin_bottom = 40.0
+size_flags_horizontal = 3
+
+[node name="speedlbl" type="Label" parent="Panel4/tabs/misc/HBoxContainer/vbox/voice_options/HBoxContainer2"]
+margin_right = 40.0
+margin_bottom = 34.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+
+[node name="speed" type="HSlider" parent="Panel4/tabs/misc/HBoxContainer/vbox/voice_options/HBoxContainer2"]
+margin_right = 40.0
+margin_bottom = 32.0
+size_flags_horizontal = 3
+size_flags_vertical = 6
+size_flags_stretch_ratio = 2.0
+
+[node name="HSeparator3" type="HSeparator" parent="Panel4/tabs/misc/HBoxContainer/vbox/voice_options"]
+margin_right = 607.0
+margin_bottom = 16.0
+custom_constants/separation = 16
+custom_styles/separator = SubResource( 3 )
+
+[node name="sep3" type="TextureRect" parent="Panel4/tabs/misc/HBoxContainer/vbox"]
+margin_top = 20.0
+margin_right = 607.0
+margin_bottom = 52.0
+rect_min_size = Vector2( 0, 32 )
+size_flags_horizontal = 3
+texture = ExtResource( 5 )
+expand = true
+stretch_mode = 4
+
+[node name="mod_tab" type="ScrollContainer" parent="Panel4/tabs"]
+visible = false
+margin_right = 1104.0
+margin_bottom = 860.0
+scroll_horizontal_enabled = false
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel4/tabs/mod_tab"]
+margin_right = 1104.0
+margin_bottom = 860.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="VSeparator" type="VSeparator" parent="Panel4/tabs/mod_tab/HBoxContainer"]
+margin_right = 4.0
+margin_bottom = 40.0
+custom_styles/separator = SubResource( 2 )
+
+[node name="vbox" type="VBoxContainer" parent="Panel4/tabs/mod_tab/HBoxContainer"]
+margin_right = 607.0
+margin_bottom = 252.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[connection signal="value_changed" from="Panel3/HScrollBar" to="." method="_on_HScrollBar_value_changed"]
+[connection signal="pressed" from="ScrollContainer/HBoxContainer/body" to="." method="_change_tab" binds= [ "body" ]]
+[connection signal="pressed" from="ScrollContainer/HBoxContainer/face" to="." method="_change_tab" binds= [ "face" ]]
+[connection signal="pressed" from="ScrollContainer/HBoxContainer/clothes" to="." method="_change_tab" binds= [ "clothes" ]]
+[connection signal="pressed" from="ScrollContainer/HBoxContainer/misc" to="." method="_change_tab" binds= [ "misc" ]]

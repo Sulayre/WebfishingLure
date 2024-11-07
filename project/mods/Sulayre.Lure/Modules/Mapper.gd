@@ -27,7 +27,6 @@ func _load_map():
 		prints("ATTEMPTING TO LOAD MAP:",selected_map)
 		var world = get_tree().current_scene
 		var map_holder = world.get_node("Viewport/main/map")
-		PlayerData.player_saved_position = Vector3.ZERO
 		var new_map:Spatial = selected_map["scene"].instance()
 		var old_map = map_holder.get_node("main_map")
 		var lobby_id = Network.STEAM_LOBBY_ID
@@ -75,5 +74,6 @@ func _load_map():
 			tutsp.name = "tutorial_spawn_position"
 			new_map.add_child(tutsp)
 		
+		PlayerData.player_saved_position = Vector3.ZERO
 		Lure.emit_signal("mod_map_loaded")
 	

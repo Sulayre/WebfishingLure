@@ -51,7 +51,7 @@ func _register_resource(resource_data:Dictionary):
 								if tables.has(loaded_resource.loot_table):
 									tables.remove(0)
 									loaded_resource.loot_table = "modded"
-								var final_loot = flag.replace("LURE_LOOT_TABLE_","")
+								var final_loot = flag.replace("LURE_LOOT_TABLE_","").to_lower()
 								if final_loot in Lure.modded_pools:
 									if !(final_loot in Lure.journal_categories[3][1]):
 										!Lure.journal_categories[3][1].append(loaded_resource.loot_table)
@@ -65,6 +65,13 @@ func _register_resource(resource_data:Dictionary):
 							PlayerData._log_item(final_id,0.0,0,true)
 						Lure.Util._regenerate_loot_table(loaded_resource.category,table)
 			elif loaded_resource is CosmeticResource:
+				for flag in resource_data["flags"]:
+					if flag is String:
+						if flag.begins_with("LURE_COSM_CAT_"):
+							var final_cat = flag.replace("LURE_COSM_CAT_","").to_lower()
+							if final_cat in Lure.cosmetic_categories_array or final_cat in Lure.lure_categories:
+								loaded_resource.category = final_cat
+								print(PREFIX+"found a cosmetic with a custom category: ",final_cat)
 				Lure.cosmetic_list[final_id] = {"resource":loaded_resource, "flags":resource_data.flags}
 				Lure.loaded_cosmetics.append(final_id)
 				Globals.cosmetic_data[final_id] = {"file":loaded_resource}
@@ -180,6 +187,7 @@ func _refresh_modded_unlocks():
 				#else: print(PREFIX+"Tool or prop with id "+id+" is already owned, skipping!")
 	for id in cosmetic_list.keys():
 		var flags = cosmetic_list[id]["flags"]
+		prints(id,flags)
 		if flags.has(Lure.FLAGS.LOCK_AFTER_SHOP_UPDATE) or flags.has(Lure.FLAGS.FREE_UNLOCK):
 			if !PlayerData.cosmetics_unlocked.has(id):
 				PlayerData.cosmetics_unlocked.append(id)
@@ -252,4 +260,73 @@ func _load_modded_save_data():
 			Lure.emit_signal("lurlog",Lure.SAVE_UNKNOWN)
 	_file.close()
 	print(PREFIX+"Finished loading saved mod data!")
-	_refresh_modded_unlocks()
+
+func _vanilla_unlock_security():
+	PlayerData._unlock_cosmetic("eye_halfclosed")
+	PlayerData._unlock_cosmetic("eye_spiral")
+	PlayerData._unlock_cosmetic("eye_closed")
+	PlayerData._unlock_cosmetic("eye_dot")
+	PlayerData._unlock_cosmetic("eye_sideeye")
+	PlayerData._unlock_cosmetic("eye_tired")
+	PlayerData._unlock_cosmetic("eye_x")
+	PlayerData._unlock_cosmetic("eye_drained")
+	PlayerData._unlock_cosmetic("eye_focused")
+	PlayerData._unlock_cosmetic("eye_glance")
+	PlayerData._unlock_cosmetic("eye_jolly")
+	PlayerData._unlock_cosmetic("eye_glamor")
+	PlayerData._unlock_cosmetic("eye_sassy")
+	PlayerData._unlock_cosmetic("eye_annoyed")
+	PlayerData._unlock_cosmetic("eye_glamor")
+	PlayerData._unlock_cosmetic("eye_sassy")
+	PlayerData._unlock_cosmetic("eye_annoyed")
+	PlayerData._unlock_cosmetic("eye_dreaming")
+	
+	PlayerData._unlock_cosmetic("mouth_default")
+	PlayerData._unlock_cosmetic("mouth_toothy")
+	PlayerData._unlock_cosmetic("mouth_aloof")
+	PlayerData._unlock_cosmetic("mouth_animal")
+	PlayerData._unlock_cosmetic("mouth_glad")
+	PlayerData._unlock_cosmetic("mouth_squiggle")
+	PlayerData._unlock_cosmetic("mouth_tongue")
+	PlayerData._unlock_cosmetic("mouth_toothy")
+	
+	PlayerData._unlock_cosmetic("nose_cat")
+	PlayerData._unlock_cosmetic("nose_dog")
+	PlayerData._unlock_cosmetic("nose_pink")
+	PlayerData._unlock_cosmetic("nose_whisker")
+	PlayerData._unlock_cosmetic("nose_none")
+	
+	PlayerData._unlock_cosmetic("species_cat")
+	PlayerData._unlock_cosmetic("species_dog")
+	
+	PlayerData._unlock_cosmetic("tail_none")
+	PlayerData._unlock_cosmetic("tail_cat")
+	PlayerData._unlock_cosmetic("tail_dog_thin")
+	PlayerData._unlock_cosmetic("tail_dog_fluffy")
+	PlayerData._unlock_cosmetic("tail_dog_short")
+	PlayerData._unlock_cosmetic("tail_fox")
+	
+	PlayerData._unlock_cosmetic("Sulayre.Lure.classic_body")
+	
+	PlayerData._unlock_cosmetic("legs_none")
+	
+	PlayerData._unlock_cosmetic("shirt_none")
+	
+	PlayerData._unlock_cosmetic("overshirt_none")
+	
+	PlayerData._unlock_cosmetic("hat_none")
+	
+	var colors = ["white", "tan", "brown", "red", "maroon", "grey", "green", "blue", "purple", "salmon", "yellow", "black", "teal", "olive", "orange"]
+	for t in ["pcolor_", "scolor_"]:
+		for c in colors: PlayerData._unlock_cosmetic(t + c)
+	
+	PlayerData._unlock_cosmetic("pattern_none")
+	PlayerData._unlock_cosmetic("pattern_collie")
+	PlayerData._unlock_cosmetic("pattern_tux")
+	PlayerData._unlock_cosmetic("pattern_spotted")
+	PlayerData._unlock_cosmetic("pattern_calico")
+	
+	PlayerData._unlock_cosmetic("title_none")
+	PlayerData._unlock_cosmetic("title_rank_1")
+	
+	PlayerData._unlock_cosmetic("bobber_default")

@@ -672,6 +672,17 @@ var modded_species = []
 var modded_emotes = []
 var modded_pools = []
 
+const vanilla_tabs:Array = ["body","face","clothes","misc"]
+const lure_categories:Array = ["bodies","playable_characters"]
+
+var cosmetic_categories_array:Array = []
+var cosmetic_categories:Dictionary = {
+	vanilla_tabs[0]: [],
+	vanilla_tabs[1]: [],
+	vanilla_tabs[2]: [],
+	vanilla_tabs[3]: [],
+}
+
 var journal_categories = [\
 	["freshwater", ["lake"]], \
 	["saltwater", ["ocean"]], \
@@ -705,10 +716,15 @@ func _ready():
 		Network.connect("_instance_actor", self, "_instance_actor")
 	else:
 		_options_check()
+	add_content("Sulayre.Lure","classic_body","res://mods/Sulayre.Lure/Resources/Cosmetics/default_body.tres",[FLAGS.FREE_UNLOCK,custom_category("bodies")])
+	Loader._vanilla_unlock_security()
 
 func loot_table(table_id:String):
-	if !modded_pools.has(table_id) and !vanilla_tables.has(table_id): modded_pools.append(table_id)
+	if !modded_pools.has(table_id) and !vanilla_tables.has(table_id): modded_pools.append(table_id.to_lower())
 	return "LURE_LOOT_TABLE_"+table_id
+
+func custom_category(cat_id:String):
+	return "LURE_COSM_CAT_"+(cat_id.to_lower())
 
 func register_action(mod_id:String,action_id:String,function_holder:Node,function_name:String):
 	if Util._validate_paths(mod_id,"res://"):
@@ -718,6 +734,31 @@ func register_action(mod_id:String,action_id:String,function_holder:Node,functio
 		if !function_holder.has_method(function_name):
 			Printer.out(ACTION_FUNCTION_MISSING,true)
 		action_references[mod_id+"."+action_id] = [function_holder,function_name]
+
+func new_wardrobe_page(tab_name:String):
+	tab_name = tab_name.to_lower()
+	if !tab_name.is_valid_identifier():
+		print(PREFIX+tab_name+" is not a valid wardrobe page name! (use underscores instead of spaces if that's what you did)")
+		return
+	if !cosmetic_categories.keys().has(tab_name):
+		cosmetic_categories[tab_name] = []
+	print(PREFIX,"registered new wardrobe page ",tab_name)
+
+func new_wardrobe_category(cat_name:String,tab_name:String,add_empty:bool=true):
+	cat_name = cat_name.to_lower()
+	tab_name = tab_name.to_lower()
+	if !cosmetic_categories.keys().has(tab_name):
+		print(PREFIX+cat_name+" is being added to a page that doesn't exist yet, make the categories last!")
+		return
+	if !cat_name.is_valid_identifier():
+		print(PREFIX+cat_name+"is not a valid wardrobe category name! (use underscores instead of spaces if that's what you did)")
+		return
+	if cosmetic_categories[tab_name].has(cat_name):
+		print(PREFIX+cat_name+"is already a registered category for page "+tab_name)
+		return
+	cosmetic_categories[tab_name].append([cat_name,add_empty])
+	cosmetic_categories_array.append(cat_name)
+	print(PREFIX,"registered new wardrobe category ",cat_name," for page ",tab_name)
 
 # Stores a voice bank for a specific modded species.
 func assign_species_voice(mod_id:String,species_id:String,bark_path:String,growl_path:String="",whine_path:String=""):
@@ -906,11 +947,14 @@ func _options_check():
 				_bonus_content_load()
 
 func _bonus_content_load():
-	add_content("Sulayre.Lure","kade_shirt","mod://Resources/Cosmetics/undershirt_graphic_tshirt_kade.tres")
-	add_content("Sulayre.Lure","misname_title","mod://Resources/Cosmetics/title_misname.tres")
+	new_wardrobe_page("test")
+	new_wardrobe_category("placeholder","test")
+	
 	add_map("Sulayre.Lure","test_map","res://mods/Sulayre.Lure/Scenes/Maps/example_map.tscn","Lure Example Map")
-	#add_emote("Sulayre.Lure","dab","res://mods/Sulayre.Lure/Assets/Animations/dab.tres","res://Assets/Textures/catchpopup.png","angry")
-	#add_content("Sulayre.Lure","gerald","res://mods/Sulayre.Lure/Resources/Items/test_fish.tres",[loot_table("test"),loot_table("lake")])
+	
+	add_content("Sulayre.Lure","kade_shirt","mod://Resources/Cosmetics/undershirt_graphic_tshirt_kade.tres")
+	add_content("Sulayre.Lure","custom_cosmetic","res://mods/Sulayre.Lure/Resources/Cosmetics/test_resource.tres",[FLAGS.FREE_UNLOCK,custom_category("placeholder")])
+	add_content("Sulayre.Lure","misname_title","mod://Resources/Cosmetics/title_misname.tres")
 	add_content("Sulayre.Lure","sun_hat","res://mods/Sulayre.Lure/Resources/Cosmetics/hat_emil.tres")
 
 # 3.5 sucks ass
@@ -965,6 +1009,12 @@ func _on_enter(node:Node):
 		node.get_node("Viewport/main/entities").connect("child_entered_tree",Mapper,"_refresh_players")
 		emit_signal("world_enter")
 	if node.name == "playerhud":
+		var extended_outfit = preload("res://mods/Sulayre.Lure/Scenes/HUD/extended_outfitter.tscn").instance()
+		var old_outfit = node.get_node("main/menu/tabs/outfit")
+		node.get_node("main/menu/tabs").add_child_below_node(old_outfit,extended_outfit)
+		old_outfit.free()
+		extended_outfit.name = "outfit"
+		extended_outfit.visible = false
 		var extended_wheel = preload("res://mods/Sulayre.Lure/Scenes/HUD/extended_emote_wheel.tscn").instance()
 		var old_wheel = node.get_node("main/emote_wheel")
 		node.get_node("main").add_child_below_node(old_wheel,extended_wheel)
@@ -979,6 +1029,7 @@ func _load_mod_data():
 	print(loaded_cosmetics)
 	print(loaded_items)
 	Loader._load_modded_save_data()
+	Loader._refresh_modded_unlocks()
 
 func _filter_full(active):
 	filter_full = !active

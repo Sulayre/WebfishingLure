@@ -1,0 +1,22 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://Resources/Scripts/cosmetic_resource.gd" type="Script" id=1]
+[ext_resource path="res://mods/Sulayre.Lure/Assets/Textures/Gerald.png" type="Texture" id=2]
+
+[resource]
+script = ExtResource( 1 )
+name = "cos name"
+desc = "cos desc"
+title = ""
+icon = ExtResource( 2 )
+species_alt_mesh = [  ]
+main_color = Color( 1, 1, 1, 1 )
+body_pattern = [  ]
+mirror_face = true
+flip = false
+allow_blink = true
+category = ""
+cos_internal_id = 0
+in_rotation = false
+chest_reward = false
+cost = 10
