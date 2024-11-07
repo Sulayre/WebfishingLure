@@ -1,10 +1,6 @@
 extends Node
 
-onready var Lure := get_parent()
-
-
-func _ready():
-	print('Module "Loader" is ready')
+onready var Lure := $"/mods/Lure"
 
 
 func _add_resource(file, file_name) -> void:

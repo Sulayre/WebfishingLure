@@ -16,15 +16,10 @@ func _init() -> void:
 
 
 func _enter_tree() -> void:
-	Lure = _get_lure()
+	Lure = $"/root/Lure"
 	
 	Lure._register_mod(self)
 
 
 func _ready() -> void:
 	pass
-
-
-# Returns the Lure node
-func _get_lure() -> Node:
-	return get_node_or_null("/root/Lure")
