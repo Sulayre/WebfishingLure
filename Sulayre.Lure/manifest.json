@@ -5,7 +5,7 @@
     "Metadata": {
         "Name": "Lure",
         "Author": "Sulayre, ZeaTheMays and GitHub Contributors",
-        "Version": "4.0.2",
-        "Description": "API to make adding content to WEBFISHING easier, faster and compatible."
+        "Version": "4.1.0",
+        "Description": "Project that aims to restore unused game functionality, also used as an API to make adding content to WEBFISHING easier, faster and compatible."
     }
 }
