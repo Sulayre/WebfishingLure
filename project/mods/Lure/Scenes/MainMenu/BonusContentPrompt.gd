@@ -1,7 +1,7 @@
 extends Control
 
 func _disable_prompt(bonus:bool):
-	var path = OS.get_executable_path().get_base_dir().plus_file("GDWeave/configs/Sulayre.Lure.json")
+	var path = OS.get_executable_path().get_base_dir().plus_file("GDWeave/configs/Lure.json")
 	var file = File.new()
 	if file.open(path,File.READ) == OK:
 		var p = JSON.parse(file.get_as_text())

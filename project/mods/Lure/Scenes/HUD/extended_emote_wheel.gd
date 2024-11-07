@@ -7,7 +7,7 @@ var pressed = false
 var hovered = null
 
 onready var wheel = $wheel
-const button:PackedScene = preload("res://mods/Sulayre.Lure/Scenes/HUD/emote_button_lure.tscn")
+const button:PackedScene = preload("res://mods/Lure/Scenes/HUD/emote_button_lure.tscn")
 
 signal _play_emote(emote_id, emotion)
 

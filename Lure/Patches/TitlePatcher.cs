@@ -86,7 +86,7 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.Comma);
 					yield return new Token(TokenType.BuiltInFunc, (uint?)BuiltinFunction.ResourceLoad);
 					yield return new Token(TokenType.ParenthesisOpen);
-					yield return new ConstantToken(new StringVariant("res://mods/Sulayre.Lure/Assets/Fonts/title_font.tres"));
+					yield return new ConstantToken(new StringVariant("res://mods/Lure/Assets/Fonts/title_font.tres"));
 					yield return new Token(TokenType.ParenthesisClose);
 					yield return new Token(TokenType.ParenthesisClose);
 
