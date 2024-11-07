@@ -120,7 +120,7 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.ParenthesisOpen);
 					yield return new IdentifierToken("data");
 					yield return new Token(TokenType.ParenthesisClose);
-					yield return new Token(TokenType.Newline, 1);
+					yield return token;
 				}
 				else
 				{

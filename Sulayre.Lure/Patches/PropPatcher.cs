@@ -15,11 +15,11 @@ namespace Sulayre.Lure.Patches
 			//play("dog_face")
 
 			var datadictwaiter = new MultiTokenWaiter([
-				t => t is IdentifierToken{Name:"dict"},
-				t => t.Type is TokenType.BracketOpen,
-				t => t is ConstantToken{Value: StringVariant {Value: "data"}},
-				t => t.Type is TokenType.BracketClose,
-				t => t.Type is TokenType.Newline,
+				t => t.Type is TokenType.OpSub,
+				t => t is ConstantToken { Value: IntVariant { Value: 1 } },
+				t => t.Type is TokenType.CfElse,
+				t => t is IdentifierToken { Name: "network_sender" },
+				t => t.Type is TokenType.Newline
 			], allowPartialMatch: false);
 
 			var actortypewaiter = new MultiTokenWaiter([
@@ -30,10 +30,16 @@ namespace Sulayre.Lure.Patches
 			], allowPartialMatch: false);
 
 			var instancewaiter = new MultiTokenWaiter([
-				t => t is IdentifierToken{Name:"ACTOR_BANK"},
+				// BANK_DATA[0].instance()
+				t => t is IdentifierToken { Name: "ACTOR_BANK" },
 				t => t.Type is TokenType.BracketOpen,
-				t => t is IdentifierToken{Name:"actor_type"},
+				t => t is ConstantToken{Value: IntVariant { Value: 0 } },
 				t => t.Type is TokenType.BracketClose,
+				t => t.Type is TokenType.Period,
+				t => t is IdentifierToken { Name: "instance" },
+				t => t.Type is TokenType.ParenthesisOpen,
+				t => t.Type is TokenType.ParenthesisClose,
+				t => t.Type is TokenType.Newline,
 			], allowPartialMatch: false);
 
 			foreach (var token in tokens)

@@ -985,7 +985,7 @@ func _on_enter(node:Node):
 		var options:OptionButton = buttonbundle.get_node("map")
 		var plrcounter:SpinBox = buttonbundle.get_node("count")
 		
-		var container:HBoxContainer = mainmenu.get_node("lobby_browser/Panel/Panel/HBoxContainer")
+		var container:HBoxContainer = mainmenu.get_node("lobby_browser/Panel/Panel/VBoxContainer/topbar")
 		var label:Label = container.get_node("Label")
 		
 		container.add_child_below_node(label,buttonbundle)
