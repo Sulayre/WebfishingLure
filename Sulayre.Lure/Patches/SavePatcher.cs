@@ -6,7 +6,7 @@ namespace Sulayre.Lure.Patches
 {
 	public class SavePatcher : IScriptMod
 	{
-		public bool ShouldRun(string path) => path == "res://Scenes/Singletons/playerdata.gdc";
+		public bool ShouldRun(string path) => path == "res://Scenes/Singletons/usersave.gdc";
 
 		// returns a list of tokens for the new script, with the input being the original script's tokens
 		public IEnumerable<Token> Modify(string path, IEnumerable<Token> tokens)
@@ -24,7 +24,7 @@ namespace Sulayre.Lure.Patches
 			//], allowPartialMatch: false);
 
 			var waiter_save = new MultiTokenWaiter([
-				t => t is IdentifierToken{Name:"voice_speed"},
+				t => t is IdentifierToken{Name:"locked_refs"},
 				t => t.Type is TokenType.Comma,
 				t => t.Type is TokenType.Newline && t.AssociatedData == 1,
 				t => t.Type is TokenType.CurlyBracketClose,
@@ -87,6 +87,8 @@ namespace Sulayre.Lure.Patches
 					yield return new IdentifierToken("_filter_save");
 					yield return new Token(TokenType.ParenthesisOpen);
 					yield return new IdentifierToken("new_save");
+					yield return new Token(TokenType.Comma);
+					yield return new IdentifierToken("slot");
 					yield return new Token(TokenType.ParenthesisClose);
 					
 					yield return new Token(TokenType.Newline, 1);

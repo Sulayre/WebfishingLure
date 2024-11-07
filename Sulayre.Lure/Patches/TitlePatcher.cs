@@ -15,9 +15,10 @@ namespace Sulayre.Lure.Patches
 			//pattern.body_pattern[2]
 
 			var readywaiter = new MultiTokenWaiter([
-				t => t is IdentifierToken{Name:"title"},
+				t => t is IdentifierToken{Name:"player_id"},
 				t => t.Type is TokenType.OpAssign,
-				t => t is ConstantToken{Value: StringVariant {Value: ""}},
+				t => t.Type is TokenType.OpSub,
+				t => t is ConstantToken{Value: IntVariant {Value: 1}},
 				t => t.Type is TokenType.Newline,
 			], allowPartialMatch: false);
 

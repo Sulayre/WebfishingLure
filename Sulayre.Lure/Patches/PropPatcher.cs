@@ -30,9 +30,16 @@ namespace Sulayre.Lure.Patches
 			], allowPartialMatch: false);
 
 			var instancewaiter = new MultiTokenWaiter([
+<<<<<<< Updated upstream
 				t => t is IdentifierToken{Name:"ACTOR_BANK"},
 				t => t.Type is TokenType.BracketOpen,
 				t => t is IdentifierToken{Name:"actor_type"},
+=======
+				// ACTOR_BANK[actor_type]
+				t => t is IdentifierToken { Name: "ACTOR_BANK" },
+				t => t.Type is TokenType.BracketOpen,
+				t => t is IdentifierToken { Name: "actor_type" },
+>>>>>>> Stashed changes
 				t => t.Type is TokenType.BracketClose,
 			], allowPartialMatch: false);
 
@@ -103,12 +110,12 @@ namespace Sulayre.Lure.Patches
 
 				else if (instancewaiter.Check(token))
 				{
+					//ACTOR_BANK[actor_type]
 					yield return token;
-
-					yield return new Token(TokenType.Newline, 1);
-
+					//if
 					yield return new Token(TokenType.CfIf);
-					yield return new IdentifierToken("modactors");
+					//ACTOR_BANK.keys().has(actor_type)
+					yield return new IdentifierToken("ACTOR_BANK");
 					yield return new Token(TokenType.Period);
 					yield return new IdentifierToken("keys");
 					yield return new Token(TokenType.ParenthesisOpen);
@@ -118,22 +125,22 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.ParenthesisOpen);
 					yield return new IdentifierToken("actor_type");
 					yield return new Token(TokenType.ParenthesisClose);
-					yield return new Token(TokenType.Colon);
-
-					yield return new Token(TokenType.Newline, 2);
-
-					yield return new IdentifierToken("actor");
-					yield return new Token(TokenType.OpAssign);
+					//else
+					yield return new Token(TokenType.CfElse);
+					//modactors.get(actor_type,ACTOR_BANK["rock"]
 					yield return new IdentifierToken("modactors");
-					yield return new Token(TokenType.BracketOpen);
+					yield return new Token(TokenType.Period);
+					yield return new IdentifierToken("get");
+					yield return new Token(TokenType.ParenthesisOpen);
 					yield return new IdentifierToken("actor_type");
+					yield return new Token(TokenType.Comma);
+					yield return new IdentifierToken("ACTOR_BANK");
+					yield return new Token(TokenType.BracketOpen);
+					yield return new ConstantToken(new StringVariant("rock"));
 					yield return new Token(TokenType.BracketClose);
-
+					yield return new Token(TokenType.ParenthesisClose);
+					
 					yield return new Token(TokenType.Newline, 1);
-
-					yield return new IdentifierToken("actor");
-					yield return new Token(TokenType.OpAssign);
-					yield return new IdentifierToken("actor");
 				}
 				else
 				{

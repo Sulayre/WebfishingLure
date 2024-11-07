@@ -180,6 +180,7 @@ const vanilla_cosmetics = [
 	"hat_crown",
 	"hat_cowboyhat_pink",
 	"hat_baseball_cap_big",
+	"hat_baseball_cap_exclaim",
 	"hat_bucket_tan",
 	"hat_beanie_yellow",
 	"hat_baseball_cap_green",
@@ -195,6 +196,7 @@ const vanilla_cosmetics = [
 	"hat_baseball_cap_orange",
 	"hat_beanie_teal",
 	"hat_beanie_white",
+	"title_creature",
 	"title_musky",
 	"title_dude",
 	"title_elite",
@@ -206,6 +208,7 @@ const vanilla_cosmetics = [
 	"title_nightcrawler",
 	"title_soggy",
 	"title_bi",
+	"title_cryptid",
 	"title_littlelad",
 	"title_lamedev_real",
 	"title_shithead",
@@ -218,9 +221,12 @@ const vanilla_cosmetics = [
 	"title_goldenbass",
 	"title_goodboy",
 	"title_special",
+	"title_nonbinary",
 	"title_queer",
 	"title_majestic",
+	"title_cadaverdog",
 	"title_stupididiotbaby",
+	"title_freaky",
 	"title_ancient",
 	"title_puppy",
 	"title_fishpilled",
@@ -236,6 +242,7 @@ const vanilla_cosmetics = [
 	"title_stinkerdinker",
 	"title_equalsthree",
 	"title_pan",
+	"title_straight",
 	"title_critter",
 	"title_catfisher",
 	"title_koiboy",
@@ -273,6 +280,7 @@ const vanilla_cosmetics = [
 	"eye_distraught",
 	"eye_dreaming",
 	"eye_starlight",
+	"eye_wobble",
 	"eye_halfclosed",
 	"eye_alien",
 	"eye_sad",
@@ -466,6 +474,7 @@ const vanilla_cosmetics = [
 	"undershirt_tshirt_orange",
 	"undershirt_tshirt_grey",
 	"undershirt_graphic_tshirt_nobait",
+	"undershirt_graphic_tshirt_nonbinary",
 	"undershirt_tanktop_red",
 	"undershirt_tanktop_salmon",
 	"undershirt_tanktop_brown",
@@ -497,6 +506,7 @@ const vanilla_items = [
 	"fish_rain_leedsichthys",
 	"fish_rain_anomalocaris",
 	"fish_rain_horseshoe_crab",
+	"potion_bounce",
 	"potion_small",
 	"potion_catch_big",
 	"potion_beer",
@@ -505,6 +515,7 @@ const vanilla_items = [
 	"potion_catch",
 	"potion_catch_deluxe",
 	"potion_speed",
+	"potion_bouncebig",
 	"potion_speed_burst",
 	"potion_revert",
 	"fish_alien_dog",
@@ -519,9 +530,11 @@ const vanilla_items = [
 	"fishing_rod_collectors_glistening",
 	"fishing_rod_simple",
 	"guitar_gradient",
+	"fishing_rod_travelers",
 	"scratch_off",
 	"boxing_glove",
 	"guitar_black",
+	"fishing_rod_prosperous",
 	"metal_detector",
 	"fish_trap_ocean",
 	"treasure_chest",
@@ -532,7 +545,9 @@ const vanilla_items = [
 	"fishing_rod_collectors_alpha",
 	"fishing_rod_collectors_radiant",
 	"tambourine",
+	"portable_bait",
 	"fish_trap",
+	"hand_labeler",
 	"boxing_glove_super",
 	"fishing_rod_collectors",
 	"fishing_rod_skeleton",
@@ -642,6 +657,7 @@ const vanilla_items = [
 	"fish_lake_guppy",
 	"fish_lake_golden_bass",
 	"fish_lake_goldfish",
+	"fish_void_voidfish",
 ]
 
 const fallback = {
@@ -877,10 +893,10 @@ func register_prop(mod_id:String,identifier:String,scene_path:String):
 	print(PREFIX+"Mod with ID ",mod_id," is calling the register_props function which is obsolete, use add_actor instead!")
 	add_actor(mod_id,identifier,scene_path)
 
-func add_actor(mod_id:String,identifier:String,scene_path:String):
+func add_actor(mod_id:String,identifier:String,scene_path:String,host_only:=false,max_allowed:=1):
 	var scene:PackedScene = load(Util._mod_path_converter(mod_id,scene_path))
 	if scene:
-		modded_actors[mod_id+"."+identifier] = scene
+		modded_actors[mod_id+"."+identifier] = [scene,host_only,max_allowed]
 	else:
 		Printer.out(PROPS_SCENE_MISSING,true)
 		return
@@ -970,7 +986,7 @@ func _filter_save(new_save:Dictionary) -> Dictionary:
 
 func _signals():
 	get_tree().root.connect("child_entered_tree",self,"_on_enter",[],CONNECT_DEFERRED)
-	connect("main_menu_enter",self,"_load_mod_data",[],CONNECT_ONESHOT)
+	connect("main_menu_enter",self,"_load_and_link_saves")
 	connect("world_enter",Mapper,"_load_map")
 
 func _on_enter(node:Node):
@@ -983,15 +999,18 @@ func _on_enter(node:Node):
 		var buttonbundle = preload("res://mods/Sulayre.Lure/Scenes/MainMenu/LobbySettings.tscn").instance()
 		
 		var options:OptionButton = buttonbundle.get_node("map")
-		var plrcounter:SpinBox = buttonbundle.get_node("count")
 		
+<<<<<<< Updated upstream
 		var container:HBoxContainer = mainmenu.get_node("lobby_browser/Panel/Panel/HBoxContainer")
 		var label:Label = container.get_node("Label")
 		
 		container.add_child_below_node(label,buttonbundle)
 		label.set_stretch_ratio(3)
+=======
+		var container:HBoxContainer = mainmenu.get_node("lobby_browser/Panel/Panel/VBoxContainer/topbar")
+		container.add_child(buttonbundle)
+>>>>>>> Stashed changes
 		options.connect("item_selected",Mapper,"_swap_map")
-		plrcounter.connect("value_changed",self,"_swap_count")
 		options.add_item("Original Map")
 		var maps = modded_maps
 		for map_data in maps:
@@ -1024,13 +1043,22 @@ func _on_enter(node:Node):
 		extended_wheel.connect("_play_emote",node,"_play_emote")
 		print("HUD IS LOADED")
 
-func _load_mod_data():
+func _load_and_link_saves():
+	Loader._load_modded_save_data(UserSave.current_loaded_slot)
+	var btn:Button = get_tree().get_current_scene().get_node_or_null("save_select_button")
+	if !btn: return
+	btn.connect("pressed",self,"_assign_load_save",[],CONNECT_DEFERRED)
+	
+	
+func _assign_load_save():
 	print("okay this technically should only run once")
-	print(loaded_cosmetics)
-	print(loaded_items)
-	Loader._load_modded_save_data()
-	Loader._refresh_modded_unlocks()
-
+	var vbox = get_tree().get_current_scene().get_node_or_null("save_select/Panel/VBoxContainer")
+	if !vbox: return
+	print("b")
+	for i in vbox.get_children().size():
+		print_stack()
+		vbox.get_child(i).connect("_pressed", Loader, "_load_modded_save_data", [i])
+		
 func _filter_full(active):
 	filter_full = !active
 	_refresh_filters()
@@ -1063,9 +1091,12 @@ func _swap_count(count):
 	Network.MAX_PLAYERS_LURE = count
 
 func _instance_actor(dict):
-	if not OS.has_feature("editor"): return
+	#if not OS.has_feature("editor"): return
+	return
 	var world = get_node_or_null("/root/world")
 	if !world: return
+	
+	print(dict)
 	
 	var actor_type = dict["actor_type"]
 	var pos = dict["at"]

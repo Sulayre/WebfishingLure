@@ -99,7 +99,7 @@ func _call_release(action_id) -> bool:
 	data[0].call(data[1])
 	return true
 
-func _filter_save(new_save:Dictionary) -> Dictionary:
+func _filter_save(new_save:Dictionary,slot:int) -> Dictionary:
 	var modded_save = SAVE_TEMPLATE.duplicate(true)
 	var missing_save = SAVE_TEMPLATE.duplicate(true)
 	var filtered_save = new_save.duplicate(true)
@@ -222,10 +222,10 @@ func _filter_save(new_save:Dictionary) -> Dictionary:
 			_:
 				print(new_save[k])
 	var file = File.new()
-	file.open("user://webfishing_lure_data.save", File.WRITE)
+	file.open("user://webfishing_lure_save_slot_" + str(slot) + ".sav", File.WRITE)
 	file.store_var(modded_save)
 	file.close()
-	print(PREFIX,missing," possible missing modded items/cosmetics will be saved on a different save as well! (they will be automatically restored if reinstalled in a future update)")
+	print(PREFIX,missing," possible missing modded items/cosmetics will be discarded")
 	file.open("user://webfishing_missing_data.save", File.WRITE)
 	file.store_var(missing_save)
 	file.close()

@@ -35,6 +35,14 @@ namespace Sulayre.Lure.Patches
 			], allowPartialMatch: false);
 			
 			var waiter_fallback = new MultiTokenWaiter([
+				t => t.Type is TokenType.PrFunction,
+				t => t is IdentifierToken{Name:"_update_cosmetics"},
+				t => t.Type is TokenType.ParenthesisOpen,
+				t => t is IdentifierToken{Name:"data"},
+				t => t.Type is TokenType.ParenthesisClose,
+				t => t.Type is TokenType.Colon,
+				t => t.Type is TokenType.Newline,
+				t => t.Type is TokenType.PrVar,
 				t => t is IdentifierToken{Name:"valid"},
 				t => t.Type is TokenType.OpAssign,
 				t => t is ConstantToken{Value: BoolVariant {Value: true}},
