@@ -194,72 +194,75 @@ func _refresh_modded_unlocks():
 				#print(PREFIX+id+" is a cosmetic that's unlocked automatically but isn't owned, adding to unlocked cosmetics.")
 			#print(PREFIX+id,"has unlocked index ",PlayerData.cosmetics_unlocked.find(id))
 
-func _load_modded_save_data():
+func _load_modded_save_data(save_index:int):
+	print_stack()
 	var _file = File.new()
-	if !_file.file_exists("user://webfishing_lure_data.save"):
-		print(PREFIX+"Save data file for modded assets was not found, skipping load.")
-		return
-	match _file.open("user://webfishing_lure_data.save",File.READ):
-		OK:
-			var save = _file.get_var()
-			for c in save.keys():
-				var d = save[c]
-				print(PREFIX,"Loading modded save data for ",c)
-				match c:
-					"inventory":
-						var unique := {}
-						for i in d:
-							if i["id"] in Lure.loaded_items:
-								if Lure.item_list[i["id"]]["resource"].category in ["tool","furniture"]:
-									unique[i["id"]] = i
+	var path = "user://webfishing_lure_save_slot_" + str(save_index) + ".sav"
+	if _file.file_exists(path):
+		match _file.open(path,File.READ):
+			OK:
+				var save = _file.get_var()
+				for c in save.keys():
+					var d = save[c]
+					print(PREFIX,"Loading modded save data for ",c)
+					match c:
+						"inventory":
+							var unique := {}
+							for i in d:
+								if i["id"] in Lure.loaded_items:
+									if Lure.item_list[i["id"]]["resource"].category in ["tool","furniture"]:
+										unique[i["id"]] = i
+									else:
+										PlayerData.inventory.append(i)
+										print(PREFIX,i["id"])
+							print(PREFIX,"uniques: ",unique.keys())
+							PlayerData.inventory.append_array(unique.values())
+							PlayerData.emit_signal("_inventory_refresh")
+									
+						"hotbar":
+							for i in save["hotbar"].keys():
+								if i.id in Lure.loaded_items:
+									print(PREFIX,i,": ",save["hotbar"][i])
+									PlayerData.hotbar[i] = save["hotbar"][i]
+						"cosmetics_unlocked":
+							for c_u in d:
+								if !PlayerData.cosmetics_unlocked.has(c_u):
+									if Lure.loaded_cosmetics.has(c_u):
+										print(PREFIX,c_u)
+										PlayerData.cosmetics_unlocked.append(c_u)
+						"cosmetics_equipped":
+							for e_k in save[c].keys():
+								var e_v = save[c][e_k]
+								if e_k == "accessory":
+									for cosmetic in e_v:
+										if PlayerData.cosmetics_equipped["accessory"].size() < 4:
+											if Lure.loaded_cosmetics.has(cosmetic):
+												print(PREFIX,cosmetic)
+												PlayerData.cosmetics_equipped["accessory"].append(cosmetic)
+										else: break
 								else:
-									PlayerData.inventory.append(i)
-									print(PREFIX,i["id"])
-						print(PREFIX,"uniques: ",unique.keys())
-						PlayerData.inventory.append_array(unique.values())
-						PlayerData.emit_signal("_inventory_refresh")
-								
-					"hotbar":
-						for i in save["hotbar"].keys():
-							if i.id in Lure.loaded_items:
-								print(PREFIX,i,": ",save["hotbar"][i])
-								PlayerData.hotbar[i] = save["hotbar"][i]
-					"cosmetics_unlocked":
-						for c_u in d:
-							if !PlayerData.cosmetics_unlocked.has(c_u):
-								if Lure.loaded_cosmetics.has(c_u):
-									print(PREFIX,c_u)
-									PlayerData.cosmetics_unlocked.append(c_u)
-					"cosmetics_equipped":
-						for e_k in save[c].keys():
-							var e_v = save[c][e_k]
-							if e_k == "accessory":
-								for cosmetic in e_v:
-									if PlayerData.cosmetics_equipped["accessory"].size() < 4:
-										if Lure.loaded_cosmetics.has(cosmetic):
-											print(PREFIX,cosmetic)
-											PlayerData.cosmetics_equipped["accessory"].append(cosmetic)
-									else: break
-							else:
-								if Lure.loaded_cosmetics.has(e_v):
-									PlayerData.cosmetics_equipped[e_k] = e_v
-							print(PREFIX,e_k,"/",e_v)
-					"journal":
-						for p in save["journal"].keys():
-							if !Lure.modded_pools.has(p):
-								print(Lure.modded_pools)
-								continue
-							if !PlayerData.journal_logs.has(p):
-									PlayerData.journal_logs[p] = {}
-							for id in save["journal"][p].keys():
-								var entry = save["journal"][p][id]
-								PlayerData.journal_logs[p][id] = entry
-								print(p,"/",entry)
-						PlayerData.emit_signal("_journal_update")
-		_:
-			Lure.emit_signal("lurlog",Lure.SAVE_UNKNOWN)
-	_file.close()
-	print(PREFIX+"Finished loading saved mod data!")
+									if Lure.loaded_cosmetics.has(e_v):
+										PlayerData.cosmetics_equipped[e_k] = e_v
+								print(PREFIX,e_k,"/",e_v)
+						"journal":
+							for p in save["journal"].keys():
+								if !Lure.modded_pools.has(p):
+									print(Lure.modded_pools)
+									continue
+								if !PlayerData.journal_logs.has(p):
+										PlayerData.journal_logs[p] = {}
+								for id in save["journal"][p].keys():
+									var entry = save["journal"][p][id]
+									PlayerData.journal_logs[p][id] = entry
+									print(p,"/",entry)
+							PlayerData.emit_signal("_journal_update")
+			_:
+				Lure.emit_signal("lurlog",Lure.SAVE_UNKNOWN)
+		_file.close()
+		print(PREFIX+"Finished loading saved mod data!")
+	else:
+		print(PREFIX+"Save data file for modded assets was not found, skipping load.")
+	_refresh_modded_unlocks()
 
 func _vanilla_unlock_security():
 	PlayerData._unlock_cosmetic("eye_halfclosed")

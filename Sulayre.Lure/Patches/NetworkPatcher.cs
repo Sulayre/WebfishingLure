@@ -13,14 +13,14 @@ namespace Sulayre.Lure.Patches
 		{
 			// wait for any newline token after any extends token
 
-			var constmaxwaiter = new MultiTokenWaiter([
+			/*var constmaxwaiter = new MultiTokenWaiter([
 				t => t.Type is TokenType.PrConst,
 				t => t is IdentifierToken{Name:"MAX_PLAYERS"},
 				t => t.Type is TokenType.OpAssign,
 				t => t is ConstantToken{Value: IntVariant {Value: 12}},
 				t => t.Type is TokenType.Newline,
 
-			], allowPartialMatch: false);
+			], allowPartialMatch: false);*/
 
 			var waiter = new MultiTokenWaiter([
 				t => t.Type is TokenType.Comma,
@@ -37,7 +37,7 @@ namespace Sulayre.Lure.Patches
 
 			], allowPartialMatch: false);
 
-			var networkmax = new MultiTokenWaiter([
+			/*var networkmax = new MultiTokenWaiter([
 				t => t is IdentifierToken{Name:"Network"},
 				t => t.Type is TokenType.Period,
 				t => t is IdentifierToken{Name:"MAX_PLAYERS"},
@@ -49,7 +49,7 @@ namespace Sulayre.Lure.Patches
 				t => t.Type is TokenType.Comma,
 				t => t is IdentifierToken{Name:"MAX_PLAYERS"},
 
-			], allowPartialMatch: false);
+			], allowPartialMatch: false);*/
 
 			// loop through all tokens in the script
 			foreach (var token in tokens)
@@ -72,7 +72,7 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.ParenthesisClose);
 					yield return new Token(TokenType.Newline,1);
 				}
-				else if (constmaxwaiter.Check(token))
+				/*else if (constmaxwaiter.Check(token))
 				{
 					yield return token;
 
@@ -81,7 +81,7 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.OpAssign);
 					yield return new IdentifierToken("MAX_PLAYERS");
 					yield return new Token(TokenType.Newline);
-				}
+				}*/
 				else if (waitercode.Check(token))
 				{
 					yield return token;
@@ -101,7 +101,7 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.ParenthesisClose);
 					yield return new Token(TokenType.Newline, 2);
 				}
-				else if (createmax.Check(token))
+				/*else if (createmax.Check(token))
 				{
 					yield return new ConstantToken(new IntVariant(2));
 					yield return new Token(TokenType.CfIf);
@@ -124,7 +124,7 @@ namespace Sulayre.Lure.Patches
 					yield return new IdentifierToken("LOBBY");
 					yield return new Token(TokenType.ParenthesisClose);
 					networkmax.Reset();
-				}
+				}*/
 				else
 				{
 					// return the original token

@@ -25,13 +25,7 @@ namespace Sulayre.Lure.Patches
 
 			var datedwaiter = new MultiTokenWaiter([
 				t => t.Type is TokenType.Comma,
-				t => t is IdentifierToken{Name:"dated"},
-			], allowPartialMatch: false);
-
-			var selectedwaiter = new MultiTokenWaiter([
-				t => t is ConstantToken{Value: StringVariant {Value: "%serv_options"}},
-				t => t.Type is TokenType.Period,
-				t => t is IdentifierToken{Name:"selected"},
+				t => t is IdentifierToken{Name:"banned"},
 			], allowPartialMatch: false);
 			// loop through all tokens in the script
 			foreach (var token in tokens)
@@ -115,34 +109,7 @@ namespace Sulayre.Lure.Patches
 					yield return new IdentifierToken("lobby_map");
 					yield return new Token(TokenType.OpEqual);
 					yield return new ConstantToken(new StringVariant(""));
-
-					yield return new Token(TokenType.Newline, 2);
-
-					yield return new Token(TokenType.PrVar);
-					yield return new IdentifierToken("lobby_filter");
-					yield return new Token(TokenType.OpAssign);
-					yield return new IdentifierToken("Steam");
-					yield return new Token(TokenType.Period);
-					yield return new IdentifierToken("getLobbyData");
-					yield return new Token(TokenType.ParenthesisOpen);
-					yield return new IdentifierToken("lobby");
-					yield return new Token(TokenType.Comma);
-					yield return new ConstantToken(new StringVariant("lurefilter"));
-					yield return new Token(TokenType.ParenthesisClose);
-
-					yield return new Token(TokenType.Newline, 2);
-
-					yield return new Token(TokenType.PrVar);
-					yield return new IdentifierToken("lobby_max");
-					yield return new Token(TokenType.OpAssign);
-
-					yield return new IdentifierToken("Steam");
-					yield return new Token(TokenType.Period);
-					yield return new IdentifierToken("getLobbyMemberLimit");
-					yield return new Token(TokenType.ParenthesisOpen);
-					yield return new IdentifierToken("lobby");
-					yield return new Token(TokenType.ParenthesisClose);
-
+					
 					yield return new Token(TokenType.Newline, 2);
 
 				}
@@ -152,11 +119,7 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.Comma);
 					yield return new IdentifierToken("has_map");
 					yield return new Token(TokenType.Comma);
-					yield return new IdentifierToken("lobby_max");
-					yield return new Token(TokenType.Comma);
 					yield return new IdentifierToken("lobb_lure");
-					yield return new Token(TokenType.Comma);
-					yield return new IdentifierToken("lobby_filter");
 					yield return new Token(TokenType.Newline, 2);
 				}
 				else

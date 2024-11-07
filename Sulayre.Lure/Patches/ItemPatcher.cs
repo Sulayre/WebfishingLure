@@ -19,6 +19,13 @@ namespace Sulayre.Lure.Patches
 				t => t.Type is TokenType.ParenthesisClose,
 				t => t.Type is TokenType.Colon,
 				t => t.Type is TokenType.Newline & t.AssociatedData is 1,
+					//if not controlled: return
+					t => t.Type is TokenType.CfIf,
+					t => t.Type is TokenType.OpNot,	
+					t => t is IdentifierToken{Name:"controlled"},
+					t => t.Type is TokenType.Colon,
+					t => t.Type is TokenType.CfReturn,
+					t => t.Type is TokenType.Newline & t.AssociatedData is 1,
 					//if held_item.empty(): return
 					t => t.Type is TokenType.CfIf,
 					t => t is IdentifierToken{Name:"held_item"},
