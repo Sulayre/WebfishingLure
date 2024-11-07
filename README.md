@@ -1,5 +1,3 @@
-# NEWEST GAME VERSION CRASHES THE GAME, PLEASE BE PATIENT WHILE LURE GETS UPDATED!!
-
 <p align="center">
   <img src="https://raw.githubusercontent.com/Sulayre/WebfishingLure/refs/heads/main/icon.png" alt="Lure Shrimp"/>
 </p>
