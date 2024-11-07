@@ -21,8 +21,8 @@ namespace Sulayre.Lure.Patches
 			], allowPartialMatch: false);
 
 			var setupwaiter = new MultiTokenWaiter([
-				t => t.Type is TokenType.OpAssign,
-				t => t is ConstantToken{Value: BoolVariant {Value: false}},
+				t => t.Type is TokenType.Comma,
+				t => t is IdentifierToken{Name:"banned"},
 			], allowPartialMatch: false);
 
 			//"[VERSION MISMATCH] " + $Panel / HBoxContainer / Label.bbcode_text
@@ -32,11 +32,6 @@ namespace Sulayre.Lure.Patches
 				t => t.Type is TokenType.OpOr,
 				t => t is IdentifierToken{Name:"banned"},
 				t => t.Type is TokenType.Newline,
-			], allowPartialMatch: false);
-
-			var disabledwaiter = new MultiTokenWaiter([
-				t => t is IdentifierToken { Name: "player_count" },
-				t => t.Type is TokenType.OpGreaterEqual,
 			], allowPartialMatch: false);
 
 			// loop through all tokens in the script

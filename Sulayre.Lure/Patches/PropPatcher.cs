@@ -17,7 +17,7 @@ namespace Sulayre.Lure.Patches
 			var datadictwaiter = new MultiTokenWaiter([
 				t => t is IdentifierToken{Name:"dict"},
 				t => t.Type is TokenType.BracketOpen,
-				t => t is ConstantToken{Value: StringVariant {Value: "data"}},
+				t => t is ConstantToken{Value: StringVariant {Value: "actor_type"}},
 				t => t.Type is TokenType.BracketClose,
 				t => t.Type is TokenType.Newline,
 			], allowPartialMatch: false);
@@ -30,16 +30,10 @@ namespace Sulayre.Lure.Patches
 			], allowPartialMatch: false);
 
 			var instancewaiter = new MultiTokenWaiter([
-<<<<<<< Updated upstream
-				t => t is IdentifierToken{Name:"ACTOR_BANK"},
-				t => t.Type is TokenType.BracketOpen,
-				t => t is IdentifierToken{Name:"actor_type"},
-=======
 				// ACTOR_BANK[actor_type]
 				t => t is IdentifierToken { Name: "ACTOR_BANK" },
 				t => t.Type is TokenType.BracketOpen,
 				t => t is IdentifierToken { Name: "actor_type" },
->>>>>>> Stashed changes
 				t => t.Type is TokenType.BracketClose,
 			], allowPartialMatch: false);
 

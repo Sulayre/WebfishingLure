@@ -999,41 +999,34 @@ func _on_enter(node:Node):
 		var buttonbundle = preload("res://mods/Sulayre.Lure/Scenes/MainMenu/LobbySettings.tscn").instance()
 		
 		var options:OptionButton = buttonbundle.get_node("map")
-		
-<<<<<<< Updated upstream
-		var container:HBoxContainer = mainmenu.get_node("lobby_browser/Panel/Panel/HBoxContainer")
-		var label:Label = container.get_node("Label")
-		
-		container.add_child_below_node(label,buttonbundle)
-		label.set_stretch_ratio(3)
-=======
+
 		var container:HBoxContainer = mainmenu.get_node("lobby_browser/Panel/Panel/VBoxContainer/topbar")
 		container.add_child(buttonbundle)
->>>>>>> Stashed changes
+
 		options.connect("item_selected",Mapper,"_swap_map")
 		options.add_item("Original Map")
 		var maps = modded_maps
 		for map_data in maps:
 			options.add_item(map_data["name"])
 		# then we setup the lobby filters
-		if !OS.has_feature("editor"):
-			var filterbundle = preload("res://mods/Sulayre.Lure/Scenes/MainMenu/LobbyFilters.tscn").instance()
-			mainmenu.get_node("lobby_browser/Panel").add_child(filterbundle)
-			filterbundle.get_node("%LureOnly").connect("toggled",self,"_filter_lure")
-			filterbundle.get_node("%ShowFull").connect("toggled",self,"_filter_full")
-			filterbundle.get_node("%ShowMismatch").connect("toggled",self,"_filter_mismatch")
-			filterbundle.get_node("%DedicatedOnly").connect("toggled",self,"_filter_dedicated")
+#		if !OS.has_feature("editor"):
+#			var filterbundle = preload("res://mods/Sulayre.Lure/Scenes/MainMenu/LobbyFilters.tscn").instance()
+#			mainmenu.get_node("lobby_browser/Panel").add_child(filterbundle)
+#			filterbundle.get_node("%LureOnly").connect("toggled",self,"_filter_lure")
+#			filterbundle.get_node("%ShowFull").connect("toggled",self,"_filter_full")
+#			filterbundle.get_node("%ShowMismatch").connect("toggled",self,"_filter_mismatch")
+#			filterbundle.get_node("%DedicatedOnly").connect("toggled",self,"_filter_dedicated")
 		emit_signal("main_menu_enter")
 	if node.name == "world":
 		node.get_node("Viewport/main/entities").connect("child_entered_tree",Mapper,"_refresh_players")
 		emit_signal("world_enter")
 	if node.name == "playerhud":
-		var extended_outfit = preload("res://mods/Sulayre.Lure/Scenes/HUD/extended_outfitter.tscn").instance()
-		var old_outfit = node.get_node("main/menu/tabs/outfit")
-		node.get_node("main/menu/tabs").add_child_below_node(old_outfit,extended_outfit)
-		old_outfit.free()
-		extended_outfit.name = "outfit"
-		extended_outfit.visible = false
+		#var extended_outfit = preload("res://mods/Sulayre.Lure/Scenes/HUD/extended_outfitter.tscn").instance()
+		#var old_outfit = node.get_node("main/menu/tabs/outfit")
+		#node.get_node("main/menu/tabs").add_child_below_node(old_outfit,extended_outfit)
+		#old_outfit.free()
+		#extended_outfit.name = "outfit"
+		#extended_outfit.visible = false
 		var extended_wheel = preload("res://mods/Sulayre.Lure/Scenes/HUD/extended_emote_wheel.tscn").instance()
 		var old_wheel = node.get_node("main/emote_wheel")
 		node.get_node("main").add_child_below_node(old_wheel,extended_wheel)
