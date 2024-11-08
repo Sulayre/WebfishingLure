@@ -12,7 +12,8 @@ static func _add_resource(id: String, resource: Resource) -> void:
 		_add_item(id, resource)
 	elif resource is LureCosmetic:
 		_add_cosmetic(id, resource)
-	
+
+#TODO: do the actions shit - arch btw
 static func _add_item(id: String, resource: LureItem) -> void:
 	Globals.item_data[id] = { "file": resource }
 
