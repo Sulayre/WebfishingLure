@@ -1,0 +1,22 @@
+[gd_resource type="Resource" load_steps=3 format=2]
+
+[ext_resource path="res://mods/Lure/classes/lure_cosmetic.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Textures/Creatures/alien_creature1.png" type="Texture" id=2]
+
+[resource]
+script = ExtResource( 1 )
+name = "gree"
+desc = "dictoruatyry"
+title = ""
+icon = ExtResource( 2 )
+species_alt_mesh = [  ]
+main_color = Color( 0, 1, 0, 1 )
+body_pattern = [  ]
+mirror_face = true
+flip = false
+allow_blink = true
+category = "primary_color"
+cos_internal_id = 0
+in_rotation = false
+chest_reward = false
+cost = 10

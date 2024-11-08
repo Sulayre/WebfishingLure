@@ -26,10 +26,15 @@ func _init() -> void:
 		
 		var file_name: String = file_path.split("/")[-1].get_basename()
 		
+		resource.mod_id = mod_id
+		resource.resource_id = file_name
+		
 		if resource is LureItem:
 			items[file_name] = resource
 		elif resource is LureCosmetic:
 			cosmetics[file_name] = resource
+		
+		print(items,"\n",cosmetics)
 
 
 func _enter_tree() -> void:

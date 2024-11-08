@@ -1,17 +1,23 @@
-extends Node
+extends Reference
 
-onready var Lure := $"/mods/Lure"
+const LureContent := preload("res://mods/Lure/classes/lure_content.gd")
+const LureItem := preload("res://mods/Lure/classes/lure_item.gd")
+const LureCosmetic := preload("res://mods/Lure/classes/lure_cosmetic.gd")
 
-
-func _add_resource(file, file_name) -> void:
-	file_name = file_name.get_basename()
-	
-	var read = load(file)
-	if read.get("resource_type") == null:
-		print("TRES file does not have resource type labeled.")
+static func _add_resource(resource: Resource) -> void:
+	if not resource is LureContent:
+		#commit die
 		return
-	var type = read.get("resource_type")
+	if resource is LureItem:
+		_add_item(resource)
+	elif resource is LureCosmetic:
+		_add_cosmetic(resource)
 	
-	var new = {}
-	new["file"] = load(file)
-	
+static func _add_item(resource: LureItem) -> void:
+	Globals.item_data[resource.lure_id] = {"file":resource}
+
+static func _add_cosmetic(resource: LureCosmetic) -> void:
+	Globals.cosmetic_data[resource.lure_id] = {"file":resource}
+	PlayerData.cosmetic_reset_lock = true
+	PlayerData._unlock_cosmetic(resource.lure_id)
+	PlayerData.cosmetic_reset_lock = false

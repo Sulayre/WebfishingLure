@@ -1,6 +1,6 @@
 extends Resource
 
-export (String) var resource_id: String
+var resource_id: String
 var mod_id: String
 var lure_id:String setget ,_get_lure_id
 

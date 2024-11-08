@@ -7,6 +7,7 @@ const LureMod := preload("res://mods/Lure/classes/lure_mod.gd")
 const Loader := preload("res://mods/Lure/modules/loader.gd")
 
 var mods: Dictionary setget _set_nullifier
+var content_ids: PoolStringArray setget _set_nullifier
 
 
 func _init() -> void:
@@ -14,10 +15,6 @@ func _init() -> void:
 
 
 func _enter_tree() -> void:
-	pass
-
-
-func _ready() -> void:
 	pass
 
 
@@ -31,11 +28,18 @@ func get_mod(mod_id: String) -> LureMod:
 func _register_mod(mod: LureMod) -> void:
 	if not mod is LureMod:
 		return
-	
+
 	if not mod in mods:
 		mods[mod.mod_id] = mod
+		for item in mod.items.values():
+			Loader._add_resource(item)
+		for cosmetic in mod.cosmetics.values():
+			Loader._add_resource(cosmetic)
+		content_ids\
+			.append_array(mod.items.keys())\
+			.append_array(mod.cosmetic.keys())
 
 
-# Prevents other mods from modifying variables
+# Prevents other scripts from modifying core variables
 func _set_nullifier(value) -> void:
 	return

@@ -1,7 +1,7 @@
 extends "res://mods/Lure/classes/lure_content.gd"
 
 export  var name = "cos name"
-export  var desc = "cos desc"
+export (String, MULTILINE) var desc = "cos desc"
 export  var title = ""
 export (Texture) var icon
 export (Mesh) var mesh
