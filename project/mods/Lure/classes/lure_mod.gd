@@ -35,17 +35,17 @@ func _enter_tree() -> void:
 
 # Return an array of tres files in the given path recursively
 func _get_resource_paths(path: String) -> Array:
-	var paths: Array
+	var paths: Array = []
 	var dir := Directory.new()
 	
 	if dir.open(path) != OK:
 		return []
 	
 	dir.list_dir_begin(true, true)
-	var file_name = dir.get_next()
+	var file_name := dir.get_next()
 	
 	while file_name != "":
-		var file_path = path.plus_file(file_name)
+		var file_path := path.plus_file(file_name)
 		
 		if dir.current_is_dir():
 			paths.append_array(_get_resource_paths(file_path))
