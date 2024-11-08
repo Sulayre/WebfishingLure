@@ -5,9 +5,14 @@ signal mods_loaded
 
 const LureMod := preload("res://mods/Lure/classes/lure_mod.gd")
 const Loader := preload("res://mods/Lure/modules/loader.gd")
+const Wardrobe := preload("res://mods/Lure/modules/wardrobe.gd")
 
+var wardrobe := Wardrobe.new()
+
+var threaded_references: Array = [wardrobe]
 var mods: Dictionary setget _set_nullifier
 var content_ids: PoolStringArray setget _set_nullifier
+
 
 
 # Returns a mod matching the given mod ID
