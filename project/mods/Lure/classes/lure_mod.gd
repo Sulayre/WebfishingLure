@@ -7,12 +7,7 @@ const LureCosmetic := preload("res://mods/Lure/classes/lure_cosmetic.gd")
 var Lure: Node
 var mod_folder: String = get_script().get_path().get_base_dir()
 var mod_id: String = mod_folder.get_slice("/", 3)
-
-# Lure mod content
-var items: Dictionary
-var cosmetics: Dictionary
-var actors: Dictionary
-var maps: Dictionary
+var mod_content: Dictionary
 
 
 func _init() -> void:
@@ -26,25 +21,16 @@ func _init() -> void:
 		
 		var file_name: String = file_path.split("/")[-1].get_basename()
 		
-		resource.mod_id = mod_id
-		resource.resource_id = file_name
+		if file_name in mod_content:
+			return
 		
-		if resource is LureItem:
-			items[file_name] = resource
-		elif resource is LureCosmetic:
-			cosmetics[file_name] = resource
-		
-		print(items,"\n",cosmetics)
+		mod_content[file_name] = resource
 
 
 func _enter_tree() -> void:
 	Lure = $"/root/Lure"
 	
 	Lure._register_mod(self)
-
-
-func _ready() -> void:
-	pass
 
 
 # Return an array of tres files in the given path recursively
