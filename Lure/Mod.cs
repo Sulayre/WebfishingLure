@@ -10,6 +10,7 @@ public class Mod : IMod {
     {
         this.Config = modInterface.ReadConfig<Config>();
         modInterface.Logger.Information("\n88     88   88 88\"\"Yb 888888 \r\n88     88   88 88__dP 88__   \r\n88  .o Y8   8P 88\"Yb  88\"\"   \r\n88ood8 `YbodP' 88  Yb 888888 ");
+		modInterface.RegisterScriptMod(new PlayerPatch());
 	}
 
     public void Dispose() {

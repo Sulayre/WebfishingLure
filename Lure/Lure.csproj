@@ -15,10 +15,6 @@
     <ItemGroup>
         <None Include="manifest.json" CopyToOutputDirectory="PreserveNewest" />
     </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Patches\" />
-    </ItemGroup>
     
     <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(GDWeavePath)' != ''">
         <ItemGroup>
