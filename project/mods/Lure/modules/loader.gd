@@ -33,6 +33,9 @@ static func _add_cosmetic(id: String, resource: LureCosmetic) -> void:
 			pass
 	
 	Globals.cosmetic_data[id] = { "file": resource }
+
+
+static func _unlock_cosmetic(id: String) -> void:
 	PlayerData.cosmetic_reset_lock = true
 	PlayerData._unlock_cosmetic(id)
 	PlayerData.cosmetic_reset_lock = false

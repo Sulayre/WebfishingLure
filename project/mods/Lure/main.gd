@@ -14,9 +14,12 @@ const LureItem := preload("res://mods/Lure/classes/lure_item.gd")
 const LureCosmetic := preload("res://mods/Lure/classes/lure_cosmetic.gd")
 
 var mods: Dictionary setget _set_nullifier
-var content_ids: PoolStringArray setget _set_nullifier
-var content_resources: Array setget _set_nullifier
+var content: Dictionary setget _set_nullifier
 var species_indexes: Array setget _set_nullifier, _get_species_indexes
+
+
+func _ready() -> void:
+	get_tree().connect("node_added", self, "_unlock_cosmetics")
 
 
 # Returns a mod matching the given mod ID
@@ -28,7 +31,7 @@ func get_mod(mod_id: String) -> LureMod:
 func get_cosmetics_of_category(category: String) -> Array:
 	var matching_resources: Array = []
 	
-	for resource in content_resources:
+	for resource in content.values():
 		if not resource is LureCosmetic:
 			continue
 		if resource.category == category:
@@ -47,22 +50,35 @@ func _register_mod(mod: LureMod) -> void:
 	
 	for id in mod.mod_content:
 		var lure_id: String = mod.mod_id + "." + id
-		var content: LureCosmetic = mod.mod_content[id]
+		var mod_content: LureCosmetic = mod.mod_content[id]
 		
-		Loader._add_resource(lure_id, content)
-		content_ids.append(lure_id)
-		content_resources.append(content)
+		Loader._add_resource(lure_id, mod_content)
+		content[lure_id] = mod_content
 		
-		if content is LureCosmetic and content.category == "species":
+		if mod_content is LureCosmetic and mod_content.category == "species":
 			species_indexes.append(lure_id)
 			var content_index = species_indexes.size() - 1
-			content.dynamic_species_id = content_index
+			mod_content.dynamic_species_id = content_index
 			Wardrobe.refresh_body_patterns(get_cosmetics_of_category("pattern"), species_indexes)
 
 
 # Prepend cat and dog to the species index to avoid math
 func _get_species_indexes():
 	return ["species_cat","species_dog"].append_array(species_indexes)
+
+
+# Loops through lure cosmetics and calls unlock cosmetic
+func _unlock_cosmetics(node: Node) -> void:
+	if node.name != "main_menu":
+		return
+		
+	for id in content.keys():
+		if not content[id] is LureCosmetic:
+			return
+		
+		Loader._unlock_cosmetic(id)
+	
+	get_tree().disconnect("node_added", self, "_unlock_cosmetics")
 
 
 # Prevents other scripts from modifying core variables
