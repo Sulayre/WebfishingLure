@@ -1,6 +1,5 @@
 extends Node
 
-const LureContent := preload("res://mods/Lure/classes/lure_content.gd")
 const LureItem := preload("res://mods/Lure/classes/lure_item.gd")
 const LureCosmetic := preload("res://mods/Lure/classes/lure_cosmetic.gd")
 
@@ -9,30 +8,22 @@ var mod_folder: String = get_script().get_path().get_base_dir()
 var mod_id: String = mod_folder.get_slice("/", 3)
 
 # Lure mod content
-# id : resource
-var items: Dictionary
-var cosmetics: Dictionary
-var actors: Dictionary
-var maps: Dictionary
+var items: Array
+var cosmetics: Array
+var actors: Array
+var maps: Array
 
 
 func _init() -> void:
-	var resource_files:PoolStringArray = _get_resource_paths(mod_folder) #.plus_file("resources")
-	#print_debug(resource_files)
-	for file_path in resource_files:
-		var resource = load(file_path)
-		var file_name:String = file_path.split("/",false)[-1]
-		if not resource is LureContent:
-			continue
-		resource.resource_id = file_name.get_basename()
-		resource.mod_id = mod_id
+	var resource_files: Array = _get_resource_paths(mod_folder.plus_file("resources"))
+	
+	for file in resource_files:
+		var resource = load(file)
+		
 		if resource is LureItem:
-			items[resource["resource_id"]] = resource
+			items.append(resource)
 		elif resource is LureCosmetic:
-			cosmetics[resource["resource_id"]] = resource
-
-				
-	print_debug(items,"\n",cosmetics)
+			cosmetics.append(resource)
 
 
 func _enter_tree() -> void:
@@ -46,12 +37,12 @@ func _ready() -> void:
 
 
 # Return an array of tres files in the given path recursively
-func _get_resource_paths(path: String) -> PoolStringArray:
-	var paths: PoolStringArray
+func _get_resource_paths(path: String) -> Array:
+	var paths: Array
 	var dir := Directory.new()
 	
 	if dir.open(path) != OK:
-		return PoolStringArray()
+		return []
 	
 	dir.list_dir_begin(true, true)
 	var file_name = dir.get_next()
