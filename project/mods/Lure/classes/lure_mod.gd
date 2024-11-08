@@ -1,5 +1,6 @@
 extends Node
 
+const LureContent := preload("res://mods/Lure/classes/lure_content.gd")
 const LureItem := preload("res://mods/Lure/classes/lure_item.gd")
 const LureCosmetic := preload("res://mods/Lure/classes/lure_cosmetic.gd")
 
@@ -8,22 +9,27 @@ var mod_folder: String = get_script().get_path().get_base_dir()
 var mod_id: String = mod_folder.get_slice("/", 3)
 
 # Lure mod content
-var items: Array
-var cosmetics: Array
-var actors: Array
-var maps: Array
+var items: Dictionary
+var cosmetics: Dictionary
+var actors: Dictionary
+var maps: Dictionary
 
 
 func _init() -> void:
 	var resource_files: Array = _get_resource_paths(mod_folder.plus_file("resources"))
 	
-	for file in resource_files:
-		var resource = load(file)
+	for file_path in resource_files:
+		var resource: Resource = load(file_path)
+		
+		if not resource is LureContent:
+			continue
+		
+		var file_name: String = file_path.split("/")[-1].get_basename()
 		
 		if resource is LureItem:
-			items.append(resource)
+			items[file_name] = resource
 		elif resource is LureCosmetic:
-			cosmetics.append(resource)
+			cosmetics[file_name] = resource
 
 
 func _enter_tree() -> void:

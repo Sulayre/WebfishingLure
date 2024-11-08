@@ -1,4 +1,4 @@
-extends Resource
+extends "res://mods/Lure/classes/lure_content.gd"
 
 export  var name = "cos name"
 export  var desc = "cos desc"
