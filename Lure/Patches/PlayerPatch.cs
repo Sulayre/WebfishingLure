@@ -73,11 +73,19 @@ public class PlayerPatch : IScriptMod
             {
                 consuming = false;
                 
-                // LurePatches.override_body_pattern()
+                // LurePatches.override_body_pattern(data["species"],species,pattern)
                 yield return new IdentifierToken("LurePatches");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("override_body_pattern");
                 yield return new Token(TokenType.ParenthesisOpen);
+                yield return new IdentifierToken("data");
+                yield return new Token(TokenType.BracketOpen);
+                yield return new ConstantToken(new StringVariant("species"));
+                yield return new Token(TokenType.BracketClose);
+                yield return new Token(TokenType.Comma);
+                yield return new IdentifierToken("species");
+                yield return new Token(TokenType.Comma);
+                yield return new IdentifierToken("pattern");
                 yield return new Token(TokenType.ParenthesisClose);
             
                 yield return new Token(TokenType.Newline, 2);

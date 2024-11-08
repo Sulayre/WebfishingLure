@@ -1,7 +1,10 @@
-[gd_resource type="Resource" load_steps=3 format=2]
+[gd_resource type="Resource" load_steps=6 format=2]
 
 [ext_resource path="res://mods/Lure/classes/lure_cosmetic.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Textures/Creatures/alien_creature1.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Textures/Cosmetics/body_pattern_tux.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Textures/Cosmetics/body_pattern_tux_dog.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Textures/Cosmetics/body_pattern_tux_cat.png" type="Texture" id=5]
 
 [resource]
 script = ExtResource( 1 )
@@ -11,7 +14,11 @@ title = ""
 icon = ExtResource( 2 )
 species_alt_mesh = [  ]
 main_color = Color( 0, 1, 0, 1 )
-body_pattern = [  ]
+body_patterns_plus = {
+"body": ExtResource( 3 ),
+"species_cat": ExtResource( 5 ),
+"species_dog": ExtResource( 4 )
+}
 mirror_face = true
 flip = false
 allow_blink = true
