@@ -7,8 +7,6 @@ const LureMod := preload("res://mods/Lure/classes/lure_mod.gd")
 const Loader := preload("res://mods/Lure/modules/loader.gd")
 
 var mods: Dictionary setget _set_nullifier
-var current_mod: Node
-
 
 func _init() -> void:
 	pass
@@ -20,15 +18,6 @@ func _enter_tree() -> void:
 
 func _ready() -> void:
 	pass
-
-
-# Selects a mod to work on
-func select_mod(mod_id: String) -> int:
-	if not mod_id in mods.keys():
-		return FAILED
-	
-	current_mod = mods[mod_id]
-	return OK
 
 
 # Returns a mod matching the given mod ID

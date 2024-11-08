@@ -1,7 +1,7 @@
-extends Resource
+extends "res://mods/Lure/classes/lure_content.gd"
 
 export  var item_name = ""
-export  var item_description = ""
+export (String, MULTILINE) var item_description = ""
 export  var catch_blurb = ""
 export  var item_is_hidden = false
 export (Texture) var icon
