@@ -1,1 +1,5 @@
-extends "res://mods/Lure/Prelude.gd".LureMod
+extends "res://mods/Lure/classes/lure_mod.gd"
+
+
+func _ready() -> void:
+	print(mod_id)
