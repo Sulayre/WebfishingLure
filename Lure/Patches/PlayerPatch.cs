@@ -27,17 +27,13 @@ public class PlayerPatch : IScriptMod
             t => t.Type is TokenType.CfMatch,
         ], allowPartialMatch: true, waitForReady: true);
         
-        // pattern.body_pattern[2])
+        // body_pattern[2])
         var bodyPatternWaiter = new MultiTokenWaiter([
-            t => t is IdentifierToken { Name: "pattern" },
-            t => t.Type is TokenType.Period,
             t => t is IdentifierToken { Name: "body_pattern" },
-            t => t.Type is TokenType.BracketOpen,
             t => t is ConstantToken { Value: IntVariant { Value: 2 } },
-            t => t.Type is TokenType.BracketClose,
             t => t.Type is TokenType.ParenthesisClose,
-        ], waitForReady: true);
-
+        ], allowPartialMatch: true, waitForReady: true);
+        
         var consuming = false;
 
         foreach (var token in tokens)
@@ -46,11 +42,12 @@ public class PlayerPatch : IScriptMod
             {
                 yield return token;
                 
-                // const LurePatches = preload("res://mods/Lure/modules/patches.gd")
-                yield return new Token(TokenType.PrConst);
+                // onready var LurePatches = load("res://mods/Lure/modules/patches.gd")
+                yield return new Token(TokenType.PrOnready);
+                yield return new Token(TokenType.PrVar);
                 yield return new IdentifierToken("LurePatches");
                 yield return new Token(TokenType.OpAssign);
-                yield return new Token(TokenType.PrPreload);
+                yield return new IdentifierToken("load");
                 yield return new Token(TokenType.ParenthesisOpen);
                 yield return new ConstantToken(new StringVariant("res://mods/Lure/modules/patches.gd"));
                 yield return new Token(TokenType.ParenthesisClose);
@@ -60,6 +57,8 @@ public class PlayerPatch : IScriptMod
 
             else if (updateCosmeticsWaiter.Check(token))
             {
+                yield return token;
+                
                 matchSpeciesWaiter.SetReady();
                 bodyPatternWaiter.SetReady();
             }
@@ -87,8 +86,6 @@ public class PlayerPatch : IScriptMod
                 yield return new Token(TokenType.Comma);
                 yield return new IdentifierToken("pattern");
                 yield return new Token(TokenType.ParenthesisClose);
-            
-                yield return new Token(TokenType.Newline, 2);
             }
 
             else if (!consuming)
