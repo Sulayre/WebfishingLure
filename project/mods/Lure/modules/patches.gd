@@ -2,20 +2,23 @@ extends Reference
 
 const LureCosmetic := preload("res://mods/Lure/classes/lure_cosmetic.gd")
 
-static func override_body_pattern(species_id:String,mesh:MeshInstance,pattern:Resource):
+static func override_body_pattern(species_id: String, mesh: MeshInstance, pattern: Resource):
 	var Lure = mesh.get_node_or_null("/root/Lure")
 	if (
 			not pattern is LureCosmetic
-			or not pattern is CosmeticResource
+			and not pattern is CosmeticResource
 			or !Lure
 	):
 		return
 	
-	var species_index = Lure.species_index
-	if not species_id in species_index:
+	print(Lure)
+	print(Lure.species_indices)
+	
+	var species_indices = Lure.species_indices
+	if not species_id in species_indices:
 		return
 	
-	var texture_index = species_index.find(species_id) + 1 # body texture offset
+	var texture_index = species_indices.find(species_id) + 1 # body texture offset
 	if texture_index > pattern.body_pattern.size() - 1:
 		return
 

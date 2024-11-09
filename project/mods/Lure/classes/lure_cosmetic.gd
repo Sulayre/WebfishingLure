@@ -16,7 +16,7 @@ export (Material) var secondary_material
 export (Material) var third_material
 export (Color) var main_color = Color(1.0, 1.0, 1.0, 1.0)
 
-var body_pattern
+var body_pattern := [null, null, null]
 export (Dictionary) var body_pattern_plus = {
 	"body": preload("res://Assets/Textures/Cosmetics/body_pattern_tux.png"),
 	"species_cat": preload("res://Assets/Textures/Cosmetics/body_pattern_tux_cat.png"),

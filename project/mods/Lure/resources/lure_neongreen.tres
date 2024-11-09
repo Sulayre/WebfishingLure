@@ -12,10 +12,13 @@ name = "gree"
 desc = "dictoruatyry"
 title = ""
 icon = ExtResource( 2 )
-species_alt_mesh = [  ]
+species_alt_mesh_plus = {
+"species_id": null
+}
 main_color = Color( 0, 1, 0, 1 )
-body_patterns_plus = {
+body_pattern_plus = {
 "body": ExtResource( 3 ),
+"mod_species_id": null,
 "species_cat": ExtResource( 5 ),
 "species_dog": ExtResource( 4 )
 }

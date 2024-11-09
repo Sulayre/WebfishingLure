@@ -15,7 +15,7 @@ const LureCosmetic := preload("res://mods/Lure/classes/lure_cosmetic.gd")
 
 var mods: Dictionary setget _set_nullifier
 var content: Dictionary setget _set_nullifier
-var species_indexes: Array setget _set_nullifier, _get_species_indexes
+var species_indices: Array = [ "species_cat", "species_dog" ]
 
 
 func _ready() -> void:
@@ -56,15 +56,10 @@ func _register_mod(mod: LureMod) -> void:
 		content[lure_id] = mod_content
 		
 		if mod_content is LureCosmetic and mod_content.category == "species":
-			species_indexes.append(lure_id)
-			var content_index = species_indexes.size() - 1
+			species_indices.append(lure_id)
+			var content_index = species_indices.size() - 1
 			mod_content.dynamic_species_id = content_index
-			Wardrobe.refresh_body_patterns(get_cosmetics_of_category("pattern"), species_indexes)
-
-
-# Prepend cat and dog to the species index to avoid math
-func _get_species_indexes():
-	return ["species_cat","species_dog"].append_array(species_indexes)
+			Wardrobe.refresh_body_patterns(get_cosmetics_of_category("pattern"), species_indices)
 
 
 # Loops through lure cosmetics and calls unlock cosmetic
