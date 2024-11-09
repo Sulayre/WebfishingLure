@@ -1,6 +1,8 @@
 extends Reference
 
 const LureCosmetic := preload("res://mods/Lure/classes/lure_cosmetic.gd")
+const Player := preload("res://Scenes/Entities/Player/player.gd")
+
 
 static func refresh_body_patterns(pattern_resources: Array, species_indexes: Array):
 	for pattern in pattern_resources:
@@ -10,7 +12,7 @@ static func refresh_body_patterns(pattern_resources: Array, species_indexes: Arr
 		):
 			continue
 		
-		for species_id in pattern.body_pattern_plus:
+		for species_id in pattern.extended_body_patterns:
 			if not species_id in species_indexes:
 				continue
 			
@@ -21,4 +23,31 @@ static func refresh_body_patterns(pattern_resources: Array, species_indexes: Arr
 			if loaded_index > length - 1:
 				pattern.body_pattern.resize(loaded_index + 1)
 			
-			pattern.body_pattern[loaded_index] = pattern.body_pattern_plus[species_id]
+			pattern.body_pattern[loaded_index] = pattern.extended_body_patterns[species_id]
+
+
+static func setup_player(plr: Player, data: Dictionary):
+	setup_player_voice(plr, data["species_array"])
+
+static func setup_player_voice(plr: Player,species_array: Array):
+	var sound_man: Spatial = plr.get_node("sound_manager")
+	for species in species_array:
+		var voice_sounds = {
+				"bark": species.voice_bark,
+				"growl": species.voice_growl,
+				"whine": species.voice_whine
+			}
+			
+		for sound_id in voice_sounds:
+			var sound_resource = voice_sounds[sound_id]
+			if !sound_resource:
+				continue
+				
+			var sfx_node := AudioStreamPlayer3D.new()
+			var sfx_resource := AudioStreamRandomPitch.new()
+			
+			sfx_resource.audio_stream = sound_resource
+			sfx_node.stream = sfx_resource
+			sfx_node.name = sound_id + "_" + species.id
+	
+			sound_man.add_child(sfx_node,true)

@@ -2,7 +2,7 @@ extends Resource
 
 var Placeholder = PlaceholderResource.new()
 var import_resource: Resource = Placeholder setget _import_resource
-
+var id:String
 
 class PlaceholderResource extends Resource:
 	func _init():

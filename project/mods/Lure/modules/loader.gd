@@ -18,6 +18,7 @@ static func _add_item(id: String, resource: LureItem) -> void:
 	Globals.item_data[id] = { "file": resource }
 
 static func _add_cosmetic(id: String, resource: LureCosmetic) -> void:
+	print_stack()
 	var category = resource.category
 	match category:
 		"species":

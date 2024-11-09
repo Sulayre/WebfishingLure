@@ -35,6 +35,10 @@ var allow_blink: bool = true
 var alt_eye: Texture
 var alt_blink: Texture
 
+var voice_bark: AudioStream
+var voice_growl: AudioStream
+var voice_whine: AudioStream
+
 var cos_internal_id: int = 0
 var dynamic_species_id:int
 var dynamic_body_pattern_id:int
@@ -172,6 +176,31 @@ func _get_property_list() -> Array:
 		type = TYPE_OBJECT,
 		hint = PROPERTY_HINT_RESOURCE_TYPE,
 		hint_string = "Texture",
+	}, {
+		# Lure cosmetic species data
+		name = "Species",
+		type = TYPE_NIL,
+		usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
+	}, {
+		name = "Voice",
+		type = TYPE_NIL,
+		hint_string = "voice_",
+		usage = PROPERTY_USAGE_GROUP | PROPERTY_USAGE_SCRIPT_VARIABLE
+	}, {
+		name = "voice_bark",
+		type = TYPE_OBJECT,
+		hint = PROPERTY_HINT_RESOURCE_TYPE,
+		hint_string = "AudioStream",
+	}, {
+		name = "voice_growl",
+		type = TYPE_OBJECT,
+		hint = PROPERTY_HINT_RESOURCE_TYPE,
+		hint_string = "AudioStream",
+	}, {
+		name = "voice_whine",
+		type = TYPE_OBJECT,
+		hint = PROPERTY_HINT_RESOURCE_TYPE,
+		hint_string = "AudioStream",
 	}, {
 		# Lure cosmetic acquisition data
 		name = "Acquisition",

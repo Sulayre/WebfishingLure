@@ -19,7 +19,7 @@ var species_indices: Array = [ "species_cat", "species_dog" ]
 
 
 func _ready() -> void:
-	get_tree().connect("node_added", self, "_unlock_cosmetics")
+	get_tree().connect("node_added", self, "_node_catcher",[],CONNECT_DEFERRED)
 
 
 # Returns a mod matching the given mod ID
@@ -51,7 +51,8 @@ func _register_mod(mod: LureMod) -> void:
 	for id in mod.mod_content:
 		var lure_id: String = mod.mod_id + "." + id
 		var mod_content: LureCosmetic = mod.mod_content[id]
-		
+
+		mod_content.id = lure_id
 		Loader._add_resource(lure_id, mod_content)
 		content[lure_id] = mod_content
 		
@@ -62,11 +63,24 @@ func _register_mod(mod: LureMod) -> void:
 			Wardrobe.refresh_body_patterns(get_cosmetics_of_category("pattern"), species_indices)
 
 
+# checks for relevant nodes when one gets added
+func _node_catcher(node:Node):
+	var node_groups = node.get_groups()
+	match node.name:
+		"main_menu":
+			print_stack()
+			_unlock_cosmetics()
+	for group in node_groups:
+		match group:
+			"player":
+				print_stack()
+				Wardrobe.setup_player(node, {
+					"species_array": get_cosmetics_of_category("species"),
+				})
+
+
 # Loops through lure cosmetics and calls unlock cosmetic
-func _unlock_cosmetics(node: Node) -> void:
-	if node.name != "main_menu":
-		return
-		
+func _unlock_cosmetics() -> void:
 	for id in content.keys():
 		if not content[id] is LureCosmetic:
 			return
