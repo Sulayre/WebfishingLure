@@ -47,7 +47,7 @@ public class PlayerPatch : IScriptMod
                 yield return new Token(TokenType.PrVar);
                 yield return new IdentifierToken("LurePatches");
                 yield return new Token(TokenType.OpAssign);
-                yield return new IdentifierToken("load");
+                yield return new Token(TokenType.BuiltInFunc, (uint?)BuiltinFunction.ResourceLoad);
                 yield return new Token(TokenType.ParenthesisOpen);
                 yield return new ConstantToken(new StringVariant("res://mods/Lure/modules/patches.gd"));
                 yield return new Token(TokenType.ParenthesisClose);
