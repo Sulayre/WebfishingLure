@@ -232,6 +232,103 @@ func _filter_save(new_save:Dictionary,slot:int) -> Dictionary:
 	print(PREFIX+"Stored the modded items and cosmetics owned on a separate save file successfully.")
 	return filtered_save
 
+func _filter_load(new_save:Dictionary,slot:int) -> Dictionary:
+	var modded_save = SAVE_TEMPLATE.duplicate(true)
+	var missing_save = SAVE_TEMPLATE.duplicate(true)
+	var filtered_save = new_save.duplicate(true)
+	var item_list = Lure.item_list.keys()
+	var cosmetic_list = Lure.cosmetic_list.keys()
+	var items_vanilla = Lure.vanilla_items
+	var cosmetics_vanilla = Lure.vanilla_cosmetics
+	print(PREFIX+"Lure is filtering modded content from the vanilla save file to avoid corruption")
+	#print(item_list,cosmetic_list)
+	var missing = 0
+	var filtered_items = []
+	for k in modded_save.keys():
+		if new_save[k] == null: continue
+		match k:
+			"saved_aqua_fish":
+				if !items_vanilla.has(new_save[k]["id"]):
+					filtered_save[k] = {"id": "empty", "ref": 0, "size": 50.0, "quality": PlayerData.ITEM_QUALITIES.NORMAL}
+				
+			"inventory":
+				for item_data in new_save[k]:
+					if items_vanilla.has(item_data["id"]):
+						filtered_items.append(item_data)
+					#print(modded_save[k])
+					#print(filtered_save[k])
+				filtered_save[k] = filtered_items
+			"journal":
+				#for every loot pool in journal
+				for p in new_save[k].keys():
+					# for every fish id in the current <p> loot pool of the journal
+					for id in new_save[k][p].keys():
+						# entry > the actual journal entry data if the current <id> fish
+						if !items_vanilla.has(id):
+							filtered_save[k][p].erase(id)
+					
+			"cosmetics_unlocked":
+				for cosmetic in new_save[k]:
+					if !cosmetics_vanilla.has(cosmetic):
+						filtered_save[k].erase(cosmetic)
+
+			"cosmetics_equipped":
+				for e_k in new_save[k].keys():
+					var e_v = new_save[k][e_k]
+					if e_k == "accessory":
+						for cosmetic in e_v:
+							if !cosmetics_vanilla.has(cosmetic):
+								filtered_save[k][e_k].erase(cosmetic)
+					else:
+						if cosmetic_list.has(e_v):
+							var fallback:String
+							match e_k:
+								"species":
+									fallback = "species_cat"
+								"pattern":
+									fallback = "pattern_none"
+								"primary_color":
+									fallback = "pcolor_white"
+								"secondary_color":
+									fallback = "scolor_white"
+								"hat":
+									fallback = "hat_none"
+								"undershirt":
+									fallback = "shirt_none"
+								"overshirt":
+									fallback = "overshirt_none"
+								"title":
+									fallback = "title_none"
+								"bobber":
+									fallback = "bobber_default"
+								"eye":
+									fallback = "eye_halfclosed"
+								"nose":
+									fallback = "nose_cat"
+								"mouth":
+									fallback = "mouth_default"
+								"tail":
+									fallback = "tail_none"
+								"legs":
+									fallback = "legs_none"
+								_:
+									filtered_save[k].erase(e_k)
+							if filtered_save[k].get(e_k):
+								filtered_save[k][e_k] = fallback
+
+	for hot_k in new_save["hotbar"].keys():
+		var hot_v = new_save["hotbar"][hot_k]
+		var item = PlayerData._find_item_code(hot_v)
+		var id = 0
+		if item:
+			id = item.id
+		#prints(hot_k,id,hot_v)
+		if !items_vanilla.has(id):
+			filtered_save["hotbar"][hot_k] = 0;
+	
+	print(PREFIX+"Filtered modded things from the vanilla save successfully!")
+	return filtered_save
+
 func _load_lobby_map(id,version:String) -> String:
 	if version.ends_with(".lure"):
 		var map_id = Steam.getLobbyData(id, "lure_map_id")

@@ -699,11 +699,12 @@ var cosmetic_categories:Dictionary = {
 	vanilla_tabs[3]: [],
 }
 
-var journal_categories = [\
-	["freshwater", ["lake"]], \
-	["saltwater", ["ocean"]], \
-	["misc", ["water_trash", "deep", "rain", "alien"]],\
-	["modded", []]]
+#var journal_categories = [\
+#	["freshwater", ["lake"]], \
+#	["saltwater", ["ocean"]], \
+#	["misc", ["water_trash", "deep", "rain", "alien"]],\
+#	["modded", []]
+#	]
 
 var action_references = {}
 
@@ -733,7 +734,6 @@ func _ready():
 	else:
 		_options_check()
 	#add_content("Sulayre.Lure","classic_body","res://mods/Sulayre.Lure/Resources/Cosmetics/default_body.tres",[FLAGS.FREE_UNLOCK,custom_category("bodies")])
-	Loader._vanilla_unlock_security()
 
 func loot_table(table_id:String):
 	if !modded_pools.has(table_id) and !vanilla_tables.has(table_id): modded_pools.append(table_id.to_lower())
@@ -969,7 +969,7 @@ func _bonus_content_load():
 	add_map("Sulayre.Lure","test_map","res://mods/Sulayre.Lure/Scenes/Maps/example_map.tscn","Lure Example Map")
 	
 	add_content("Sulayre.Lure","kade_shirt","mod://Resources/Cosmetics/undershirt_graphic_tshirt_kade.tres")
-	add_content("Sulayre.Lure","custom_cosmetic","res://mods/Sulayre.Lure/Resources/Cosmetics/test_resource.tres",[FLAGS.FREE_UNLOCK,custom_category("placeholder")])
+#	add_content("Sulayre.Lure","custom_cosmetic","res://mods/Sulayre.Lure/Resources/Cosmetics/test_resource.tres",[FLAGS.FREE_UNLOCK,custom_category("placeholder")])
 	add_content("Sulayre.Lure","misname_title","mod://Resources/Cosmetics/title_misname.tres")
 	add_content("Sulayre.Lure","sun_hat","res://mods/Sulayre.Lure/Resources/Cosmetics/hat_emil.tres")
 
@@ -986,13 +986,17 @@ func _filter_save(new_save:Dictionary) -> Dictionary:
 
 func _signals():
 	get_tree().root.connect("child_entered_tree",self,"_on_enter",[],CONNECT_DEFERRED)
-	connect("main_menu_enter",self,"_load_and_link_saves")
+	connect("main_menu_enter",self,"_load_and_link_saves",[],CONNECT_ONESHOT)
 	connect("world_enter",Mapper,"_load_map")
 
 func _on_enter(node:Node):
 	if node.name == "main_menu":
 		if bonus_prompt: node.add_child(prompt.instance())
 		Mapper.selected_map = null
+		
+		var btn:Button = get_tree().get_current_scene().get_node_or_null("save_select_button")
+		if btn:
+			btn.connect("pressed",self,"_assign_load_save",[],CONNECT_DEFERRED)
 		# first we setup the map selector and the max player selector
 		var mainmenu = get_tree().get_current_scene()
 		
@@ -1038,19 +1042,15 @@ func _on_enter(node:Node):
 
 func _load_and_link_saves():
 	Loader._load_modded_save_data(UserSave.current_loaded_slot)
-	var btn:Button = get_tree().get_current_scene().get_node_or_null("save_select_button")
-	if !btn: return
-	btn.connect("pressed",self,"_assign_load_save",[],CONNECT_DEFERRED)
 	
 	
 func _assign_load_save():
-	print("okay this technically should only run once")
 	var vbox = get_tree().get_current_scene().get_node_or_null("save_select/Panel/VBoxContainer")
 	if !vbox: return
 	print("b")
 	for i in vbox.get_children().size():
 		print_stack()
-		vbox.get_child(i).connect("_pressed", Loader, "_load_modded_save_data", [i])
+		vbox.get_child(i).connect("_pressed", Loader, "_load_modded_save_data", [i],CONNECT_DEFERRED)
 		
 func _filter_full(active):
 	filter_full = !active
@@ -1086,7 +1086,6 @@ func _swap_count(count):
 func _instance_mod_actor(dict, network_sender = - 1):
 	var world = get_node_or_null("/root/world")
 	if !world: return
-	print("test")
 	if not Network._validate_packet_information(dict, ["actor_type", "at", "zone", "actor_id", "creator_id", "rot", "zone_owner"], [TYPE_STRING, TYPE_VECTOR3, TYPE_STRING, TYPE_INT, TYPE_INT, TYPE_VECTOR3, TYPE_INT]):
 		print("INVALID ACTOR DATA")
 		return 

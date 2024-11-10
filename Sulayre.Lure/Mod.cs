@@ -20,7 +20,7 @@ public class Mod : IMod {
 		modInterface.RegisterScriptMod(new NetworkPatcher());
         modInterface.RegisterScriptMod(new MainMenuPatcher());
 		modInterface.RegisterScriptMod(new ServerButtonPatcher());
-		modInterface.RegisterScriptMod(new JournalPatcher());
+		//modInterface.RegisterScriptMod(new JournalPatcher());
 		modInterface.RegisterScriptMod(new AquaPatcher());
 	}
 

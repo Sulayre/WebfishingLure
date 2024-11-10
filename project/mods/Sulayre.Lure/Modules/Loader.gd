@@ -47,6 +47,7 @@ func _register_resource(resource_data:Dictionary):
 					var tables = [loaded_resource.loot_table]
 					for flag in resource_data["flags"]:
 						if flag is String:
+							continue
 							if flag.begins_with("LURE_LOOT_TABLE_"):
 								if tables.has(loaded_resource.loot_table):
 									tables.remove(0)
@@ -195,7 +196,6 @@ func _refresh_modded_unlocks():
 			#print(PREFIX+id,"has unlocked index ",PlayerData.cosmetics_unlocked.find(id))
 
 func _load_modded_save_data(save_index:int):
-	print_stack()
 	var _file = File.new()
 	var path = "user://webfishing_lure_save_slot_" + str(save_index) + ".sav"
 	if _file.file_exists(path):
@@ -225,11 +225,13 @@ func _load_modded_save_data(save_index:int):
 									print(PREFIX,i,": ",save["hotbar"][i])
 									PlayerData.hotbar[i] = save["hotbar"][i]
 						"cosmetics_unlocked":
+							PlayerData.cosmetic_reset_lock = true
 							for c_u in d:
 								if !PlayerData.cosmetics_unlocked.has(c_u):
 									if Lure.loaded_cosmetics.has(c_u):
 										print(PREFIX,c_u)
-										PlayerData.cosmetics_unlocked.append(c_u)
+										PlayerData._unlock_cosmetic(c_u)
+							PlayerData.cosmetic_reset_lock = false
 						"cosmetics_equipped":
 							for e_k in save[c].keys():
 								var e_v = save[c][e_k]
@@ -261,8 +263,9 @@ func _load_modded_save_data(save_index:int):
 		_file.close()
 		print(PREFIX+"Finished loading saved mod data!")
 	else:
-		print(PREFIX+"Save data file for modded assets was not found, skipping load.")
+		print(PREFIX+"Modded save data file load is either ignored in this version of Lure or it was not found, skipping load.")
 	_refresh_modded_unlocks()
+	_vanilla_unlock_security()
 
 func _vanilla_unlock_security():
 	PlayerData._unlock_cosmetic("eye_halfclosed")
@@ -308,8 +311,6 @@ func _vanilla_unlock_security():
 	PlayerData._unlock_cosmetic("tail_dog_fluffy")
 	PlayerData._unlock_cosmetic("tail_dog_short")
 	PlayerData._unlock_cosmetic("tail_fox")
-	
-	PlayerData._unlock_cosmetic("Sulayre.Lure.classic_body")
 	
 	PlayerData._unlock_cosmetic("legs_none")
 	
