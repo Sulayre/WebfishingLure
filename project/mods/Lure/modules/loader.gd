@@ -18,16 +18,13 @@ static func _add_item(id: String, resource: LureItem) -> void:
 	Globals.item_data[id] = { "file": resource }
 
 static func _add_cosmetic(id: String, resource: LureCosmetic) -> void:
-	print_stack()
-	var category = resource.category
-	match category:
+	match resource.category:
 		"species":
 			pass
-		"hat","accessory":
+		"hat", "accessory":
 			for species_id in resource.body_pattern_plus:
 				if not resource.body_pattern_plus[species_id] is Texture:
 					continue
-				
 		"pattern":
 			pass
 		_:
@@ -36,7 +33,9 @@ static func _add_cosmetic(id: String, resource: LureCosmetic) -> void:
 	Globals.cosmetic_data[id] = { "file": resource }
 
 
-static func _unlock_cosmetic(id: String) -> void:
-	PlayerData.cosmetic_reset_lock = true
+static func _unlock_cosmetic(id: String, new: bool = false) -> void:
+	if not new:
+		PlayerData.cosmetic_reset_lock = true
+	
 	PlayerData._unlock_cosmetic(id)
 	PlayerData.cosmetic_reset_lock = false

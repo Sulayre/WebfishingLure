@@ -19,7 +19,7 @@ var species_indices: Array = [ "species_cat", "species_dog" ]
 
 
 func _ready() -> void:
-	get_tree().connect("node_added", self, "_node_catcher",[],CONNECT_DEFERRED)
+	get_tree().connect("node_added", self, "_node_catcher", [], CONNECT_DEFERRED)
 
 
 # Returns a mod matching the given mod ID
@@ -43,7 +43,7 @@ func get_cosmetics_of_category(category: String) -> Array:
 # Register a mod with Lure
 # Do not call this if you don't know what you're doing: Mod registry is automatic.
 func _register_mod(mod: LureMod) -> void:
-	if (not mod is LureMod) or (mod in mods):
+	if (not mod is LureMod) or (mod.mod_id in mods):
 		return
 	
 	mods[mod.mod_id] = mod
@@ -64,19 +64,13 @@ func _register_mod(mod: LureMod) -> void:
 
 
 # checks for relevant nodes when one gets added
-func _node_catcher(node:Node):
-	var node_groups = node.get_groups()
-	match node.name:
-		"main_menu":
-			print_stack()
-			_unlock_cosmetics()
-	for group in node_groups:
-		match group:
-			"player":
-				print_stack()
-				Wardrobe.setup_player(node, {
-					"species_array": get_cosmetics_of_category("species"),
-				})
+func _node_catcher(node: Node):
+	if node.name == "main_menu":
+		_unlock_cosmetics()
+	elif "player" in node.get_groups():
+		Wardrobe.setup_player(node, {
+			"species_array": get_cosmetics_of_category("species"),
+		})
 
 
 # Loops through lure cosmetics and calls unlock cosmetic
@@ -86,8 +80,6 @@ func _unlock_cosmetics() -> void:
 			return
 		
 		Loader._unlock_cosmetic(id)
-	
-	get_tree().disconnect("node_added", self, "_unlock_cosmetics")
 
 
 # Prevents other scripts from modifying core variables

@@ -14,14 +14,11 @@ func _init() -> void:
 	var resource_files: Array = _get_resource_paths(mod_folder)
 	
 	for file_path in resource_files:
-		print(file_path)
-		
 		var resource: Resource = load(file_path) as LureContent
 		
 		if not resource:
 			continue
 		
-		print(resource)
 		var file_name: String = file_path.split("/")[-1].get_basename()
 		
 		if file_name in mod_content:

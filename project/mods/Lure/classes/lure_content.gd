@@ -2,7 +2,7 @@ extends Resource
 
 var Placeholder = PlaceholderResource.new()
 var import_resource: Resource = Placeholder setget _import_resource
-var id:String
+var id: String
 
 class PlaceholderResource extends Resource:
 	func _init():
@@ -10,7 +10,7 @@ class PlaceholderResource extends Resource:
 
 
 func _get_property_list() -> Array:
-	var export_properties = [{
+	var export_properties := [{
 		name = "Lure Utilities",
 		type = TYPE_NIL,
 		usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
@@ -30,7 +30,7 @@ func _import_resource(resource) -> void:
 	
 	var script_property_list = resource.get_script().get_script_property_list()
 	for property in script_property_list:
-		var property_name = property.name
+		var property_name: String = property.name
 		if not property_name in self:
 			continue
 		

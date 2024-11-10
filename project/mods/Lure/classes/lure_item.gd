@@ -37,7 +37,7 @@ var loot_weight: float = 1.0
 var uses_size: bool = false
 var average_size: float = 75.0
 var rare = false
-var tier = 0
+var tier: int = 0
 var obtain_xp: int = 30
 
 var prop_code: String = ""
@@ -45,7 +45,7 @@ var prop_code: String = ""
 var can_be_sold = true
 var sell_value: int = 5
 var sell_multiplier: float = 1.0
-var generate_worth = true
+var generate_worth: bool = true
 
 
 func _get_property_list() -> Array:

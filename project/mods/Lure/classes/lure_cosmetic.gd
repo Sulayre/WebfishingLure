@@ -43,9 +43,9 @@ var cos_internal_id: int = 0
 var dynamic_species_id:int
 var dynamic_body_pattern_id:int
 
-var in_rotation = false
-var chest_reward = false
-var cost = 10
+var in_rotation: bool = false
+var chest_reward: bool = false
+var cost: int = 10
 
 
 class SpeciesAltMesh extends Resource:
