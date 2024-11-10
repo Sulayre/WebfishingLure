@@ -24,12 +24,14 @@ var show_scene: bool = false
 var unselectable: bool = false
 
 var mesh: Mesh
+var prop_code: String = ""
 
 var action: String = ""
 var action_params: Array = []
 var release_action: String = ""
 
 var loot_table: String = "none"
+var extended_loot_table: PoolStringArray setget _set_loot_table
 var catch_blurb: String = ""
 var catch_difficulty: float = 1.0
 var catch_speed: float = 120.0
@@ -39,8 +41,6 @@ var average_size: float = 75.0
 var rare = false
 var tier: int = 0
 var obtain_xp: int = 30
-
-var prop_code: String = ""
 
 var can_be_sold = true
 var sell_value: int = 5
@@ -130,10 +130,10 @@ func _get_property_list() -> Array:
 					type = TYPE_NIL,
 					usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
 				}, {
-					name = "loot_table",
-					type = TYPE_STRING,
-					hint = PROPERTY_HINT_ENUM,
-					hint_string = "none,lake,ocean,deep,prehistoric,bush_bug,shoreline_bug,tree_bug,seashell,trash,water_trash,rain,alien,metal,void",
+					name = "extended_loot_table",
+					type = TYPE_ARRAY,
+					hint = PROPERTY_HINT_TYPE_STRING,
+					hint_string = TYPE_STRING
 				}, {
 					name = "catch_blurb",
 					type = TYPE_STRING,
@@ -222,6 +222,11 @@ func _get_property_list() -> Array:
 	return export_properties
 
 
-func _set_category(value) -> void:
-	category = value
+func _set_category(new_value: String) -> void:
+	category = new_value
 	property_list_changed_notify()
+
+
+func _set_loot_table(new_value: PoolStringArray) -> void:
+	extended_loot_table = new_value
+	loot_table = new_value[0] if new_value.size() > 0 else "none"

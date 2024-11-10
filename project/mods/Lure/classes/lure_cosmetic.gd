@@ -279,21 +279,21 @@ func _get_property_list() -> Array:
 	return export_properties
 
 
-func _set_category(value):
-	category = value
+func _set_category(new_value: String) -> void:
+	category = new_value
 	property_list_changed_notify()
 
 
-func _set_alt_mesh_resource(value) -> void:
-	extended_alt_mesh = value
+func _set_alt_mesh_resource(new_value: Array) -> void:
+	extended_alt_mesh = new_value
 	
 	for i in extended_alt_mesh.size():
 		if not extended_alt_mesh[i]:
 			extended_alt_mesh[i] = SpeciesAltMesh.new()
 
 
-func _set_pattern_resource(value) -> void:
-	extended_body_patterns = value
+func _set_pattern_resource(new_value: Array) -> void:
+	extended_body_patterns = new_value
 	
 	for i in extended_body_patterns.size():
 		if not extended_body_patterns[i]:
