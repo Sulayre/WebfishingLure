@@ -1,24 +1,3 @@
-[gd_resource type="Resource" load_steps=5 format=2]
-
-[ext_resource path="res://mods/Lure/classes/lure_cosmetic.gd" type="Script" id=1]
-
-[sub_resource type="ImageTexture" id=7]
-
-[sub_resource type="GDScript" id=8]
-
-[sub_resource type="Resource" id=9]
-resource_name = "Drop Here"
-script = SubResource( 8 )
+[gd_resource type="Resource" format=2]
 
 [resource]
-script = ExtResource( 1 )
-name = "Cosmetic Name"
-category = "title"
-desc = "Cosmetic Description"
-icon = SubResource( 7 )
-main_color = Color( 1, 1, 1, 1 )
-title = ""
-in_rotation = false
-chest_reward = false
-cost = 10
-import_resource = SubResource( 9 )

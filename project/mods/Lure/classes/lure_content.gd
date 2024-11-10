@@ -1,12 +1,27 @@
 extends Resource
 
-var Placeholder = PlaceholderResource.new()
-var import_resource: Resource = Placeholder setget _import_resource
 var id: String
+
+var _placeholder = PlaceholderResource.new()
+var _import_resource: Resource = _placeholder setget _set_import_resource
+
 
 class PlaceholderResource extends Resource:
 	func _init():
 		resource_name = "Drop Here"
+
+
+# Loops through all properties in the provided resource
+# and assigns their values to matching properties on the current resource
+func import_resource(resource: Resource) -> void:
+	var property_list: Array = resource.get_script().get_script_property_list()
+	
+	for property in property_list:
+		var property_name: String = property.name
+		if not property_name in self:
+			continue
+		
+		self[property_name] = resource[property_name]
 
 
 func _get_property_list() -> Array:
@@ -15,24 +30,19 @@ func _get_property_list() -> Array:
 		type = TYPE_NIL,
 		usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
 	}, {
-		name = "import_resource",
+		name = "_import_resource",
 		type = TYPE_OBJECT,
 	}]
 	
 	return export_properties
 
 
-func _import_resource(resource) -> void:
-	import_resource = Placeholder
+# Assigning _import_resource will reset its value back to the placeholder
+# and import the provided resource into the current resource
+func _set_import_resource(new_value) -> void:
+	_import_resource = _placeholder
 	
-	if not resource is Resource or not resource.get_script():
-		return
+	if new_value is Resource and new_value.get_script():
+		import_resource(new_value)
 	
-	var script_property_list = resource.get_script().get_script_property_list()
-	for property in script_property_list:
-		var property_name: String = property.name
-		if not property_name in self:
-			continue
-		
-		self[property_name] = resource[property_name]
-		self.property_list_changed_notify()
+	property_list_changed_notify()
