@@ -1,0 +1,22 @@
+[gd_resource type="Resource" load_steps=5 format=2]
+
+[ext_resource path="res://mods/Lure/classes/lure_cosmetic.gd" type="Script" id=1]
+[ext_resource path="res://mods/Lure/assets/textures/gerald.png" type="Texture" id=2]
+
+[sub_resource type="GDScript" id=1]
+
+[sub_resource type="Resource" id=2]
+resource_name = "Drop Here"
+script = SubResource( 1 )
+
+[resource]
+script = ExtResource( 1 )
+name = "Gerald D. Weaver"
+category = "primary_color"
+desc = "lobter"
+icon = ExtResource( 2 )
+main_color = Color( 0.772549, 0.266667, 0, 1 )
+in_rotation = false
+chest_reward = false
+cost = 10
+_import_resource = SubResource( 2 )

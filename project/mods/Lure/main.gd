@@ -22,6 +22,12 @@ func _ready() -> void:
 	get_tree().connect("node_added", self, "_node_catcher", [], CONNECT_DEFERRED)
 
 
+func _enter_tree() -> void:
+	var LureContent = load("res://mods/Lure/lure_content.gd").new()
+	
+	get_node("/root").add_child(LureContent)
+
+
 # Returns a mod matching the given mod ID
 func get_mod(mod_id: String) -> LureMod:
 	return mods.get(mod_id)
@@ -51,6 +57,8 @@ func _register_mod(mod: LureMod) -> void:
 	for id in mod.mod_content:
 		var lure_id: String = mod.mod_id + "." + id
 		var mod_content: LureCosmetic = mod.mod_content[id]
+		
+		print("Lure: Attempting to add resource %" % id)
 
 		mod_content.id = lure_id
 		Loader._add_resource(lure_id, mod_content)
