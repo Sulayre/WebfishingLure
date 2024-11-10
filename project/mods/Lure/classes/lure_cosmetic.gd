@@ -2,16 +2,15 @@ tool
 extends "res://mods/Lure/classes/lure_content.gd"
 
 var name: String = "Cosmetic Name"
-var category: String = ""
+var category: String = "" setget _category_checker
 var desc: String = "Cosmetic Description"
 var title: String = ""
-var icon: Texture = StreamTexture.new()
+var icon: Texture = ImageTexture.new()
 var main_color: Color = Color(1.0, 1.0, 1.0, 1.0)
 
 var mesh: Mesh
 var species_alt_mesh: Array
 var extended_alt_mesh: Array = [
-	SpeciesAltMesh.new("body"),
 	SpeciesAltMesh.new("species_cat"),
 	SpeciesAltMesh.new("species_dog")
 ] setget _set_alt_mesh_resource
@@ -47,7 +46,6 @@ var in_rotation: bool = false
 var chest_reward: bool = false
 var cost: int = 10
 
-
 class SpeciesAltMesh extends Resource:
 	export (String) var species
 	export (Mesh) var mesh
@@ -70,154 +68,206 @@ class BodyPattern extends Resource:
 
 func _get_property_list() -> Array:
 	var export_properties = [{
-		# Lure cosmetic metadata
-		name = "Metadata",
-		type = TYPE_NIL,
-		usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
-	}, {
-		name = "name",
-		type = TYPE_STRING,
-	}, {
-		name = "category",
-		type = TYPE_STRING,
-		hint = PROPERTY_HINT_ENUM,
-		hint_string = "species,primary_color,secondary_color,eye,nose,mouth,hat,undershirt,overshirt,accessory,bobber,pattern,title,tail,legs",
-	}, {
-		name = "title",
-		type = TYPE_STRING,
-	}, {
-		name = "desc",
-		type = TYPE_STRING,
-		hint = PROPERTY_HINT_MULTILINE_TEXT,
-	}, {
-		name = "icon",
-		type = TYPE_OBJECT,
-		hint = PROPERTY_HINT_RESOURCE_TYPE,
-		hint_string = "Texture",
-	}, {
-		name = "main_color",
-		type = TYPE_COLOR,
-	}, {
-		# Lure scene data
-		name = "PackedScene",
-		type = TYPE_NIL,
-		usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
-	}, {
-		name = "scene_replace",
-		type = TYPE_OBJECT,
-		hint = PROPERTY_HINT_RESOURCE_TYPE,
-		hint_string = "PackedScene"
-	}, {
-		# Lure cosmetic mesh data
-		name = "Mesh",
-		type = TYPE_NIL,
-		usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
-	}, {
-		name = "mesh",
-		type = TYPE_OBJECT,
-		hint = PROPERTY_HINT_RESOURCE_TYPE,
-		hint_string = "Mesh",
-	}, {
-		name = "extended_alt_mesh",
-		type = TYPE_ARRAY,
-		hint = PROPERTY_HINT_TYPE_STRING,
-		hint_string = "%s:Resource" % [TYPE_OBJECT],
-	}, {
-		name = "mesh_skin",
-		type = TYPE_OBJECT,
-		hint = PROPERTY_HINT_RESOURCE_TYPE,
-		hint_string = "Skin",
-	}, {
-		name = "material",
-		type = TYPE_OBJECT,
-		hint = PROPERTY_HINT_RESOURCE_TYPE,
-		hint_string = "Material",
-	}, {
-		name = "secondary_material",
-		type = TYPE_OBJECT,
-		hint = PROPERTY_HINT_RESOURCE_TYPE,
-		hint_string = "Material",
-	}, {
-		name = "third_material",
-		type = TYPE_OBJECT,
-		hint = PROPERTY_HINT_RESOURCE_TYPE,
-		hint_string = "Material",
-	}, {
-		# Lure cosmetic pattern data
-		name = "Patterns",
-		type = TYPE_NIL,
-		usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
-	}, {
-		name = "extended_body_patterns",
-		type = TYPE_ARRAY,
-		hint = PROPERTY_HINT_TYPE_STRING,
-		hint_string = "%s:Resource" % [TYPE_OBJECT],
-	}, {
-		# Lure cosmetic face data
-		name = "Face",
-		type = TYPE_NIL,
-		usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
-	}, {
-		name = "mirror_face",
-		type = TYPE_BOOL,
-	}, {
-		name = "flip",
-		type = TYPE_BOOL,
-	}, {
-		name = "allow_blink",
-		type = TYPE_BOOL,
-	}, {
-		name = "alt_eye",
-		type = TYPE_OBJECT,
-		hint = PROPERTY_HINT_RESOURCE_TYPE,
-		hint_string = "Texture",
-	}, {
-		name = "alt_blink",
-		type = TYPE_OBJECT,
-		hint = PROPERTY_HINT_RESOURCE_TYPE,
-		hint_string = "Texture",
-	}, {
-		# Lure cosmetic species data
-		name = "Species",
-		type = TYPE_NIL,
-		usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
-	}, {
-		name = "Voice",
-		type = TYPE_NIL,
-		hint_string = "voice_",
-		usage = PROPERTY_USAGE_GROUP | PROPERTY_USAGE_SCRIPT_VARIABLE
-	}, {
-		name = "voice_bark",
-		type = TYPE_OBJECT,
-		hint = PROPERTY_HINT_RESOURCE_TYPE,
-		hint_string = "AudioStream",
-	}, {
-		name = "voice_growl",
-		type = TYPE_OBJECT,
-		hint = PROPERTY_HINT_RESOURCE_TYPE,
-		hint_string = "AudioStream",
-	}, {
-		name = "voice_whine",
-		type = TYPE_OBJECT,
-		hint = PROPERTY_HINT_RESOURCE_TYPE,
-		hint_string = "AudioStream",
-	}, {
-		# Lure cosmetic acquisition data
-		name = "Acquisition",
-		type = TYPE_NIL,
-		usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
-	}, {
-		name = "in_rotation",
-		type = TYPE_BOOL,
-	}, {
-		name = "chest_reward",
-		type = TYPE_BOOL,
-	}, {
-		name = "cost",
-		type = TYPE_INT
-	}]
+			# Lure cosmetic metadata
+			name = "Metadata",
+			type = TYPE_NIL,
+			usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
+		}, {
+			name = "name",
+			type = TYPE_STRING,
+		}, {
+			name = "category",
+			type = TYPE_STRING,
+			hint = PROPERTY_HINT_ENUM,
+			hint_string = "species,primary_color,secondary_color,eye,nose,mouth,hat,undershirt,overshirt,accessory,bobber,pattern,title,tail,legs",
+		}, {
+			name = "desc",
+			type = TYPE_STRING,
+			hint = PROPERTY_HINT_MULTILINE_TEXT,
+		}, {
+			name = "icon",
+			type = TYPE_OBJECT,
+			hint = PROPERTY_HINT_RESOURCE_TYPE,
+			hint_string = "Texture",
+		}, {
+			name = "main_color",
+			type = TYPE_COLOR,
+		}]
+	
+	match category:
+		"title":
+			# title metadata
+			export_properties.append_array([{
+			name = "RichTextLabel",
+			type = TYPE_NIL,
+			usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
+			}, {
+				name = "title",
+				type = TYPE_STRING,
+			}])
+		"species":
+			#species data
+			export_properties.append_array([{
+			name = "Species",
+			type = TYPE_NIL,
+			usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
+			}, {
+				name = "Voice",
+				type = TYPE_NIL,
+				hint_string = "voice_",
+				usage = PROPERTY_USAGE_GROUP | PROPERTY_USAGE_SCRIPT_VARIABLE
+			}, {
+				name = "voice_bark",
+				type = TYPE_OBJECT,
+				hint = PROPERTY_HINT_RESOURCE_TYPE,
+				hint_string = "AudioStream",
+			}, {
+				name = "voice_growl",
+				type = TYPE_OBJECT,
+				hint = PROPERTY_HINT_RESOURCE_TYPE,
+				hint_string = "AudioStream",
+			}, {
+				name = "voice_whine",
+				type = TYPE_OBJECT,
+				hint = PROPERTY_HINT_RESOURCE_TYPE,
+				hint_string = "AudioStream",
+			}, {
+				name = "Vanilla Patterns",
+				type = TYPE_NIL,
+				hint_string = "pattern_",
+				usage = PROPERTY_USAGE_GROUP | PROPERTY_USAGE_SCRIPT_VARIABLE
+			}, {
+				name = "pattern_collie",
+				type = TYPE_OBJECT,
+				hint = PROPERTY_HINT_RESOURCE_TYPE,
+				hint_string = "AudioStream",
+			}, {
+				name = "pattern_tux",
+				type = TYPE_OBJECT,
+				hint = PROPERTY_HINT_RESOURCE_TYPE,
+				hint_string = "AudioStream",
+			}, {
+				name = "pattern_calico",
+				type = TYPE_OBJECT,
+				hint = PROPERTY_HINT_RESOURCE_TYPE,
+				hint_string = "AudioStream",
+			}, {
+				name = "pattern_spotted",
+				type = TYPE_OBJECT,
+				hint = PROPERTY_HINT_RESOURCE_TYPE,
+				hint_string = "AudioStream",
+			}]) 
+		"pattern":
+			# pattern data
+			export_properties.append_array([{
+					name = "Patterns",
+					type = TYPE_NIL,
+					usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
+				}, {
+					name = "extended_body_patterns",
+					type = TYPE_ARRAY,
+					hint = PROPERTY_HINT_TYPE_STRING,
+					hint_string = "%s:Resource" % [TYPE_OBJECT],
+				}, ])
+		"eye":
+			# Lure eye data
+			export_properties.append_array([{
+				name = "Face",
+				type = TYPE_NIL,
+				usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
+			}, {
+				name = "mirror_face",
+				type = TYPE_BOOL,
+			}, {
+				name = "flip",
+				type = TYPE_BOOL,
+			}, {
+				name = "allow_blink",
+				type = TYPE_BOOL,
+			}, {
+				name = "alt_eye",
+				type = TYPE_OBJECT,
+				hint = PROPERTY_HINT_RESOURCE_TYPE,
+				hint_string = "Texture",
+			}, {
+				name = "alt_blink",
+				type = TYPE_OBJECT,
+				hint = PROPERTY_HINT_RESOURCE_TYPE,
+				hint_string = "Texture",
+			}, ])
+
+	# scene data + cosmetic mesh data
+	if category in ["hat","undershirt","overshirt","accessory","species", "legs"]:
+		
+		export_properties.append_array([{
+				name = "PackedScene",
+				type = TYPE_NIL,
+				usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
+			}, {
+				name = "scene_replace",
+				type = TYPE_OBJECT,
+				hint = PROPERTY_HINT_RESOURCE_TYPE,
+				hint_string = "PackedScene"
+			}, {
+				name = "Mesh",
+				type = TYPE_NIL,
+				usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
+			}, {
+				name = "mesh",
+				type = TYPE_OBJECT,
+				hint = PROPERTY_HINT_RESOURCE_TYPE,
+				hint_string = "Mesh",
+			}, {
+				name = "mesh_skin",
+				type = TYPE_OBJECT,
+				hint = PROPERTY_HINT_RESOURCE_TYPE,
+				hint_string = "Skin",
+			}, {
+				name = "material",
+				type = TYPE_OBJECT,
+				hint = PROPERTY_HINT_RESOURCE_TYPE,
+				hint_string = "Material",
+			}, {
+				name = "secondary_material",
+				type = TYPE_OBJECT,
+				hint = PROPERTY_HINT_RESOURCE_TYPE,
+				hint_string = "Material",
+			}, {
+				name = "third_material",
+				type = TYPE_OBJECT,
+				hint = PROPERTY_HINT_RESOURCE_TYPE,
+				hint_string = "Material",
+			},])
+		if category != "species":
+			export_properties.append_array([{
+				name = "extended_alt_mesh",
+				type = TYPE_ARRAY,
+				hint = PROPERTY_HINT_TYPE_STRING,
+				hint_string = "%s:Resource" % [TYPE_OBJECT],
+				}, ])
+	
+	# cosmetic acquisition data
+	export_properties.append_array([{
+			
+			name = "Acquisition",
+			type = TYPE_NIL,
+			usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
+		}, {
+			name = "in_rotation",
+			type = TYPE_BOOL,
+		}, {
+			name = "chest_reward",
+			type = TYPE_BOOL,
+		}, {
+			name = "cost",
+			type = TYPE_INT
+		}])
 	
 	return export_properties
+
+func _category_checker(value):
+	category = value
+	property_list_changed_notify()
 
 
 func _set_alt_mesh_resource(value) -> void:
