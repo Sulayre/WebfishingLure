@@ -68,7 +68,7 @@ class BodyPattern extends Resource:
 
 
 func _get_property_list() -> Array:
-	var export_properties: Array
+	var export_properties: Array = []
 	
 	# Lure cosmetic metadata
 	export_properties.append_array([
