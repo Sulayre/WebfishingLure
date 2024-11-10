@@ -30,8 +30,27 @@ public class PlayerPatch : IScriptMod
         // body_pattern[2])
         var bodyPatternWaiter = new MultiTokenWaiter([
             t => t is IdentifierToken { Name: "body_pattern" },
+            t => t.Type is TokenType.BracketOpen,
             t => t is ConstantToken { Value: IntVariant { Value: 2 } },
+            t => t.Type is TokenType.BracketClose,
             t => t.Type is TokenType.ParenthesisClose,
+        ], allowPartialMatch: true, waitForReady: true);
+
+        // func _bark()
+        var barkWaiter = new FunctionWaiter("_bark");
+
+        // var bark_id
+        var barkIdWaiter = new TokenWaiter(t => t is IdentifierToken { Name: "bark_id" }, waitForReady: true);
+
+        // [PlayerData.cosmetics_equipped.species]
+        var equippedSpeciesWaiter = new MultiTokenWaiter([
+            t => t.Type is TokenType.BracketOpen,
+            t => t is IdentifierToken { Name: "PlayerData" },
+            t => t.Type is TokenType.Period,
+            t => t is IdentifierToken { Name: "cosmetics_equipped" },
+            t => t.Type is TokenType.Period,
+            t => t is IdentifierToken { Name: "species" },
+            t => t.Type is TokenType.BracketClose,
         ], allowPartialMatch: true, waitForReady: true);
         
         var consuming = false;
@@ -54,6 +73,11 @@ public class PlayerPatch : IScriptMod
 
                 yield return token;
             }
+            
+            else if (matchSpeciesWaiter.Check(token) || barkIdWaiter.Check(token))
+            {
+                consuming = true;
+            }
 
             else if (updateCosmeticsWaiter.Check(token))
             {
@@ -61,11 +85,6 @@ public class PlayerPatch : IScriptMod
                 
                 matchSpeciesWaiter.SetReady();
                 bodyPatternWaiter.SetReady();
-            }
-
-            else if (matchSpeciesWaiter.Check(token))
-            {
-                consuming = true;
             }
 
             else if (bodyPatternWaiter.Check(token))
@@ -85,6 +104,35 @@ public class PlayerPatch : IScriptMod
                 yield return new IdentifierToken("species");
                 yield return new Token(TokenType.Comma);
                 yield return new IdentifierToken("pattern");
+                yield return new Token(TokenType.ParenthesisClose);
+            }
+            
+            else if (barkWaiter.Check(token))
+            {
+                yield return token;
+                
+                equippedSpeciesWaiter.SetReady();
+                barkIdWaiter.SetReady();
+            }
+            
+            else if (equippedSpeciesWaiter.Check(token))
+            {
+                consuming = false;
+                
+                // bark_id = LurePatches.get_bark_id(self, PlayerData.cosmetics_equipped.species)
+                yield return new IdentifierToken("bark_id");
+                yield return new Token(TokenType.OpAssign);
+                yield return new IdentifierToken("LurePatches");
+                yield return new Token(TokenType.Period);
+                yield return new IdentifierToken("get_bark_id");
+                yield return new Token(TokenType.ParenthesisOpen);
+                yield return new Token(TokenType.Self);
+                yield return new Token(TokenType.Comma);
+                yield return new IdentifierToken("PlayerData");
+                yield return new Token(TokenType.Period);
+                yield return new IdentifierToken("cosmetics_equipped");
+                yield return new Token(TokenType.Period);
+                yield return new IdentifierToken("species");
                 yield return new Token(TokenType.ParenthesisClose);
             }
 
