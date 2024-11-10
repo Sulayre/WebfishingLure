@@ -20,6 +20,8 @@ var species_indices: Array = [ "species_cat", "species_dog" ]
 
 func _ready() -> void:
 	get_tree().connect("node_added", self, "_node_catcher", [], CONNECT_DEFERRED)
+	
+	print_message("I'm ready!")
 
 
 func _enter_tree() -> void:
@@ -46,6 +48,21 @@ func get_cosmetics_of_category(category: String) -> Array:
 	return matching_resources
 
 
+# Print to the terminal
+func print_message(message: String) -> void:
+	var escape = PoolByteArray([0x1b]).get_string_from_ascii()
+	var bright_white = escape + "[38;5;15m"
+	var orange = escape + "[38;5;166m"
+	var white = escape + "[38;5;7m"
+	
+	print("{bright_white}[{orange}LURE{bright_white}]{white} {message}".format({
+		"bright_white": bright_white,
+		"orange": orange,
+		"white": white,
+		"message": message,
+	}))
+
+
 # Register a mod with Lure
 # Do not call this if you don't know what you're doing: Mod registry is automatic.
 func _register_mod(mod: LureMod) -> void:
@@ -58,11 +75,14 @@ func _register_mod(mod: LureMod) -> void:
 		var lure_id: String = mod.mod_id + "." + id
 		var mod_content: LureCosmetic = mod.mod_content[id]
 		
-		print("Lure: Attempting to add resource %" % id)
-
 		mod_content.id = lure_id
 		Loader._add_resource(lure_id, mod_content)
 		content[lure_id] = mod_content
+		
+		print_message('Added new Lure {type} "{id}"'.format({
+			"type": "item" if mod_content is LureItem else "cosmetic",
+			"id": lure_id
+		}))
 		
 		if mod_content is LureCosmetic and mod_content.category == "species":
 			species_indices.append(lure_id)

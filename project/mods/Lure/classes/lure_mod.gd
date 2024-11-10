@@ -22,7 +22,7 @@ func _init() -> void:
 		var file_name: String = file_path.split("/")[-1].get_basename()
 		
 		if file_name in mod_content:
-			return
+			continue
 		
 		mod_content[file_name] = resource
 
@@ -31,6 +31,7 @@ func _enter_tree() -> void:
 	Lure = $"/root/Lure"
 	
 	Lure._register_mod(self)
+	Lure.print_message('Registered new Lure mod "%s"' % mod_id)
 
 
 # Return an array of tres files in the given path recursively
