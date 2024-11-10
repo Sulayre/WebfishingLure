@@ -39,3 +39,31 @@ static func get_bark_id(player: Actor, equipped_species: String) -> Array:
 		growl_id if sound_manager.has_node(growl_id) else "growl_cat",
 		whine_id if sound_manager.has_node(whine_id) else "whine_cat"
 	]
+
+
+static func sanitise_array(Lure: Node, content_ids: Array):
+	var filtered_ids: Array
+	
+	for id in content_ids:
+		if not id in Lure.content.keys():
+			filtered_ids.append(id)
+	
+	return filtered_ids
+
+
+static func sanitise_dictionary(Lure: Node, dictionary: Dictionary, check_keys := true, check_values := true):
+	var filtered_dictionary: Dictionary
+	
+	for key in dictionary.keys():
+		if check_keys and key in Lure.content.keys():
+			continue
+		if check_values and dictionary[key] in Lure.content.keys():
+			filtered_dictionary[key] = ""
+			continue
+		if dictionary[key] is Dictionary:
+			filtered_dictionary[key] = sanitise_dictionary(Lure, dictionary[key], check_keys, check_values)
+			continue
+		
+		filtered_dictionary[key] = dictionary[key]
+	
+	return filtered_dictionary
