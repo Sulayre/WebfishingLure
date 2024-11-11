@@ -18,18 +18,6 @@ static func _add_item(id: String, resource: LureItem) -> void:
 	Globals.item_data[id] = { "file": resource }
 
 static func _add_cosmetic(id: String, resource: LureCosmetic) -> void:
-	match resource.category:
-		"species":
-			pass
-		"hat", "accessory":
-			for species_id in resource.body_pattern_plus:
-				if not resource.body_pattern_plus[species_id] is Texture:
-					continue
-		"pattern":
-			pass
-		_:
-			pass
-	
 	Globals.cosmetic_data[id] = { "file": resource }
 
 
