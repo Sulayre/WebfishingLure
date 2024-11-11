@@ -50,6 +50,10 @@ func get_cosmetics_of_category(category: String) -> Array:
 
 # Print to the terminal
 func print_message(message: String) -> void:
+	if (OS.has_feature("editor")):
+		print("[LURE] " + message)
+		return
+	
 	var escape = PoolByteArray([0x1b]).get_string_from_ascii()
 	var bright_white = escape + "[38;5;15m"
 	var orange = escape + "[38;5;166m"
@@ -73,7 +77,7 @@ func _register_mod(mod: LureMod) -> void:
 	
 	for id in mod.mod_content:
 		var lure_id: String = mod.mod_id + "." + id
-		var mod_content: LureCosmetic = mod.mod_content[id]
+		var mod_content: LureContent = mod.mod_content[id]
 		
 		mod_content.id = lure_id
 		Loader._add_resource(lure_id, mod_content)
