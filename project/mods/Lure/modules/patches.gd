@@ -2,6 +2,7 @@ extends Reference
 
 const LureCosmetic := preload("res://mods/Lure/classes/lure_cosmetic.gd")
 
+
 static func override_body_pattern(species_id: String, mesh: MeshInstance, pattern: Resource):
 	var Lure = mesh.get_node_or_null("/root/Lure")
 	if (

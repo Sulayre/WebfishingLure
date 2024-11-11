@@ -8,6 +8,7 @@ const LureMod := preload("res://mods/Lure/classes/lure_mod.gd")
 const Loader := preload("res://mods/Lure/modules/loader.gd")
 const Wardrobe := preload("res://mods/Lure/modules/wardrobe.gd")
 const Patches := preload("res://mods/Lure/modules/patches.gd")
+const Utils := preload("res://mods/Lure/modules/utils.gd")
 
 const LureContent := preload("res://mods/Lure/classes/lure_content.gd")
 const LureItem := preload("res://mods/Lure/classes/lure_item.gd")
@@ -50,21 +51,7 @@ func get_cosmetics_of_category(category: String) -> Array:
 
 # Print to the terminal
 func print_message(message: String) -> void:
-	if (OS.has_feature("editor")):
-		print("[LURE] " + message)
-		return
-	
-	var escape = PoolByteArray([0x1b]).get_string_from_ascii()
-	var bright_white = escape + "[38;5;15m"
-	var orange = escape + "[38;5;166m"
-	var white = escape + "[38;5;7m"
-	
-	print("{bright_white}[{orange}LURE{bright_white}]{white} {message}".format({
-		"bright_white": bright_white,
-		"orange": orange,
-		"white": white,
-		"message": message,
-	}))
+	Utils.pretty_print("[[color=#C54400]LURE[/color]] %s" % message)
 
 
 # Register a mod with Lure
