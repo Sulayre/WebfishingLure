@@ -1,18 +1,13 @@
-extends Node
+extends "res://mods/Lure/classes/lure_mod.gd"
 
 # warning-ignore:unused_signal
 signal mod_loaded(mod) # mod: LureMod
 
 const LureMod := preload("res://mods/Lure/classes/lure_mod.gd")
-
 const Loader := preload("res://mods/Lure/modules/loader.gd")
 const Wardrobe := preload("res://mods/Lure/modules/wardrobe.gd")
 const Patches := preload("res://mods/Lure/modules/patches.gd")
 const Utils := preload("res://mods/Lure/modules/utils.gd")
-
-const LureContent := preload("res://mods/Lure/classes/lure_content.gd")
-const LureItem := preload("res://mods/Lure/classes/lure_item.gd")
-const LureCosmetic := preload("res://mods/Lure/classes/lure_cosmetic.gd")
 
 var mods: Dictionary setget _set_nullifier
 var content: Dictionary setget _set_nullifier
@@ -23,12 +18,6 @@ func _ready() -> void:
 	get_tree().connect("node_added", self, "_node_catcher", [], CONNECT_DEFERRED)
 	
 	print_message("I'm ready!")
-
-
-func _enter_tree() -> void:
-	var LureContent = load("res://mods/Lure/lure_content.gd").new()
-	
-	get_node("/root").add_child(LureContent)
 
 
 # Returns a mod matching the given mod ID
