@@ -1,6 +1,8 @@
 tool
 extends "res://mods/Lure/classes/lure_content.gd"
 
+var type: String = "cosmetic"
+
 var name: String = "Cosmetic Name"
 var category: String = "" setget _set_category
 var desc: String = "Cosmetic Description"

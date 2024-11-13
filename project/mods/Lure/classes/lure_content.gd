@@ -2,6 +2,8 @@ extends Resource
 
 var id: String
 
+var autoload = true
+
 var _placeholder = PlaceholderResource.new()
 var _import_resource: Resource = _placeholder setget _set_import_resource
 
@@ -25,14 +27,19 @@ func import_resource(resource: Resource) -> void:
 
 
 func _get_property_list() -> Array:
-	var export_properties := [{
-		name = "Lure Utilities",
-		type = TYPE_NIL,
-		usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
-	}, {
-		name = "_import_resource",
-		type = TYPE_OBJECT,
-	}]
+	var export_properties := [
+		{
+			name = "Lure Utilities",
+			type = TYPE_NIL,
+			usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
+		}, {
+			name = "autoload",
+			type = TYPE_BOOL
+		}, {
+			name = "_import_resource",
+			type = TYPE_OBJECT,
+		},
+	]
 	
 	return export_properties
 

@@ -1,6 +1,8 @@
 tool
 extends "res://mods/Lure/classes/lure_content.gd"
 
+var type: String = "item"
+
 var item_name: String = "Item Name"
 var category: String = "none" setget _set_category
 var item_description: String = "Item Description"

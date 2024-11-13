@@ -54,6 +54,29 @@ func print_message(message: String) -> void:
 	Utils.pretty_print("[[color=#C54400]LURE[/color]] %s" % message)
 
 
+# Register a mod's content with Lure
+# This will be called automatically on mods that have autoload enabled
+func register_resource(id: String, resource: LureContent) -> void:
+	if id in content:
+		push_warning('Lure content "{id}" already exists'.format({"id": id}))
+		return
+	
+	resource.id = id
+	Loader._add_resource(id, resource)
+	content[id] = resource
+	
+	print_message('Added new Lure {type} "{id}"'.format({
+		"type": resource.type,
+		"id": id
+	}))
+	
+	if resource is LureCosmetic and resource.category == "species":
+		species_indices.append(id)
+		var content_index = species_indices.size() - 1
+		resource.dynamic_species_id = content_index
+		Wardrobe.refresh_body_patterns(get_cosmetics_of_category("pattern"), species_indices)
+
+
 # Register a mod with Lure
 # Do not call this if you don't know what you're doing: Mod registry is automatic.
 func _register_mod(mod: LureMod) -> void:
@@ -64,22 +87,9 @@ func _register_mod(mod: LureMod) -> void:
 	
 	for id in mod.mod_content:
 		var lure_id: String = mod.mod_id + "." + id
-		var mod_content: LureContent = mod.mod_content[id]
+		var resource: LureContent = mod.mod_content[id]
 		
-		mod_content.id = lure_id
-		Loader._add_resource(lure_id, mod_content)
-		content[lure_id] = mod_content
-		
-		print_message('Added new Lure {type} "{id}"'.format({
-			"type": "item" if mod_content is LureItem else "cosmetic",
-			"id": lure_id
-		}))
-		
-		if mod_content is LureCosmetic and mod_content.category == "species":
-			species_indices.append(lure_id)
-			var content_index = species_indices.size() - 1
-			mod_content.dynamic_species_id = content_index
-			Wardrobe.refresh_body_patterns(get_cosmetics_of_category("pattern"), species_indices)
+		register_resource(lure_id, resource)
 
 
 # checks for relevant nodes when one gets added
