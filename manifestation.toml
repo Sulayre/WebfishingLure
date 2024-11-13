@@ -1,7 +1,7 @@
 id = "Sulayre.Lure"
 name = "Lure"
 description = "API to make adding content to WEBFISHING easier, faster and compatible."
-version = "4.0.2"
+version = "4.2.1"
 homepage = "https://github.com/Sulayre/WebfishingLure"
 author = "Sulayre, ZeaTheMays and GitHub Contributors"
 

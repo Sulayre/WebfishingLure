@@ -10,6 +10,7 @@ const _modules = {
 }
 
 const prompt = preload("res://mods/Sulayre.Lure/Scenes/MainMenu/BonusContentPrompt.tscn")
+const SUPPORTED_GAME_VER := 1.1
 
 var Patches
 var Util
@@ -903,6 +904,8 @@ func add_actor(mod_id:String,identifier:String,scene_path:String,host_only:=fals
 	#print(modded_props)
 
 func add_content(mod_id:String,resource_id:String,resource_path:String, flags:Array=[FLAGS.LOCK_AFTER_SHOP_UPDATE]):
+	if Globals.GAME_VERSION != SUPPORTED_GAME_VER:
+		return
 	var data = {
 		"mod":	mod_id,
 		"id":	resource_id,
@@ -991,6 +994,9 @@ func _signals():
 
 func _on_enter(node:Node):
 	if node.name == "main_menu":
+		if Globals.GAME_VERSION != SUPPORTED_GAME_VER:
+			PopupMessage._show_popup("Lure has not been updated to support this version\nof the game so you'll have to wait for a hotfix\nfor some of your installed mods to work.\n(this is so your save doesn't possibly corrupt)\n\nIf you find any issues after the hotfix is\nout please report it on GitHub, thank you!")
+			return
 		if bonus_prompt: node.add_child(prompt.instance())
 		Mapper.selected_map = null
 		
