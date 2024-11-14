@@ -6,7 +6,7 @@ const LureMod := preload("res://mods/Lure/classes/lure_mod.gd")
 const Loader := preload("res://mods/Lure/modules/loader.gd")
 const LureSave := preload("res://mods/Lure/modules/lure_save.gd")
 const Patches := preload("res://mods/Lure/modules/patches.gd")
-const Utils := preload("res://mods/Lure/modules/utils.gd")
+const Utils := preload("res://mods/Lure/utils.gd")
 const Wardrobe := preload("res://mods/Lure/modules/wardrobe.gd")
 
 var mods: Dictionary setget _set_nullifier
