@@ -31,7 +31,6 @@ func _enter_tree() -> void:
 	Lure = $"/root/Lure"
 	
 	Lure._register_mod(self)
-	Lure.print_message('Registered new Lure mod "%s"' % mod_id)
 
 
 # Return an array of tres files in the given path recursively

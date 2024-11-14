@@ -1,6 +1,5 @@
 extends "res://mods/Lure/classes/lure_mod.gd"
 
-# warning-ignore:unused_signal
 signal mod_loaded(mod) # mod: LureMod
 
 const LureMod := preload("res://mods/Lure/classes/lure_mod.gd")
@@ -12,6 +11,9 @@ const Utils := preload("res://mods/Lure/modules/utils.gd")
 var mods: Dictionary setget _set_nullifier
 var content: Dictionary setget _set_nullifier
 var species_indices: Array = [ "species_cat", "species_dog" ]
+
+var _mod_node_names: Array
+var _content_node_names: Array
 
 
 func _ready() -> void:
@@ -45,22 +47,30 @@ func print_message(message: String) -> void:
 
 # Register a mod's content with Lure
 # This will be called automatically on mods that have autoload enabled
-func register_resource(id: String, resource: LureContent) -> void:
-	if id in content:
-		push_warning('Lure content "{id}" already exists'.format({"id": id}))
+func register_resource(mod_id: String, content_id: String, resource: LureContent) -> void:
+	var lure_id: String = mod_id + "." + content_id
+	
+	if not resource is LureContent:
+		push_warning('Cannot register Lure content "%s": Input is not LureContent' % lure_id)
 		return
 	
-	resource.id = id
-	Loader._add_resource(id, resource)
-	content[id] = resource
+	var node_name = lure_id.validate_node_name()
+	if node_name in _content_node_names:
+		push_warning('Cannot register Lure content "%s": Content ID already exists' % lure_id)
+		return
 	
-	print_message('Added new Lure {type} "{id}"'.format({
+	resource.id = lure_id
+	Loader._add_resource(lure_id, resource)
+	content[lure_id] = resource
+	_content_node_names.append(node_name)
+	
+	print_message('Registered new Lure {type} "{id}"'.format({
 		"type": resource.type,
-		"id": id
+		"id": lure_id
 	}))
 	
 	if resource is LureCosmetic and resource.category == "species":
-		species_indices.append(id)
+		species_indices.append(lure_id)
 		var content_index = species_indices.size() - 1
 		resource.dynamic_species_id = content_index
 		Wardrobe.refresh_body_patterns(get_cosmetics_of_category("pattern"), species_indices)
@@ -69,16 +79,28 @@ func register_resource(id: String, resource: LureContent) -> void:
 # Register a mod with Lure
 # Do not call this if you don't know what you're doing: Mod registry is automatic.
 func _register_mod(mod: LureMod) -> void:
-	if (not mod is LureMod) or (mod.mod_id in mods):
+	var id := mod.mod_id
+	
+	if not mod is LureMod:
+		push_warning('Cannot register Lure mod "%s": Input is not LureMod' % id)
 		return
 	
-	mods[mod.mod_id] = mod
+	var node_name := id.validate_node_name()
+	if node_name in _mod_node_names:
+		push_warning('Cannot register Lure mod "%s": Mod ID already exists' % id)
+		return
 	
-	for id in mod.mod_content:
-		var lure_id: String = mod.mod_id + "." + id
-		var resource: LureContent = mod.mod_content[id]
+	mods[id] = mod
+	_mod_node_names.append(node_name)
+	
+	for content_id in mod.mod_content:
+		var resource: LureContent = mod.mod_content[content_id]
 		
-		register_resource(lure_id, resource)
+		if resource.autoload:
+			register_resource(id, content_id, resource)
+	
+	print_message('Registered new Lure mod "%s"' % mod_id)
+	emit_signal("mod_loaded", mod)
 
 
 # checks for relevant nodes when one gets added

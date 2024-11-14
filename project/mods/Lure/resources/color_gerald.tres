@@ -19,4 +19,5 @@ main_color = Color( 0.772549, 0.266667, 0, 1 )
 in_rotation = false
 chest_reward = false
 cost = 10
+autoload = true
 _import_resource = SubResource( 2 )
