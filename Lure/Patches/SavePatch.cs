@@ -39,6 +39,12 @@ public class SavePatch : IScriptMod
             t => t is IdentifierToken { Name: "PlayerData" }
         ], allowPartialMatch: true, waitForReady: true);
         
+        // "bait_selected": PlayerData
+        var baitSelectedWaiter = new MultiTokenWaiter([
+            t => t is ConstantToken { Value: StringVariant { Value: "bait_selected" } },
+            t => t is IdentifierToken { Name: "PlayerData" }
+        ], allowPartialMatch: true, waitForReady: true);
+        
         // "bait_unlocked": PlayerData
         var baitUnlockedWaiter = new MultiTokenWaiter([
             t => t is ConstantToken { Value: StringVariant { Value: "bait_unlocked" } },
@@ -48,6 +54,12 @@ public class SavePatch : IScriptMod
         // "journal": PlayerData
         var journalWaiter = new MultiTokenWaiter([
             t => t is ConstantToken { Value: StringVariant { Value: "journal" } },
+            t => t is IdentifierToken { Name: "PlayerData" }
+        ], allowPartialMatch: true, waitForReady: true);
+        
+        // "lure_selected": PlayerData
+        var lureSelectedWaiter = new MultiTokenWaiter([
+            t => t is ConstantToken { Value: StringVariant { Value: "lure_selected" } },
             t => t is IdentifierToken { Name: "PlayerData" }
         ], allowPartialMatch: true, waitForReady: true);
         
@@ -134,7 +146,7 @@ public class SavePatch : IScriptMod
             
             else if (cosmeticsEquippedWaiter.Check(token))
             {
-                foreach (var t in ScriptTokenizer.Tokenize($"LurePatches.sanitise_dictionary(Lure, PlayerData.cosmetics_equipped, false),"))
+                foreach (var t in ScriptTokenizer.Tokenize($"LurePatches.sanitise_cosmetics_equipped(Lure, PlayerData.cosmetics_equipped),"))
                 {
                     yield return t;
                     
@@ -145,6 +157,16 @@ public class SavePatch : IScriptMod
             else if (baitInvWaiter.Check(token))
             {
                 foreach (var t in ScriptTokenizer.Tokenize($"LurePatches.sanitise_dictionary(Lure, PlayerData.bait_inv),"))
+                {
+                    yield return t;
+                    
+                    newlineConsumer.SetReady();
+                }
+            }
+            
+            else if (baitSelectedWaiter.Check(token))
+            {
+                foreach (var t in ScriptTokenizer.Tokenize($"LurePatches.sanitise_string(Lure, PlayerData.bait_selected),"))
                 {
                     yield return t;
                     
@@ -172,6 +194,16 @@ public class SavePatch : IScriptMod
                 }
             }
             
+            else if (lureSelectedWaiter.Check(token))
+            {
+                foreach (var t in ScriptTokenizer.Tokenize($"LurePatches.sanitise_string(Lure, PlayerData.lure_selected),"))
+                {
+                    yield return t;
+                    
+                    newlineConsumer.SetReady();
+                }
+            }
+            
             else if (lureUnlockedWaiter.Check(token))
             {
                 foreach (var t in ScriptTokenizer.Tokenize($"LurePatches.sanitise_array(Lure, PlayerData.lure_unlocked),"))
@@ -184,8 +216,7 @@ public class SavePatch : IScriptMod
 
             else if (savedAquaFishWaiter.Check(token))
             {
-                foreach (var t in ScriptTokenizer.Tokenize(
-                             $"LurePatches.sanitise_dictionary(Lure, PlayerData.saved_aqua_fish, false),"))
+                foreach (var t in ScriptTokenizer.Tokenize("LurePatches.sanitise_saved_aqua_fish(Lure, PlayerData.saved_aqua_fish),"))
                 {
                     yield return t;
                     

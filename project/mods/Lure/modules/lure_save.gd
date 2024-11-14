@@ -38,8 +38,10 @@ static func filter_player_data(lure_content: Array, player_data: Dictionary) -> 
 		"cosmetics_unlocked": [],
 		"cosmetics_equipped": {},
 		"bait_inv": {},
+		"bait_selected": "",
 		"bait_unlocked": [],
 		"journal_logs": {},
+		"lure_selected": "",
 		"lure_unlocked": [],
 		"saved_aqua_fish": {}
 	}
@@ -52,7 +54,6 @@ static func filter_player_data(lure_content: Array, player_data: Dictionary) -> 
 		if id in lure_content:
 			filtered_data.cosmetics_unlocked.append(id)
 	
-	print(player_data.cosmetics_equipped)
 	for category in player_data.cosmetics_equipped.keys():
 		if player_data.cosmetics_equipped[category] is Array:
 			if not category in filtered_data.cosmetics_equipped:
@@ -70,6 +71,9 @@ static func filter_player_data(lure_content: Array, player_data: Dictionary) -> 
 		if id in lure_content:
 			filtered_data.bait_inv[id] = player_data.bait_inv[id]
 	
+	if player_data.bait_selected in lure_content:
+		filtered_data.bait_selected = player_data.bait_selected
+	
 	for id in player_data.bait_unlocked:
 		if id in lure_content:
 			filtered_data.bait_unlocked.append(id)
@@ -83,6 +87,9 @@ static func filter_player_data(lure_content: Array, player_data: Dictionary) -> 
 			
 			if id in lure_content:
 				filtered_data.journal_logs[category][id] = journal_log
+	
+	if player_data.lure_selected in lure_content:
+		filtered_data.lure_selected = player_data.lure_selected
 	
 	for id in player_data.lure_unlocked:
 		if id in lure_content:

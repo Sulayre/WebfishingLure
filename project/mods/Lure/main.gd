@@ -154,8 +154,10 @@ func _on_slot_saved() -> void:
 		"cosmetics_unlocked": PlayerData.cosmetics_unlocked,
 		"cosmetics_equipped": PlayerData.cosmetics_equipped,
 		"bait_inv": PlayerData.bait_inv,
+		"bait_selected": PlayerData.bait_selected,
 		"bait_unlocked": PlayerData.bait_unlocked,
 		"journal_logs": PlayerData.journal_logs,
+		"lure_selected": PlayerData.lure_selected,
 		"lure_unlocked": PlayerData.lure_unlocked,
 		"saved_aqua_fish": PlayerData.saved_aqua_fish
 	})
