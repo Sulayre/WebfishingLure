@@ -27,8 +27,8 @@ func get_mod(mod_id: String) -> LureMod:
 	return mods.get(mod_id)
 
 
-# Get cosmetic resources of a specific category
-func get_cosmetics_of_category(category: String) -> Array:
+# Get content resources of a specific category
+func get_content_of_category(category: String) -> Array:
 	var matching_resources: Array = []
 	
 	for resource in content.values():
@@ -73,7 +73,7 @@ func register_resource(mod_id: String, content_id: String, resource: LureContent
 		species_indices.append(lure_id)
 		var content_index = species_indices.size() - 1
 		resource.dynamic_species_id = content_index
-		Wardrobe.refresh_body_patterns(get_cosmetics_of_category("pattern"), species_indices)
+		Wardrobe.refresh_body_patterns(get_content_of_category("pattern"), species_indices)
 
 
 # Register a mod with Lure
@@ -103,25 +103,40 @@ func _register_mod(mod: LureMod) -> void:
 	emit_signal("mod_loaded", mod)
 
 
-# checks for relevant nodes when one gets added
+# Actions to perform when nodes are added to the scene tree
 func _node_catcher(node: Node):
-	if node.name == "main_menu":
-		_unlock_cosmetics()
-	elif "player" in node.get_groups():
+	var is_main_menu: bool = node.name == "main_menu"
+	var is_save_menu: bool = (
+			node.name == "save_select"
+			or node.name.begins_with("@save_select@")
+			and node.get_parent().name != "main_menu"
+	)
+	var is_player: bool = "player" in node.get_groups()
+	
+	if is_main_menu:
+		_save_slot_loaded()
+	elif is_save_menu:
+		node.connect("_pressed", self, "_save_slot_loaded", [], CONNECT_DEFERRED)
+	elif is_player:
 		Wardrobe.setup_player(node, {
-			"species_array": get_cosmetics_of_category("species"),
+			"species_array": get_content_of_category("species")
 		})
 
 
-# Loops through lure cosmetics and calls unlock cosmetic
-func _unlock_cosmetics() -> void:
+# Set up Lure content
+func _save_slot_loaded() -> void:
+	var save_slot: int = UserSave.current_loaded_slot
+	
+	if save_slot == -1: # No save slot selected
+		return
+	
 	for id in content.keys():
 		if not content[id] is LureCosmetic:
-			return
+			continue
 		
 		Loader._unlock_cosmetic(id)
 
 
 # Prevents other scripts from modifying core variables
-func _set_nullifier(value) -> void:
+func _set_nullifier(_v) -> void:
 	return
