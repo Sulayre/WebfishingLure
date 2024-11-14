@@ -4,9 +4,10 @@ signal mod_loaded(mod) # mod: LureMod
 
 const LureMod := preload("res://mods/Lure/classes/lure_mod.gd")
 const Loader := preload("res://mods/Lure/modules/loader.gd")
-const Wardrobe := preload("res://mods/Lure/modules/wardrobe.gd")
+const LureSave := preload("res://mods/Lure/modules/lure_save.gd")
 const Patches := preload("res://mods/Lure/modules/patches.gd")
 const Utils := preload("res://mods/Lure/modules/utils.gd")
+const Wardrobe := preload("res://mods/Lure/modules/wardrobe.gd")
 
 var mods: Dictionary setget _set_nullifier
 var content: Dictionary setget _set_nullifier
@@ -18,6 +19,7 @@ var _content_node_names: Array
 
 func _ready() -> void:
 	get_tree().connect("node_added", self, "_node_catcher", [], CONNECT_DEFERRED)
+	UserSave.connect("_slot_saved", self, "_on_slot_saved")
 	
 	print_message("I'm ready!")
 
@@ -130,11 +132,34 @@ func _save_slot_loaded() -> void:
 	if save_slot == -1: # No save slot selected
 		return
 	
+	# Insert Lure save data into PlayerData
+	var lure_save: Dictionary = LureSave.load_data(save_slot)
+	if lure_save:
+		LureSave.initialise_data(lure_save, PlayerData)
+	
 	for id in content.keys():
 		if not content[id] is LureCosmetic:
 			continue
 		
 		Loader._unlock_cosmetic(id)
+
+
+# Save Lure data to file
+func _on_slot_saved() -> void:
+	var save_slot: int = UserSave.current_loaded_slot
+	
+	# Filter out Lure content from PlayerData
+	var lure_save: Dictionary = LureSave.filter_player_data(content.keys(), {
+		"inventory": PlayerData.inventory,
+		"cosmetics_unlocked": PlayerData.cosmetics_unlocked,
+		"cosmetics_equipped": PlayerData.cosmetics_equipped,
+		"bait_inv": PlayerData.bait_inv,
+		"bait_unlocked": PlayerData.bait_unlocked,
+		"journal_logs": PlayerData.journal_logs,
+		"lure_unlocked": PlayerData.lure_unlocked,
+		"saved_aqua_fish": PlayerData.saved_aqua_fish
+	})
+	LureSave.save_data(save_slot, lure_save)
 
 
 # Prevents other scripts from modifying core variables
