@@ -3,7 +3,6 @@ extends Reference
 const LureCosmetic := preload("res://mods/Lure/classes/lure_cosmetic.gd")
 const Player := preload("res://Scenes/Entities/Player/player.gd")
 
-
 static func refresh_body_patterns(pattern_resources: Array, species_indexes: Array):
 	for pattern in pattern_resources:
 		if not pattern is LureCosmetic or pattern.get("category") != "pattern":
@@ -56,3 +55,17 @@ static func setup_player_voice(player: Player, species_array: Array):
 			sfx_node.name = sound_id + "_" + species.id
 
 			sound_manager.add_child(sfx_node, true)
+
+static func extend_vanilla_patterns(vanilla_patterns:Array,new_species:LureCosmetic):
+	for pattern in vanilla_patterns:
+		if not pattern is CosmeticResource:
+			continue
+		
+		var pattern_id: String = pattern.get_path().get_basename()
+		var species_index := new_species.dynamic_species_id + 1
+		var length: int = pattern.body_pattern.size()
+		
+		if species_index > length - 1:
+			pattern.body_pattern.resize(species_index + 1)
+
+		pattern.body_pattern[species_index] = new_species.get(pattern_id)

@@ -37,6 +37,11 @@ var voice_bark: AudioStream
 var voice_growl: AudioStream
 var voice_whine: AudioStream
 
+var pattern_calico: Texture
+var pattern_collie: Texture
+var pattern_spotted: Texture
+var pattern_tux: Texture
+
 var cos_internal_id: int = 0
 var dynamic_species_id: int
 var dynamic_body_pattern_id: int
