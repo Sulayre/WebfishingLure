@@ -90,7 +90,7 @@ func register_resource(mod_id: String, content_id: String, resource: LureContent
 
 # Register a mod with Lure
 # Do not call this if you don't know what you're doing: Mod registry is automatic.
-func _register_mod(mod: LureMod) -> void:
+func register_mod(mod: LureMod) -> void:
 	var id := mod.mod_id
 
 	if not mod is LureMod:
@@ -108,7 +108,7 @@ func _register_mod(mod: LureMod) -> void:
 	for content_id in mod.mod_content:
 		var resource: LureContent = mod.mod_content[content_id]
 
-		if resource.flags & LureContent.FLAGS.AUTOLOAD:
+		if resource.lure_flags & LureContent.Flags.AUTOLOAD:
 			call_deferred("register_resource", id, content_id, resource)
 
 	print_message('Registered new Lure mod "%s"' % mod_id)
@@ -147,7 +147,7 @@ func _save_slot_loaded() -> void:
 	for id in content.keys():
 		if not content[id] is LureCosmetic:
 			continue
-		if content[id].flags | LureContent.FLAGS.FREE_UNLOCK:
+		if content[id].lure_flags | LureContent.Flags.AUTO_UNLOCK:
 			Wardrobe.unlock_cosmetic(id)
 
 

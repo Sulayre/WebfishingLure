@@ -1,6 +1,24 @@
 tool
 extends "res://mods/Lure/classes/lure_content.gd"
 
+const CATEGORIES := [
+	"species",
+	"primary_color",
+	"secondary_color",
+	"eye",
+	"nose",
+	"mouth",
+	"hat",
+	"undershirt",
+	"overshirt",
+	"accessory",
+	"bobber",
+	"pattern",
+	"title",
+	"tail",
+	"legs",
+]
+
 var type: String = "cosmetic"
 
 var name: String = "Cosmetic Name"
@@ -94,7 +112,7 @@ func _get_property_list() -> Array:
 				name = "category",
 				type = TYPE_STRING,
 				hint = PROPERTY_HINT_ENUM,
-				hint_string = "species,primary_color,secondary_color,eye,nose,mouth,hat,undershirt,overshirt,accessory,bobber,pattern,title,tail,legs",
+				hint_string = ",".join(CATEGORIES),
 			},
 			{
 				name = "desc",
@@ -112,10 +130,10 @@ func _get_property_list() -> Array:
 				type = TYPE_COLOR,
 			},
 			{
-				name = "flags",
+				name = "lure_flags",
 				type = TYPE_INT,
 				hint = PROPERTY_HINT_FLAGS,
-				hint_string = ",".join(FLAGS.keys()),
+				hint_string = ",".join(Flags.keys()),
 				usage = PROPERTY_USAGE_DEFAULT,
 			},
 		]

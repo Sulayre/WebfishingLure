@@ -1,8 +1,8 @@
 extends Resource
 
-enum FLAGS {
+enum Flags {
 	AUTOLOAD = 1 << 0,
-	FREE_UNLOCK = 1 << 1,
+	AUTO_UNLOCK = 1 << 1,
 	SHOP_POSSUM = 1 << 2,
 	SHOP_FROG = 1 << 3,
 	SHOP_BEACH = 1 << 4,
@@ -10,11 +10,10 @@ enum FLAGS {
 }
 
 var id: String
+var lure_flags: int = Flags.AUTOLOAD | Flags.AUTO_UNLOCK
 
 var _placeholder = PlaceholderResource.new()
 var _import_resource: Resource = _placeholder setget _set_import_resource
-
-var flags: int = FLAGS.AUTOLOAD | FLAGS.FREE_UNLOCK
 
 
 class PlaceholderResource:

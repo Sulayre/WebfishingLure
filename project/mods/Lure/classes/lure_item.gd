@@ -1,6 +1,8 @@
 tool
 extends "res://mods/Lure/classes/lure_content.gd"
 
+const CATEGORIES := ["none", "fish", "bug", "tool", "furniture"]
+
 var type: String = "item"
 
 var item_name: String = "Item Name"
@@ -69,7 +71,7 @@ func _get_property_list() -> Array:
 				name = "category",
 				type = TYPE_STRING,
 				hint = PROPERTY_HINT_ENUM,
-				hint_string = "none,fish,bug,tool,furniture",
+				hint_string = ",".join(CATEGORIES),
 			},
 			{
 				name = "item_description",
@@ -88,10 +90,10 @@ func _get_property_list() -> Array:
 				hint = PROPERTY_HINT_MULTILINE_TEXT,
 			},
 			{
-				name = "flags",
+				name = "lure_flags",
 				type = TYPE_INT,
 				hint = PROPERTY_HINT_FLAGS,
-				hint_string = ",".join(FLAGS.keys()),
+				hint_string = ",".join(Flags.keys()),
 				usage = PROPERTY_USAGE_DEFAULT,
 			},
 		]

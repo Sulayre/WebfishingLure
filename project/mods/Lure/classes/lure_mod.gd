@@ -30,7 +30,7 @@ func _init() -> void:
 func _enter_tree() -> void:
 	Lure = $"/root/Lure"
 
-	Lure._register_mod(self)
+	Lure.register_mod(self)
 
 
 # Return an array of tres files in the given path recursively
