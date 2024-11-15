@@ -238,7 +238,7 @@ func _get_property_list() -> Array:
 			)
 
 	# Scene and cosmetic mesh data
-	if category in ["hat", "undershirt", "overshirt", "accessory", "species", "legs"]:
+	if category in ["hat", "undershirt", "overshirt", "accessory", "species", "legs", "bobber", "tail"]:
 		export_properties.append_array(
 			[
 				{

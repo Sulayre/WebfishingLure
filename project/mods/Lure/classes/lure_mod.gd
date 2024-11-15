@@ -3,9 +3,8 @@ extends Node
 const LureContent := preload("res://mods/Lure/classes/lure_content.gd")
 const LureItem := preload("res://mods/Lure/classes/lure_item.gd")
 const LureCosmetic := preload("res://mods/Lure/classes/lure_cosmetic.gd")
-const LureCore := preload("res://mods/Lure/main.gd")
 
-var Lure: LureCore
+var Lure: Node
 var mod_folder: String = get_script().get_path().get_base_dir()
 var mod_id: String = mod_folder.get_slice("/", 3)
 var mod_content: Dictionary
