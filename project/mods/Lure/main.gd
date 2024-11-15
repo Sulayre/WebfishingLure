@@ -5,12 +5,13 @@ signal mod_loaded(mod)  # mod: LureMod
 const LureMod := preload("res://mods/Lure/classes/lure_mod.gd")
 const Loader := preload("res://mods/Lure/modules/loader.gd")
 const LureSave := preload("res://mods/Lure/modules/lure_save.gd")
-const Patches := preload("res://mods/Lure/modules/patches.gd")
 const Utils := preload("res://mods/Lure/utils.gd")
 const Wardrobe := preload("res://mods/Lure/modules/wardrobe.gd")
 
 var mods: Dictionary setget _set_nullifier
 var content: Dictionary setget _set_nullifier
+var actors: Dictionary setget _set_nullifier
+
 var species_indices: Array = ["species_cat", "species_dog"]
 
 var _mod_node_names: Array
@@ -70,10 +71,29 @@ func register_resource(mod_id: String, content_id: String, resource: LureContent
 		'Registered new Lure {type} "{id}"'.format({"type": resource.type, "id": lure_id})
 	)
 	
-	# TODO: Actors Array/Storage
-	# TODO: Add something that checks if Prop Resource in LureItem is unique or embed in the resource
+	if resource is LureActor:
+			actors[resource.id] = resource
 	
-	if resource is LureCosmetic and resource.category == "species":
+	elif resource is LureItem and resource.category == "furniture":
+		var actor_resource:LureActor = resource.prop_resource
+		if !actor_resource:# we check if the item even has an actor resource attached
+			return
+		if !actor_resource.actor_scene:# we check if it has a scene assigned (it resets when using ids)
+			return
+		# we check if the actor is internal so we can add it to the actor list with the item id + suffix
+		if actor_resource.resource_path.begins_with(resource.resource_path):
+			actor_resource.internal_actor = true
+			actor_resource.id = resource.id + ".prop"
+			actors[actor_resource.id] = actor_resource
+		# we make the prop_code "resource" and later lao the prop with it, most props probably have not
+		# loaded yet so can we grab the prop data directly from here and then get the actor_id when we send
+		# the packet when realistically all props will be loaded and have their ids generated
+		resource.prop_code = "resource"
+	
+	if (
+			resource is LureCosmetic
+			and resource.category == "species"
+	):
 		species_indices.append(lure_id)
 		var content_index = species_indices.size() - 1
 		resource.dynamic_species_id = content_index
