@@ -54,44 +54,35 @@ public class PlayerPatch : IScriptMod
         ], allowPartialMatch: true, waitForReady: true);
         
         // @1921 cosm.material_override =
-        var overridewaiter = new MultiTokenWaiter([
+        var overrideWaiter = new MultiTokenWaiter([
             t => t is IdentifierToken { Name: "cosm" },
             t => t.Type is TokenType.Period,
             t => t is IdentifierToken { Name: "material_override" },
             t => t.Type is TokenType.OpAssign,
         ]);
         
-        var shaderpreloadconsumer = new TokenConsumer(t => t.Type is TokenType.Period);
+        var shaderPreloadConsumer = new TokenConsumer(t => t.Type is TokenType.Period);
         
         var consuming = false;
 
         foreach (var token in tokens)
         {
-            if (shaderpreloadconsumer.Check(token))
-            {
-                continue;
-            }
-            else if (extendsWaiter.Check(token))
+            if (shaderPreloadConsumer.Check(token)) continue;
+            
+            if (extendsWaiter.Check(token))
             {
                 yield return token;
                 
-                // onready var LurePatches = load("res://mods/Lure/modules/patches.gd")
-                yield return new Token(TokenType.PrOnready);
-                yield return new Token(TokenType.PrVar);
-                yield return new IdentifierToken("LurePatches");
-                yield return new Token(TokenType.OpAssign);
-                yield return new Token(TokenType.BuiltInFunc, (uint?)BuiltinFunction.ResourceLoad);
-                yield return new Token(TokenType.ParenthesisOpen);
-                yield return new ConstantToken(new StringVariant("res://mods/Lure/modules/patches.gd"));
-                yield return new Token(TokenType.ParenthesisClose);
+                // onready var LurePatch = load("res://mods/Lure/patches/player.gd")
+                foreach (var t in ScriptTokenizer.Tokenize("onready var LurePatch = load(\"res://mods/Lure/patches/player.gd\")"))
+                {
+                    yield return t;
+                }
 
                 yield return token;
             }
             
-            else if (matchSpeciesWaiter.Check(token) || barkIdWaiter.Check(token))
-            {
-                consuming = true;
-            }
+            else if (matchSpeciesWaiter.Check(token) || barkIdWaiter.Check(token)) consuming = true;
 
             else if (updateCosmeticsWaiter.Check(token))
             {
@@ -103,22 +94,13 @@ public class PlayerPatch : IScriptMod
 
             else if (bodyPatternWaiter.Check(token))
             {
-                consuming = false;
+                // LurePatch.override_body_pattern(data["species"], species, pattern)
+                foreach (var t in ScriptTokenizer.Tokenize("LurePatch.override_body_pattern(data[\"species\"], species, pattern)"))
+                {
+                    yield return t;
+                }
                 
-                // LurePatches.override_body_pattern(data["species"],species,pattern)
-                yield return new IdentifierToken("LurePatches");
-                yield return new Token(TokenType.Period);
-                yield return new IdentifierToken("override_body_pattern");
-                yield return new Token(TokenType.ParenthesisOpen);
-                yield return new IdentifierToken("data");
-                yield return new Token(TokenType.BracketOpen);
-                yield return new ConstantToken(new StringVariant("species"));
-                yield return new Token(TokenType.BracketClose);
-                yield return new Token(TokenType.Comma);
-                yield return new IdentifierToken("species");
-                yield return new Token(TokenType.Comma);
-                yield return new IdentifierToken("pattern");
-                yield return new Token(TokenType.ParenthesisClose);
+                consuming = false;
             }
             
             else if (barkWaiter.Check(token))
@@ -131,32 +113,24 @@ public class PlayerPatch : IScriptMod
             
             else if (equippedSpeciesWaiter.Check(token))
             {
-                consuming = false;
+                // bark_id = LurePatch.get_bark_id(self, PlayerData.cosmetics_equipped.species)
+                foreach (var t in ScriptTokenizer.Tokenize("bark_id = LurePatch.get_bark_id(self, PlayerData.cosmetics_equipped.species)"))
+                {
+                    yield return t;
+                }
                 
-                // bark_id = LurePatches.get_bark_id(self, PlayerData.cosmetics_equipped.species)
-                yield return new IdentifierToken("bark_id");
-                yield return new Token(TokenType.OpAssign);
-                yield return new IdentifierToken("LurePatches");
-                yield return new Token(TokenType.Period);
-                yield return new IdentifierToken("get_bark_id");
-                yield return new Token(TokenType.ParenthesisOpen);
-                yield return new Token(TokenType.Self);
-                yield return new Token(TokenType.Comma);
-                yield return new IdentifierToken("PlayerData");
-                yield return new Token(TokenType.Period);
-                yield return new IdentifierToken("cosmetics_equipped");
-                yield return new Token(TokenType.Period);
-                yield return new IdentifierToken("species");
-                yield return new Token(TokenType.ParenthesisClose);
+                consuming = false;
             }
-            else if (overridewaiter.Check(token))
+            
+            else if (overrideWaiter.Check(token))
             {
                 yield return token;
                 yield return new IdentifierToken("LurePatches");
                 yield return new Token(TokenType.Period);
                 yield return new IdentifierToken("CustomBodyShader");
-                shaderpreloadconsumer.SetReady();
+                shaderPreloadConsumer.SetReady();
             }
+            
             else if (!consuming)
             {
                 yield return token;
