@@ -53,11 +53,25 @@ public class PlayerPatch : IScriptMod
             t => t.Type is TokenType.BracketClose,
         ], allowPartialMatch: true, waitForReady: true);
         
+        // @1921 cosm.material_override =
+        var overridewaiter = new MultiTokenWaiter([
+            t => t is IdentifierToken { Name: "cosm" },
+            t => t.Type is TokenType.Period,
+            t => t is IdentifierToken { Name: "material_override" },
+            t => t.Type is TokenType.OpAssign,
+        ]);
+        
+        var shaderpreloadconsumer = new TokenConsumer(t => t.Type is TokenType.Period);
+        
         var consuming = false;
 
         foreach (var token in tokens)
         {
-            if (extendsWaiter.Check(token))
+            if (shaderpreloadconsumer.Check(token))
+            {
+                continue;
+            }
+            else if (extendsWaiter.Check(token))
             {
                 yield return token;
                 
@@ -135,7 +149,14 @@ public class PlayerPatch : IScriptMod
                 yield return new IdentifierToken("species");
                 yield return new Token(TokenType.ParenthesisClose);
             }
-
+            else if (overridewaiter.Check(token))
+            {
+                yield return token;
+                yield return new IdentifierToken("LurePatches");
+                yield return new Token(TokenType.Period);
+                yield return new IdentifierToken("CustomBodyShader");
+                shaderpreloadconsumer.SetReady();
+            }
             else if (!consuming)
             {
                 yield return token;

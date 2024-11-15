@@ -1,6 +1,8 @@
 extends Reference
 
 const LureCosmetic := preload("res://mods/Lure/classes/lure_cosmetic.gd")
+const CustomBodyShader := preload("res://mods/Lure/resources/materials/custom_body_shader.tres")
+
 const FALLBACK_COSMETICS = {
 	"species": "species_cat",
 	"pattern": "pattern_none",

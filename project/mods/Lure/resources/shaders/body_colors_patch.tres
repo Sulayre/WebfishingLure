@@ -1,0 +1,27 @@
+[gd_resource type="Shader" format=2]
+
+[resource]
+code = "shader_type spatial;
+
+uniform vec4 albedo : hint_color = vec4(1.0);
+uniform vec4 albedo_secondary : hint_color = vec4(1.0);
+uniform vec4 albedo_dark : hint_color = vec4(0.0, 0.0, 0.0, 1.0);
+uniform sampler2D texture_albedo : hint_albedo;
+
+void fragment() {
+    vec3 tex_color = texture(texture_albedo, UV).rgb;
+
+    if (abs(tex_color.r - tex_color.g) < 0.01 && abs(tex_color.g - tex_color.b) < 0.01) {
+        vec3 tex = albedo_dark.rgb * tex_color;
+        vec3 tex_full = albedo_secondary.rgb * tex_color;
+        
+        float mix_amt = tex_color.r; 
+        if (mix_amt == 1.0) {
+            ALBEDO = mix(albedo.rgb, tex_full, mix_amt);
+        } else {
+            ALBEDO = mix(albedo.rgb, tex, mix_amt);
+        }
+    } else {
+        ALBEDO = tex_color;
+    }
+}"

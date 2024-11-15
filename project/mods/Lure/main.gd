@@ -147,7 +147,7 @@ func _save_slot_loaded() -> void:
 	for id in content.keys():
 		if not content[id] is LureCosmetic:
 			continue
-		if content[id].lure_flags | LureContent.Flags.AUTO_UNLOCK:
+		if content[id].lure_flags & LureContent.Flags.AUTO_UNLOCK:
 			Wardrobe.unlock_cosmetic(id)
 
 
