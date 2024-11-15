@@ -1,0 +1,17 @@
+id = "Lure"
+name = "Lure"
+description = "API to make adding content to WEBFISHING easier, faster and compatible."
+version = "5.0.0"
+homepage = "https://github.com/Sulayre/WebfishingLure"
+author = "Sulayre, omgpaws & Lure Contributors"
+
+icon = "icon.png"
+readme = "README.md"
+
+# both are optional here, pick what you want
+[project]
+csharp = "./Lure/Lure.csproj"
+godot = "./project/project.godot"
+
+[[dependencies]]
+thunderstore_version = "NotNet-GDWeave-2.0.13"

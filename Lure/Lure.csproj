@@ -11,21 +11,4 @@
         <Reference Include="GDWeave" Private="false" />
         <Reference Include="Serilog" Private="false" />
     </ItemGroup>
-
-    <ItemGroup>
-        <None Include="manifest.json" CopyToOutputDirectory="PreserveNewest" />
-    </ItemGroup>
-    
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(GDWeavePath)' != ''">
-        <ItemGroup>
-            <ModFiles Include="$(TargetDir)manifest.json"/>
-            <ModFiles Include="$(TargetDir)$(AssemblyName).dll"/>
-            <ModFiles Include="../project/$(AssemblyName).pck"/>
-        </ItemGroup>
-
-        <Copy
-                SourceFiles="@(ModFiles)"
-                DestinationFolder="$(GDWeavePath)/mods/$(AssemblyName)/"
-        />
-    </Target>
 </Project>

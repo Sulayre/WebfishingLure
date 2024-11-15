@@ -176,25 +176,25 @@ func _get_property_list() -> Array:
 						name = "pattern_collie",
 						type = TYPE_OBJECT,
 						hint = PROPERTY_HINT_RESOURCE_TYPE,
-						hint_string = "AudioStream",
+						hint_string = "Texture",
 					},
 					{
 						name = "pattern_tux",
 						type = TYPE_OBJECT,
 						hint = PROPERTY_HINT_RESOURCE_TYPE,
-						hint_string = "AudioStream",
+						hint_string = "Texture",
 					},
 					{
 						name = "pattern_calico",
 						type = TYPE_OBJECT,
 						hint = PROPERTY_HINT_RESOURCE_TYPE,
-						hint_string = "AudioStream",
+						hint_string = "Texture",
 					},
 					{
 						name = "pattern_spotted",
 						type = TYPE_OBJECT,
 						hint = PROPERTY_HINT_RESOURCE_TYPE,
-						hint_string = "AudioStream",
+						hint_string = "Texture",
 					},
 				]
 			)
