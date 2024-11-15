@@ -86,7 +86,14 @@ func _get_property_list() -> Array:
 				name = "help_text",
 				type = TYPE_STRING,
 				hint = PROPERTY_HINT_MULTILINE_TEXT,
-			}
+			},
+			{
+				name = "flags",
+				type = TYPE_INT,
+				hint = PROPERTY_HINT_FLAGS,
+				hint_string = ",".join(FLAGS.keys()),
+				usage = PROPERTY_USAGE_DEFAULT,
+			},
 		]
 	)
 

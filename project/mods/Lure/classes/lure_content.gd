@@ -51,13 +51,6 @@ func _get_property_list() -> Array:
 			name = "_import_resource",
 			type = TYPE_OBJECT,
 		},
-		{
-			name = "flags",
-			type = TYPE_INT,
-			hint = PROPERTY_HINT_FLAGS,
-			hint_string = ",".join(FLAGS.keys()),
-			usage = PROPERTY_USAGE_DEFAULT,
-		},
 	]
 
 	return export_properties

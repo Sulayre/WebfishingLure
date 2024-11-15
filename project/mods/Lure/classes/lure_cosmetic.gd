@@ -104,6 +104,13 @@ func _get_property_list() -> Array:
 				name = "main_color",
 				type = TYPE_COLOR,
 			},
+			{
+				name = "flags",
+				type = TYPE_INT,
+				hint = PROPERTY_HINT_FLAGS,
+				hint_string = ",".join(FLAGS.keys()),
+				usage = PROPERTY_USAGE_DEFAULT,
+			},
 		]
 	)
 
