@@ -52,175 +52,221 @@ var generate_worth: bool = true
 
 func _get_property_list() -> Array:
 	var export_properties: Array = []
-	
+
 	# Lure item metadata
-	export_properties.append_array([
-		{
-			name = "Metadata",
-			type = TYPE_NIL,
-			usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
-		}, {
-			name = "item_name",
-			type = TYPE_STRING,
-		}, {
-			name = "category",
-			type = TYPE_STRING,
-			hint = PROPERTY_HINT_ENUM,
-			hint_string = "none,fish,bug,tool,furniture",
-		}, {
-			name = "item_description",
-			type = TYPE_STRING,
-			hint = PROPERTY_HINT_MULTILINE_TEXT,
-		}, {
-			name = "icon",
-			type = TYPE_OBJECT,
-			hint = PROPERTY_HINT_RESOURCE_TYPE,
-			hint_string = "Texture",
-		}, {
-			name = "help_text",
-			type = TYPE_STRING,
-			hint = PROPERTY_HINT_MULTILINE_TEXT,
-		}
-	])
-	
+	export_properties.append_array(
+		[
+			{
+				name = "Metadata",
+				type = TYPE_NIL,
+				usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
+			},
+			{
+				name = "item_name",
+				type = TYPE_STRING,
+			},
+			{
+				name = "category",
+				type = TYPE_STRING,
+				hint = PROPERTY_HINT_ENUM,
+				hint_string = "none,fish,bug,tool,furniture",
+			},
+			{
+				name = "item_description",
+				type = TYPE_STRING,
+				hint = PROPERTY_HINT_MULTILINE_TEXT,
+			},
+			{
+				name = "icon",
+				type = TYPE_OBJECT,
+				hint = PROPERTY_HINT_RESOURCE_TYPE,
+				hint_string = "Texture",
+			},
+			{
+				name = "help_text",
+				type = TYPE_STRING,
+				hint = PROPERTY_HINT_MULTILINE_TEXT,
+			}
+		]
+	)
+
 	# Item properties
-	export_properties.append_array([
-		{
-			name = "Properties",
-			type = TYPE_NIL,
-			usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
-		}, {
-			name = "item_is_hidden",
-			type = TYPE_BOOL,
-		},{
-			name = "arm_value",
-			type = TYPE_REAL,
-			hint = PROPERTY_HINT_RANGE,
-			hint_string = "0.0,0.4,0.1",
-		}, {
-			name = "hold_offset",
-			type = TYPE_REAL,
-		}, {
-			name = "unrenamable",
-			type = TYPE_BOOL,
-		}, {
-			name = "unobtainable",
-			type = TYPE_BOOL,
-		}, {
-			name = "stackable",
-			type = TYPE_BOOL,
-		}, {
-			name = "max_stacks",
-			type = TYPE_INT,
-		}, {
-			name = "show_bait",
-			type = TYPE_BOOL,
-		}, {
-			name = "detect_item",
-			type = TYPE_BOOL,
-		}, {
-			name = "alive",
-			type = TYPE_BOOL,
-		},
-	])
-	
+	export_properties.append_array(
+		[
+			{
+				name = "Properties",
+				type = TYPE_NIL,
+				usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
+			},
+			{
+				name = "item_is_hidden",
+				type = TYPE_BOOL,
+			},
+			{
+				name = "arm_value",
+				type = TYPE_REAL,
+				hint = PROPERTY_HINT_RANGE,
+				hint_string = "0.0,0.4,0.1",
+			},
+			{
+				name = "hold_offset",
+				type = TYPE_REAL,
+			},
+			{
+				name = "unrenamable",
+				type = TYPE_BOOL,
+			},
+			{
+				name = "unobtainable",
+				type = TYPE_BOOL,
+			},
+			{
+				name = "stackable",
+				type = TYPE_BOOL,
+			},
+			{
+				name = "max_stacks",
+				type = TYPE_INT,
+			},
+			{
+				name = "show_bait",
+				type = TYPE_BOOL,
+			},
+			{
+				name = "detect_item",
+				type = TYPE_BOOL,
+			},
+			{
+				name = "alive",
+				type = TYPE_BOOL,
+			},
+		]
+	)
+
 	match category:
-		"fish", "bug": # Catch data
-			export_properties.append_array([
-				{
-					name = "Catch",
-					type = TYPE_NIL,
-					usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
-				}, {
-					name = "extended_loot_table",
-					type = TYPE_ARRAY,
-					hint = PROPERTY_HINT_TYPE_STRING,
-					hint_string = TYPE_STRING
-				}, {
-					name = "catch_blurb",
-					type = TYPE_STRING,
-					hint = PROPERTY_HINT_MULTILINE_TEXT,
-				}, {
-					name = "catch_difficulty",
-					type = TYPE_REAL,
-				}, {
-					name = "catch_speed",
-					type = TYPE_REAL,
-				}, {
-					name = "loot_weight",
-					type = TYPE_REAL,
-				}, {
-					name = "uses_size",
-					type = TYPE_BOOL,
-				}, {
-					name = "average_size",
-					type = TYPE_REAL,
-				}, {
-					name = "rare",
-					type = TYPE_BOOL,
-				}, {
-					name = "tier",
-					type = TYPE_INT,
-				}, {
-					name = "obtain_xp",
-					type = TYPE_INT,
-				}, {
-					name = "Value",
-					type = TYPE_NIL,
-					usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
-				}, {
-					name = "can_be_sold",
-					type = TYPE_BOOL,
-				}, {
-					name = "sell_value",
-					type = TYPE_INT,
-				}, {
-					name = "sell_multiplier",
-					type = TYPE_REAL,
-				}, {
-					name = "generate_worth",
-					type = TYPE_BOOL,
-				},
-			])
-		"tool": # Tool data
-			export_properties.append_array([
-				{
-					name = "PackedScene",
-					type = TYPE_NIL,
-					usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
-				}, {
-					name = "item_scene",
-					type = TYPE_OBJECT,
-					hint = PROPERTY_HINT_RESOURCE_TYPE,
-					hint_string = "PackedScene",
-				}, {
-					name = "show_item",
-					type = TYPE_BOOL,
-				}, {
-					name = "show_scene",
-					type = TYPE_BOOL,
-				}, {
-					name = "unselectable",
-					type = TYPE_BOOL,
-				},
-			])
+		"fish", "bug":  # Catch data
+			export_properties.append_array(
+				[
+					{
+						name = "Catch",
+						type = TYPE_NIL,
+						usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
+					},
+					{
+						name = "extended_loot_table",
+						type = TYPE_ARRAY,
+						hint = PROPERTY_HINT_TYPE_STRING,
+						hint_string = TYPE_STRING
+					},
+					{
+						name = "catch_blurb",
+						type = TYPE_STRING,
+						hint = PROPERTY_HINT_MULTILINE_TEXT,
+					},
+					{
+						name = "catch_difficulty",
+						type = TYPE_REAL,
+					},
+					{
+						name = "catch_speed",
+						type = TYPE_REAL,
+					},
+					{
+						name = "loot_weight",
+						type = TYPE_REAL,
+					},
+					{
+						name = "uses_size",
+						type = TYPE_BOOL,
+					},
+					{
+						name = "average_size",
+						type = TYPE_REAL,
+					},
+					{
+						name = "rare",
+						type = TYPE_BOOL,
+					},
+					{
+						name = "tier",
+						type = TYPE_INT,
+					},
+					{
+						name = "obtain_xp",
+						type = TYPE_INT,
+					},
+					{
+						name = "Value",
+						type = TYPE_NIL,
+						usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
+					},
+					{
+						name = "can_be_sold",
+						type = TYPE_BOOL,
+					},
+					{
+						name = "sell_value",
+						type = TYPE_INT,
+					},
+					{
+						name = "sell_multiplier",
+						type = TYPE_REAL,
+					},
+					{
+						name = "generate_worth",
+						type = TYPE_BOOL,
+					},
+				]
+			)
+		"tool":  # Tool data
+			export_properties.append_array(
+				[
+					{
+						name = "PackedScene",
+						type = TYPE_NIL,
+						usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
+					},
+					{
+						name = "item_scene",
+						type = TYPE_OBJECT,
+						hint = PROPERTY_HINT_RESOURCE_TYPE,
+						hint_string = "PackedScene",
+					},
+					{
+						name = "show_item",
+						type = TYPE_BOOL,
+					},
+					{
+						name = "show_scene",
+						type = TYPE_BOOL,
+					},
+					{
+						name = "unselectable",
+						type = TYPE_BOOL,
+					},
+				]
+			)
 		"furniture":
-			export_properties.append_array([
-				{
-					name = "Furniture",
-					type = TYPE_NIL,
-					usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
-				}, {
-					name = "mesh",
-					type = TYPE_OBJECT,
-					hint = PROPERTY_HINT_RESOURCE_TYPE,
-					hint_string = "Mesh",
-				}, {
-					name = "prop_code",
-					type = TYPE_STRING,
-				},
-			])
-	
+			export_properties.append_array(
+				[
+					{
+						name = "Furniture",
+						type = TYPE_NIL,
+						usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
+					},
+					{
+						name = "mesh",
+						type = TYPE_OBJECT,
+						hint = PROPERTY_HINT_RESOURCE_TYPE,
+						hint_string = "Mesh",
+					},
+					{
+						name = "prop_code",
+						type = TYPE_STRING,
+					},
+				]
+			)
+
 	return export_properties
 
 
