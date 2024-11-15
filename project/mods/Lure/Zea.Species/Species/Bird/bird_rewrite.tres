@@ -13,11 +13,11 @@
 [ext_resource path="res://mods/Lure/Zea.Species/Species/Bird/Patterns/pattern_collie.png" type="Texture" id=11]
 [ext_resource path="res://mods/Lure/Zea.Species/Species/Bird/bird_face.tres" type="Animation" id=12]
 
-[sub_resource type="GDScript" id=1]
+[sub_resource type="GDScript" id=4]
 
-[sub_resource type="Resource" id=2]
+[sub_resource type="Resource" id=5]
 resource_name = "Drop Here"
-script = SubResource( 1 )
+script = SubResource( 4 )
 
 [resource]
 script = ExtResource( 10 )
@@ -26,7 +26,7 @@ category = "species"
 desc = "Chirp!"
 icon = ExtResource( 9 )
 main_color = Color( 0.0627451, 0.109804, 0.192157, 1 )
-flags = 3
+lure_flags = 3
 face_animation = ExtResource( 12 )
 voice_bark = ExtResource( 2 )
 voice_growl = ExtResource( 7 )
@@ -40,4 +40,4 @@ mesh_skin = ExtResource( 8 )
 in_rotation = false
 chest_reward = false
 cost = 10
-_import_resource = SubResource( 2 )
+_import_resource = SubResource( 5 )

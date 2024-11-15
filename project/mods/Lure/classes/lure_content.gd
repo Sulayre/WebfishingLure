@@ -9,6 +9,7 @@ enum Flags {
 	SHOP_VENDING_MACHINE = 1 << 5,
 }
 
+
 var id: String
 var lure_flags: int = Flags.AUTOLOAD | Flags.AUTO_UNLOCK
 

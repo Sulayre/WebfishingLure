@@ -69,7 +69,10 @@ func register_resource(mod_id: String, content_id: String, resource: LureContent
 	print_message(
 		'Registered new Lure {type} "{id}"'.format({"type": resource.type, "id": lure_id})
 	)
-
+	
+	# TODO: Actors Array/Storage
+	# TODO: Add something that checks if Prop Resource in LureItem is unique or embed in the resource
+	
 	if resource is LureCosmetic and resource.category == "species":
 		species_indices.append(lure_id)
 		var content_index = species_indices.size() - 1

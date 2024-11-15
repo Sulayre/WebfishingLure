@@ -2,6 +2,7 @@ tool
 extends "res://mods/Lure/classes/lure_content.gd"
 
 const CATEGORIES := ["none", "fish", "bug", "tool", "furniture"]
+const LureActor := preload("res://mods/Lure/classes/lure_actor.gd")
 
 var type: String = "item"
 
@@ -29,6 +30,8 @@ var unselectable: bool = false
 
 var mesh: Mesh
 var prop_code: String = ""
+var prop_resource := LureActor.new()
+var _prop_code_type: String = "Actor Resource" setget _set_prop_field_type
 
 var action: String = ""
 var action_params: Array = []
@@ -270,11 +273,20 @@ func _get_property_list() -> Array:
 						hint_string = "Mesh",
 					},
 					{
-						name = "prop_code",
+						name = "_prop_code_type",
 						type = TYPE_STRING,
+						hint = PROPERTY_HINT_ENUM,
+						hint_string = "Actor Resource,Actor ID",
 					},
 				]
 			)
+			export_properties.append({
+						name = "prop_resource",
+						type = TYPE_OBJECT,
+					} if _prop_code_type == "Actor Resource" else {
+						name = "prop_code",
+						type = TYPE_STRING,
+					})
 
 	return export_properties
 
@@ -283,6 +295,9 @@ func _set_category(new_value: String) -> void:
 	category = new_value
 	property_list_changed_notify()
 
+func _set_prop_field_type(new_value: String) -> void:
+	_prop_code_type = new_value
+	property_list_changed_notify()
 
 func _set_loot_table(new_value: PoolStringArray) -> void:
 	extended_loot_table = new_value
