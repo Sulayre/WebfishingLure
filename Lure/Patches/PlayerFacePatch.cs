@@ -20,13 +20,12 @@ public class PlayerFacePatch : IScriptMod
             
             //  if $AnimationPlayer.has_animation(data["species"]):
             //      $AnimationPlayer.play(data["species"])
-            foreach (var t in ScriptTokenizer.Tokenize("if $AnimationPlayer.has_animation(data[\"species\"]):"))
+            foreach (var t in ScriptTokenizer.Tokenize("if $\"AnimationPlayer\".has_animation(data[\"species\"]):",1))
             {
                 yield return t;
             }
-            yield return new Token(TokenType.Newline, 2);
             
-            foreach (var t in ScriptTokenizer.Tokenize("$AnimationPlayer.play(data[\"species\"])"))
+            foreach (var t in ScriptTokenizer.Tokenize("$\"AnimationPlayer\".play(data[\"species\"])",2))
             {
                 yield return t;
             }
