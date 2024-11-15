@@ -4,28 +4,14 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AssemblySearchPaths>$(AssemblySearchPaths);$(GDWeavePath)/core</AssemblySearchPaths>
+        <Version>1.0.0.0</Version>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <DebugType>none</DebugType>
     </PropertyGroup>
 
     <ItemGroup>
-        <Reference Include="GDWeave" Private="false" />
-        <Reference Include="Serilog" Private="false" />
+        <Reference Include="GDWeave" Private="false"/>
+        <Reference Include="Serilog" Private="false"/>
     </ItemGroup>
-
-    <ItemGroup>
-        <None Include="manifest.json" CopyToOutputDirectory="PreserveNewest" />
-        <None Include="../project/$(AssemblyName).pck" CopyToOutputDirectory="PreserveNewest"/>
-    </ItemGroup>
-
-    <Target Name="PostBuild" AfterTargets="PostBuildEvent" Condition="'$(GDWeavePath)' != ''">
-        <ItemGroup>
-            <ModFiles Include="$(TargetDir)manifest.json"/>
-            <ModFiles Include="$(TargetDir)$(AssemblyName).dll"/>
-            <ModFiles Include="$(TargetDir)$(AssemblyName).pck"/>
-        </ItemGroup>
-
-        <Copy
-                SourceFiles="@(ModFiles)"
-                DestinationFolder="$(GDWeavePath)/mods/$(AssemblyName)/"
-        />
-    </Target>
 </Project>

@@ -13,9 +13,6 @@ func _species_loader(id:String,resource:CosmeticResource):
 	#print("species "+id+" now has index ",resource.cos_internal_id)
 
 func _register_resource(resource_data:Dictionary):
-	if Globals.GAME_VERSION != 1.09:
-		print("LURE HAS NOT BEEN UPDATED TO RUN THIS VERSION OF THE GAME, LURE WONT ADD NEW ITEMS TO PREVENT SAVE CORRUPTION!!!!")
-		return
 	var dir = Directory.new()
 	var mod_id = resource_data.mod
 	var item_id = resource_data.id
