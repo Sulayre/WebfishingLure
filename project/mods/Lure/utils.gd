@@ -83,9 +83,9 @@ static func hex_to_rgb(hex_code: String) -> Array:
 	var channels: Array = []
 
 	var codes := [
-		hex_code.substr(0, length / 3),
-		hex_code.substr(length / 3, length / 3),
-		hex_code.substr(length / 3 * 2, length / 3)
+		hex_code.substr(0, int(length / 3.0)),
+		hex_code.substr(int(length / 3.0), int(length / 3.0)),
+		hex_code.substr(int(length / 3.0) * 2, int(length / 3.0))
 	]
 
 	for i in range(3):
