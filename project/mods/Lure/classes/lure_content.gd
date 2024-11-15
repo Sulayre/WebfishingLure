@@ -6,7 +6,15 @@ var autoload = true
 
 var _placeholder = PlaceholderResource.new()
 var _import_resource: Resource = _placeholder setget _set_import_resource
+var flags:int
 
+enum FLAGS {
+	FREE_UNLOCK = 1 << 0,
+	SHOP_POSSUM = 1 << 1,
+	SHOP_FROG = 1 << 2,
+	SHOP_BEACH = 1 << 3,
+	SHOP_VENDING_MACHINE = 1 << 4,
+}
 
 class PlaceholderResource:
 	extends Resource
@@ -35,10 +43,20 @@ func _get_property_list() -> Array:
 			type = TYPE_NIL,
 			usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
 		},
-		{name = "autoload", type = TYPE_BOOL},
+		{
+			name = "autoload",
+			type = TYPE_BOOL,
+		},
 		{
 			name = "_import_resource",
 			type = TYPE_OBJECT,
+		},
+		{
+			name = "flags",
+			type = TYPE_INT,
+			hint = PROPERTY_HINT_FLAGS,
+			hint_string = ",".join(FLAGS.keys()),
+			usage = PROPERTY_USAGE_DEFAULT,
 		},
 	]
 

@@ -2,14 +2,6 @@ extends "res://mods/Lure/classes/lure_mod.gd"
 
 signal mod_loaded(mod)  # mod: LureMod
 
-enum FLAGS {
-	FREE_UNLOCK = 1 << 0,
-	SHOP_POSSUM = 1 << 1,
-	SHOP_FROG = 1 << 2,
-	SHOP_BEACH = 1 << 3,
-	SHOP_VENDING_MACHINE = 1 << 4,
-}
-
 const LureMod := preload("res://mods/Lure/classes/lure_mod.gd")
 const Loader := preload("res://mods/Lure/modules/loader.gd")
 const LureSave := preload("res://mods/Lure/modules/lure_save.gd")
@@ -144,7 +136,7 @@ func _save_slot_loaded() -> void:
 	for id in content.keys():
 		if not content[id] is LureCosmetic:
 			continue
-		if content[id].flags | FLAGS.FREE_UNLOCK:
+		if content[id].flags | LureContent.FLAGS.FREE_UNLOCK:
 			Wardrobe.unlock_cosmetic(id)
 
 
