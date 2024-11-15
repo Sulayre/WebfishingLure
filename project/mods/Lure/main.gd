@@ -74,21 +74,18 @@ func register_resource(mod_id: String, content_id: String, resource: LureContent
 		species_indices.append(lure_id)
 		var content_index = species_indices.size() - 1
 		resource.dynamic_species_id = content_index
-		
+
 		Wardrobe.extend_vanilla_patterns(
-				[
+			[
 				Globals.cosmetic_data.get("pattern_calico"),
 				Globals.cosmetic_data.get("pattern_collie"),
 				Globals.cosmetic_data.get("pattern_spotted"),
 				Globals.cosmetic_data.get("pattern_tux"),
-				],
-				resource
-			)
-		
-		Wardrobe.refresh_body_patterns(
-				get_content_of_category("pattern"),
-				species_indices
-			)
+			],
+			resource
+		)
+
+		Wardrobe.refresh_body_patterns(get_content_of_category("pattern"), species_indices)
 
 
 # Register a mod with Lure

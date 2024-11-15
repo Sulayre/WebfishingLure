@@ -6,7 +6,7 @@ var autoload = true
 
 var _placeholder = PlaceholderResource.new()
 var _import_resource: Resource = _placeholder setget _set_import_resource
-var flags:int
+var flags: int
 
 enum FLAGS {
 	FREE_UNLOCK = 1 << 0,
@@ -15,6 +15,7 @@ enum FLAGS {
 	SHOP_BEACH = 1 << 3,
 	SHOP_VENDING_MACHINE = 1 << 4,
 }
+
 
 class PlaceholderResource:
 	extends Resource
