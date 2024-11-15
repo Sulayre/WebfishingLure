@@ -59,15 +59,16 @@ static func setup_player_voice(player: Player, species_array: Array):
 
 
 static func extend_vanilla_patterns(vanilla_patterns: Array, new_species: LureCosmetic):
-	for pattern in vanilla_patterns:
-		if not pattern is CosmeticResource:
+	for pattern_data in vanilla_patterns:
+		if not pattern_data.get("file"):
 			continue
-
-		var pattern_id: String = pattern.get_path().get_basename()
+		
+		var pattern: CosmeticResource = pattern_data["file"]
+		var pattern_id: String = pattern.get_path().get_file().get_basename()
 		var species_index := new_species.dynamic_species_id + 1
 		var length: int = pattern.body_pattern.size()
-
+		
 		if species_index > length - 1:
 			pattern.body_pattern.resize(species_index + 1)
-
+		
 		pattern.body_pattern[species_index] = new_species.get(pattern_id)

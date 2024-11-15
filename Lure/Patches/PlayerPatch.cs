@@ -2,7 +2,7 @@ using GDWeave.Godot.Variants;
 using GDWeave.Godot;
 using GDWeave.Modding;
 
-namespace Sulayre.Lure.Patches;
+namespace Lure.Patches;
 
 public class PlayerPatch : IScriptMod
 {

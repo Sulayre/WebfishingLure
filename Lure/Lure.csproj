@@ -4,7 +4,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AssemblySearchPaths>$(AssemblySearchPaths);$(GDWeavePath)/core</AssemblySearchPaths>
-        <RootNamespace>Sulayre.Lure</RootNamespace>
+        <RootNamespace>Lure</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

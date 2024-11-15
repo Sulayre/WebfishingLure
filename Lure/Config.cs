@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Sulayre.Lure;
+namespace Lure;
 
 public class Config
 {

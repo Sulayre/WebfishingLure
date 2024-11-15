@@ -1,21 +1,20 @@
 extends Resource
 
-var id: String
+enum FLAGS {
+	AUTOLOAD = 1
+	FREE_UNLOCK = 1 << 1,
+	SHOP_POSSUM = 1 << 2,
+	SHOP_FROG = 1 << 3,
+	SHOP_BEACH = 1 << 4,
+	SHOP_VENDING_MACHINE = 1 << 5,
+}
 
-var autoload = true
+var id: String
 
 var _placeholder = PlaceholderResource.new()
 var _import_resource: Resource = _placeholder setget _set_import_resource
-var flags: int
 
-enum FLAGS {
-	FREE_UNLOCK = 1 << 0,
-	SHOP_POSSUM = 1 << 1,
-	SHOP_FROG = 1 << 2,
-	SHOP_BEACH = 1 << 3,
-	SHOP_VENDING_MACHINE = 1 << 4,
-}
-
+var flags: int = FLAGS.AUTOLOAD | FLAGS.FREE_UNLOCK
 
 class PlaceholderResource:
 	extends Resource
@@ -43,10 +42,6 @@ func _get_property_list() -> Array:
 			name = "Lure Utilities",
 			type = TYPE_NIL,
 			usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
-		},
-		{
-			name = "autoload",
-			type = TYPE_BOOL,
 		},
 		{
 			name = "_import_resource",

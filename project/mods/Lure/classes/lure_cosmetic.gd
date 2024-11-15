@@ -33,6 +33,8 @@ var allow_blink: bool = true
 var alt_eye: Texture
 var alt_blink: Texture
 
+var face_animation: Animation
+
 var voice_bark: AudioStream
 var voice_growl: AudioStream
 var voice_whine: AudioStream
@@ -141,6 +143,12 @@ func _get_property_list() -> Array:
 						name = "Species",
 						type = TYPE_NIL,
 						usage = PROPERTY_USAGE_CATEGORY | PROPERTY_USAGE_SCRIPT_VARIABLE,
+					},
+					{
+						name = "face_animation",
+						type = TYPE_OBJECT,
+						hint = PROPERTY_HINT_RESOURCE_TYPE,
+						hint_string = "Animation",
 					},
 					{
 						name = "Voice",
@@ -305,7 +313,7 @@ func _get_property_list() -> Array:
 			]
 		)
 
-		if category != "species":
+		if not category in ["species","bobber", "tail"]:
 			export_properties.append(
 				{
 					name = "extended_alt_mesh",

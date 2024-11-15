@@ -1,0 +1,43 @@
+[gd_resource type="Resource" load_steps=15 format=2]
+
+[ext_resource path="res://mods/Lure/Zea.Species/Species/Bird/Patterns/pattern_spotted.png" type="Texture" id=1]
+[ext_resource path="res://mods/Lure/Zea.Species/Species/Bird/Voice/bark.ogg" type="AudioStream" id=2]
+[ext_resource path="res://mods/Lure/Zea.Species/Species/Bird/Voice/whine.ogg" type="AudioStream" id=3]
+[ext_resource path="res://mods/Lure/Zea.Species/Species/Bird/bird_head.tres" type="ArrayMesh" id=4]
+[ext_resource path="res://mods/Lure/Zea.Species/Species/Bird/Patterns/pattern_calico.png" type="Texture" id=5]
+[ext_resource path="res://mods/Lure/Zea.Species/Species/Bird/Patterns/pattern_tux.png" type="Texture" id=6]
+[ext_resource path="res://mods/Lure/Zea.Species/Species/Bird/Voice/growl.ogg" type="AudioStream" id=7]
+[ext_resource path="res://Assets/Models/Cosmetics/rig_main.tres" type="Skin" id=8]
+[ext_resource path="res://mods/Lure/Zea.Species/Species/Bird/bird_icon.png" type="Texture" id=9]
+[ext_resource path="res://mods/Lure/classes/lure_cosmetic.gd" type="Script" id=10]
+[ext_resource path="res://mods/Lure/Zea.Species/Species/Bird/Patterns/pattern_collie.png" type="Texture" id=11]
+[ext_resource path="res://mods/Lure/Zea.Species/Species/Bird/bird_face.tres" type="Animation" id=12]
+
+[sub_resource type="GDScript" id=1]
+
+[sub_resource type="Resource" id=2]
+resource_name = "Drop Here"
+script = SubResource( 1 )
+
+[resource]
+script = ExtResource( 10 )
+name = "Bird"
+category = "species"
+desc = "Chirp!"
+icon = ExtResource( 9 )
+main_color = Color( 0.0627451, 0.109804, 0.192157, 1 )
+flags = 3
+face_animation = ExtResource( 12 )
+voice_bark = ExtResource( 2 )
+voice_growl = ExtResource( 7 )
+voice_whine = ExtResource( 3 )
+pattern_collie = ExtResource( 11 )
+pattern_tux = ExtResource( 6 )
+pattern_calico = ExtResource( 5 )
+pattern_spotted = ExtResource( 1 )
+mesh = ExtResource( 4 )
+mesh_skin = ExtResource( 8 )
+in_rotation = false
+chest_reward = false
+cost = 10
+_import_resource = SubResource( 2 )

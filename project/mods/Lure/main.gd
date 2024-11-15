@@ -108,8 +108,8 @@ func _register_mod(mod: LureMod) -> void:
 	for content_id in mod.mod_content:
 		var resource: LureContent = mod.mod_content[content_id]
 
-		if resource.autoload:
-			register_resource(id, content_id, resource)
+		if resource.flags & LureContent.FLAGS.AUTOLOAD:
+			call_deferred("register_resource", id, content_id, resource)
 
 	print_message('Registered new Lure mod "%s"' % mod_id)
 	emit_signal("mod_loaded", mod)
