@@ -1,7 +1,7 @@
 extends Resource
 
 enum FLAGS {
-	AUTOLOAD = 1
+	AUTOLOAD = 1 << 0,
 	FREE_UNLOCK = 1 << 1,
 	SHOP_POSSUM = 1 << 2,
 	SHOP_FROG = 1 << 3,
@@ -15,6 +15,7 @@ var _placeholder = PlaceholderResource.new()
 var _import_resource: Resource = _placeholder setget _set_import_resource
 
 var flags: int = FLAGS.AUTOLOAD | FLAGS.FREE_UNLOCK
+
 
 class PlaceholderResource:
 	extends Resource

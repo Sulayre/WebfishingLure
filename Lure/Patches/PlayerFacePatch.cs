@@ -1,5 +1,5 @@
-using GDWeave.Godot.Variants;
 using GDWeave.Godot;
+using GDWeave.Godot.Variants;
 using GDWeave.Modding;
 
 namespace Lure.Patches;
@@ -10,22 +10,28 @@ public class PlayerFacePatch : IScriptMod
 
     public IEnumerable<Token> Modify(string path, IEnumerable<Token> tokens)
     {
-        // extends
-        var waiter = new MultiTokenWaiter([
-            t => t.Type is TokenType.PrExtends,
-            t => t.Type is TokenType.Newline,
-        ], allowPartialMatch: false);
-        
+        var waiter = new FunctionWaiter("_setup_face");
+
         foreach (var token in tokens)
         {
-            if (waiter.Check(token))
+            yield return token;
+
+            if (!waiter.Check(token)) continue;
+            
+            //  if $AnimationPlayer.has_animation(data["species"]):
+            //      $AnimationPlayer.play(data["species"])
+            foreach (var t in ScriptTokenizer.Tokenize("if $AnimationPlayer.has_animation(data[\"species\"]):"))
             {
-                yield return token;
+                yield return t;
             }
-            else
+            yield return new Token(TokenType.Newline, 2);
+            
+            foreach (var t in ScriptTokenizer.Tokenize("$AnimationPlayer.play(data[\"species\"])"))
             {
-                yield return token;
+                yield return t;
             }
+            
+            yield return new Token(TokenType.Newline, 1);
         }
     }
 }

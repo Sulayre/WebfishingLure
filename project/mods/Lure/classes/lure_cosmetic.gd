@@ -313,7 +313,7 @@ func _get_property_list() -> Array:
 			]
 		)
 
-		if not category in ["species","bobber", "tail"]:
+		if not category in ["species", "bobber", "tail"]:
 			export_properties.append(
 				{
 					name = "extended_alt_mesh",

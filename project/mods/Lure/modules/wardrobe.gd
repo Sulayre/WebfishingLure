@@ -25,6 +25,7 @@ static func refresh_body_patterns(pattern_resources: Array, species_indexes: Arr
 
 static func setup_player(player: Player, data: Dictionary):
 	setup_player_voice(player, data["species_array"])
+	setup_player_face(player, data["species_array"])
 
 
 static func unlock_cosmetic(id: String, new: bool = false) -> void:
@@ -58,17 +59,28 @@ static func setup_player_voice(player: Player, species_array: Array):
 			sound_manager.add_child(sfx_node, true)
 
 
+static func setup_player_face(player: Player, species_array: Array):
+	var face_animator: AnimationPlayer = player.get_node(
+		"body/player_body/Armature/Skeleton/face/player_face/AnimationPlayer"
+	)
+
+	for species in species_array:
+		var animation: Animation = species.get("face_animation")
+		if animation:
+			face_animator.add_animation(species.id, animation)
+
+
 static func extend_vanilla_patterns(vanilla_patterns: Array, new_species: LureCosmetic):
 	for pattern_data in vanilla_patterns:
 		if not pattern_data.get("file"):
 			continue
-		
+
 		var pattern: CosmeticResource = pattern_data["file"]
 		var pattern_id: String = pattern.get_path().get_file().get_basename()
 		var species_index := new_species.dynamic_species_id + 1
 		var length: int = pattern.body_pattern.size()
-		
+
 		if species_index > length - 1:
 			pattern.body_pattern.resize(species_index + 1)
-		
+
 		pattern.body_pattern[species_index] = new_species.get(pattern_id)
