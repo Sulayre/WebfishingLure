@@ -77,10 +77,7 @@ public class SavePatch : IScriptMod
 
         foreach (var token in tokens)
         {
-            if (newlineConsumer.Check(token))
-            {
-                continue;
-            }
+            if (newlineConsumer.Check(token)) continue;
 
             if (newlineConsumer.Ready)
             {
@@ -112,9 +109,9 @@ public class SavePatch : IScriptMod
 
                 yield return token;
                 
-                // var LurePatches = load("res://mods/Lure/modules/patches.gd")
+                // var LurePatch = load("res://mods/Lure/modules/patches.gd")
                 yield return new Token(TokenType.PrVar);
-                yield return new IdentifierToken("LurePatches");
+                yield return new IdentifierToken("LurePatch");
                 yield return new Token(TokenType.OpAssign);
                 yield return new Token(TokenType.BuiltInFunc, (uint?)BuiltinFunction.ResourceLoad);
                 yield return new Token(TokenType.ParenthesisOpen);
@@ -126,102 +123,102 @@ public class SavePatch : IScriptMod
 
             else if (inventoryWaiter.Check(token))
             {
-                foreach (var t in ScriptTokenizer.Tokenize($"LurePatches.sanitise_array(Lure, PlayerData.inventory),"))
+                foreach (var t in ScriptTokenizer.Tokenize("LurePatch.sanitise_array(Lure, PlayerData.inventory),"))
                 {
                     yield return t;
-                    
-                    newlineConsumer.SetReady();
                 }
+                
+                newlineConsumer.SetReady();
             }
             
             else if (cosmeticsUnlockedWaiter.Check(token))
             {
-                foreach (var t in ScriptTokenizer.Tokenize($"LurePatches.sanitise_array(Lure, PlayerData.cosmetics_unlocked),"))
+                foreach (var t in ScriptTokenizer.Tokenize("LurePatch.sanitise_array(Lure, PlayerData.cosmetics_unlocked),"))
                 {
                     yield return t;
-                    
-                    newlineConsumer.SetReady();
                 }
+                
+                newlineConsumer.SetReady();
             }
             
             else if (cosmeticsEquippedWaiter.Check(token))
             {
-                foreach (var t in ScriptTokenizer.Tokenize($"LurePatches.sanitise_cosmetics_equipped(Lure, PlayerData.cosmetics_equipped),"))
+                foreach (var t in ScriptTokenizer.Tokenize("LurePatch.sanitise_cosmetics_equipped(Lure, PlayerData.cosmetics_equipped),"))
                 {
                     yield return t;
-                    
-                    newlineConsumer.SetReady();
                 }
+                
+                newlineConsumer.SetReady();
             }
             
             else if (baitInvWaiter.Check(token))
             {
-                foreach (var t in ScriptTokenizer.Tokenize($"LurePatches.sanitise_dictionary(Lure, PlayerData.bait_inv),"))
+                foreach (var t in ScriptTokenizer.Tokenize("LurePatch.sanitise_dictionary(Lure, PlayerData.bait_inv),"))
                 {
                     yield return t;
-                    
-                    newlineConsumer.SetReady();
                 }
+                
+                newlineConsumer.SetReady();
             }
             
             else if (baitSelectedWaiter.Check(token))
             {
-                foreach (var t in ScriptTokenizer.Tokenize($"LurePatches.sanitise_string(Lure, PlayerData.bait_selected),"))
+                foreach (var t in ScriptTokenizer.Tokenize("LurePatch.sanitise_string(Lure, PlayerData.bait_selected),"))
                 {
                     yield return t;
-                    
-                    newlineConsumer.SetReady();
                 }
+                
+                newlineConsumer.SetReady();
             }
             
             else if (baitUnlockedWaiter.Check(token))
             {
-                foreach (var t in ScriptTokenizer.Tokenize($"LurePatches.sanitise_array(Lure, PlayerData.bait_unlocked),"))
+                foreach (var t in ScriptTokenizer.Tokenize("LurePatch.sanitise_array(Lure, PlayerData.bait_unlocked),"))
                 {
                     yield return t;
-                    
-                    newlineConsumer.SetReady();
-                }
+                }                    
+                
+                newlineConsumer.SetReady();
             }
             
             else if (journalWaiter.Check(token))
             {
-                foreach (var t in ScriptTokenizer.Tokenize($"LurePatches.sanitise_dictionary(Lure, PlayerData.journal_logs),"))
+                foreach (var t in ScriptTokenizer.Tokenize("LurePatch.sanitise_dictionary(Lure, PlayerData.journal_logs),"))
                 {
                     yield return t;
-                    
-                    newlineConsumer.SetReady();
                 }
+                    
+                newlineConsumer.SetReady();
             }
             
             else if (lureSelectedWaiter.Check(token))
             {
-                foreach (var t in ScriptTokenizer.Tokenize($"LurePatches.sanitise_string(Lure, PlayerData.lure_selected),"))
+                foreach (var t in ScriptTokenizer.Tokenize("LurePatch.sanitise_string(Lure, PlayerData.lure_selected),"))
                 {
                     yield return t;
-                    
-                    newlineConsumer.SetReady();
                 }
+                    
+                newlineConsumer.SetReady();
             }
             
             else if (lureUnlockedWaiter.Check(token))
             {
-                foreach (var t in ScriptTokenizer.Tokenize($"LurePatches.sanitise_array(Lure, PlayerData.lure_unlocked),"))
+                foreach (var t in ScriptTokenizer.Tokenize("LurePatch.sanitise_array(Lure, PlayerData.lure_unlocked),"))
                 {
                     yield return t;
-                    
-                    newlineConsumer.SetReady();
                 }
+                    
+                newlineConsumer.SetReady();
             }
 
             else if (savedAquaFishWaiter.Check(token))
             {
-                foreach (var t in ScriptTokenizer.Tokenize("LurePatches.sanitise_saved_aqua_fish(Lure, PlayerData.saved_aqua_fish),"))
+                foreach (var t in ScriptTokenizer.Tokenize("LurePatch.sanitise_saved_aqua_fish(Lure, PlayerData.saved_aqua_fish),"))
                 {
                     yield return t;
-                    
-                    newlineConsumer.SetReady();
                 }
+                    
+                newlineConsumer.SetReady();
             }
 
             else
