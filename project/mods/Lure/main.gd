@@ -1,15 +1,18 @@
 extends "res://mods/Lure/classes/lure_mod.gd"
 
 signal mod_loaded(mod)  # mod: LureMod
+signal main_menu_oneshot
 
 const LureMod := preload("res://mods/Lure/classes/lure_mod.gd")
 const Loader := preload("res://mods/Lure/modules/loader.gd")
 const LureSave := preload("res://mods/Lure/modules/lure_save.gd")
-const Utils := preload("res://mods/Lure/utils.gd")
+const Utils := preload("res://mods/Lure/modules/utils.gd")
 const Wardrobe := preload("res://mods/Lure/modules/wardrobe.gd")
 
 var mods: Dictionary setget _set_nullifier
 var content: Dictionary setget _set_nullifier
+var actors: Dictionary setget _set_nullifier
+
 var species_indices: Array = ["species_cat", "species_dog"]
 
 var _mod_node_names: Array
@@ -18,8 +21,9 @@ var _content_node_names: Array
 
 func _ready() -> void:
 	get_tree().connect("node_added", self, "_node_catcher", [], CONNECT_DEFERRED)
+	connect("main_menu_oneshot",self,"_refresh_prop_codes", [], CONNECT_ONESHOT)
 	UserSave.connect("_slot_saved", self, "_on_slot_saved")
-
+	Network.connect("_instance_actor", self, "_instance_actor")
 	print_message("I'm ready!")
 
 
@@ -69,10 +73,25 @@ func register_resource(mod_id: String, content_id: String, resource: LureContent
 		'Registered new Lure {type} "{id}"'.format({"type": resource.type, "id": lure_id})
 	)
 	
-	# TODO: Actors Array/Storage
-	# TODO: Add something that checks if Prop Resource in LureItem is unique or embed in the resource
+	if resource is LureActor:
+		actors[resource.id] = resource
 	
-	if resource is LureCosmetic and resource.category == "species":
+	elif resource is LureItem and resource.category == "furniture":
+		var actor_resource:LureActor = resource.prop_resource
+		if !actor_resource:# we check if the item even has an actor resource attached
+			return
+		if !actor_resource.actor_scene:# we check if it has a scene assigned (it resets when using ids)
+			return
+		# we check if the actor is internal so we can add it to the actor list with the item id + suffix
+		if actor_resource.resource_path.begins_with(resource.resource_path):
+			actor_resource.internal_actor = true
+			actor_resource.id = resource.id + ".prop"
+			actors[actor_resource.id] = actor_resource
+	
+	if (
+			resource is LureCosmetic
+			and resource.category == "species"
+	):
 		species_indices.append(lure_id)
 		var content_index = species_indices.size() - 1
 		resource.dynamic_species_id = content_index
@@ -106,7 +125,13 @@ func register_mod(mod: LureMod) -> void:
 
 	mods[id] = mod
 	_mod_node_names.append(node_name)
-
+	
+	for content_id in mod.mod_content:
+		var resource: LureActor = mod.mod_content[content_id] as LureActor
+		
+		if resource.lure_flags & LureContent.Flags.AUTOLOAD:
+			call_deferred("register_resource", id, content_id, resource)
+	
 	for content_id in mod.mod_content:
 		var resource: LureContent = mod.mod_content[content_id]
 
@@ -128,6 +153,7 @@ func _node_catcher(node: Node):
 
 	if is_main_menu:
 		_save_slot_loaded()
+		emit_signal("main_menu_oneshot")
 	elif is_save_menu:
 		node.connect("_pressed", self, "_save_slot_loaded", [], CONNECT_DEFERRED)
 	elif is_player:
@@ -174,6 +200,25 @@ func _on_slot_saved() -> void:
 		}
 	)
 	LureSave.save_data(save_slot, lure_save)
+
+
+#we run this in the main menu ONCE to refresh the prop_code(s) of the furniture items,
+#since by then all the external .tres actors will be loaded and have their id assigned.
+#internal actors don't need a refresh since the propcode is set when loaded in that case
+func _refresh_prop_codes():
+	for cont in content:
+		var res = content[cont]
+		if not (res is LureItem and res.category == "furniture"):
+			continue
+		var prop_res = res.prop_resource
+		if !prop_res:
+			continue
+		if !prop_res.actor_scene or prop_res.internal_actor:
+			continue
+		res.prop_code = prop_res.id
+
+
+
 
 
 # Prevents other scripts from modifying core variables

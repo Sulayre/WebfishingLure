@@ -30,7 +30,7 @@ var unselectable: bool = false
 
 var mesh: Mesh
 var prop_code: String = ""
-var prop_resource := LureActor.new()
+var prop_resource: LureActor = LureActor.new()
 var _prop_code_type: String = "Actor Resource" setget _set_prop_field_type
 
 var action: String = ""
@@ -283,6 +283,8 @@ func _get_property_list() -> Array:
 			export_properties.append({
 						name = "prop_resource",
 						type = TYPE_OBJECT,
+						hint = PROPERTY_HINT_RESOURCE_TYPE,
+						hint_string = "Resource",
 					} if _prop_code_type == "Actor Resource" else {
 						name = "prop_code",
 						type = TYPE_STRING,
@@ -297,6 +299,9 @@ func _set_category(new_value: String) -> void:
 
 func _set_prop_field_type(new_value: String) -> void:
 	_prop_code_type = new_value
+	if new_value != "Actor Resource":
+		if prop_resource:
+			prop_resource.actor_scene = null
 	property_list_changed_notify()
 
 func _set_loot_table(new_value: PoolStringArray) -> void:
