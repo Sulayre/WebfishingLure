@@ -57,7 +57,8 @@ func _load_map():
 			"bush",
 			"shoreline_point",
 			"trash_point",
-			"deep_spawn"
+			"deep_spawn",
+			"hidden_spot"
 			]
 		
 		var anticrash = Spatial.new()
