@@ -125,13 +125,7 @@ func register_mod(mod: LureMod) -> void:
 
 	mods[id] = mod
 	_mod_node_names.append(node_name)
-	
-	for content_id in mod.mod_content:
-		var resource: LureActor = mod.mod_content[content_id] as LureActor
-		
-		if resource.lure_flags & LureContent.Flags.AUTOLOAD:
-			call_deferred("register_resource", id, content_id, resource)
-	
+
 	for content_id in mod.mod_content:
 		var resource: LureContent = mod.mod_content[content_id]
 
