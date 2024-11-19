@@ -1,18 +1,21 @@
-extends "res://mods/Lure/classes/lure_mod.gd"
+extends "./classes/lure_mod.gd"
 
 signal mod_loaded(mod)  # mod: LureMod
 signal main_menu_oneshot
 
-const LureMod := preload("res://mods/Lure/classes/lure_mod.gd")
-const Loader := preload("res://mods/Lure/modules/loader.gd")
-const LureSave := preload("res://mods/Lure/modules/lure_save.gd")
-const Utils := preload("res://mods/Lure/modules/utils.gd")
-const Wardrobe := preload("res://mods/Lure/modules/wardrobe.gd")
+const LureMod := preload("./classes/lure_mod.gd")
+const Loader := preload("./modules/loader.gd")
+const LureSave := preload("./modules/lure_save.gd")
+const Utils := preload("./modules/utils.gd")
+const Wardrobe := preload("./modules/wardrobe.gd")
 
 var mods: Dictionary setget _set_nullifier
 var content: Dictionary setget _set_nullifier
 var actors: Dictionary setget _set_nullifier
+var actions: Dictionary setget _set_nullifier
 
+#	TODO: grab the vanilla species from the folder directory of the species
+#	.tres files instead of here so its more update proof
 var species_indices: Array = ["species_cat", "species_dog"]
 
 var _mod_node_names: Array
@@ -24,7 +27,7 @@ func _ready() -> void:
 	connect("main_menu_oneshot",self,"_refresh_prop_codes", [], CONNECT_ONESHOT)
 	UserSave.connect("_slot_saved", self, "_on_slot_saved")
 	Network.connect("_instance_actor", self, "_instance_actor")
-	print_message("I'm ready!")
+	Utils.pretty_print("I'm Ready!")
 
 
 # Returns a mod matching the given mod ID
@@ -72,10 +75,10 @@ func register_resource(mod_id: String, content_id: String, resource: LureContent
 	print_message(
 		'Registered new Lure {type} "{id}"'.format({"type": resource.type, "id": lure_id})
 	)
-	
+
 	if resource is LureActor:
 		actors[resource.id] = resource
-	
+
 	elif resource is LureItem and resource.category == "furniture":
 		var actor_resource:LureActor = resource.prop_resource
 		if !actor_resource:# we check if the item even has an actor resource attached
@@ -87,7 +90,7 @@ func register_resource(mod_id: String, content_id: String, resource: LureContent
 			actor_resource.internal_actor = true
 			actor_resource.id = resource.id + ".prop"
 			actors[actor_resource.id] = actor_resource
-	
+
 	if (
 			resource is LureCosmetic
 			and resource.category == "species"

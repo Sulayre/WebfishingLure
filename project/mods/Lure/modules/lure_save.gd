@@ -52,7 +52,8 @@ static func filter_player_data(lure_content: Array, player_data: Dictionary) -> 
 
 	for id in player_data.cosmetics_unlocked:
 		if id in lure_content:
-			filtered_data.cosmetics_unlocked.append(id)
+			if not filtered_data.cosmetics_unlocked.has(id):
+				filtered_data.cosmetics_unlocked.append(id)
 
 	for category in player_data.cosmetics_equipped.keys():
 		if player_data.cosmetics_equipped[category] is Array:
@@ -106,7 +107,8 @@ static func initialise_data(save: Dictionary, player_data) -> void:
 		player_data.inventory.append(entry.id)
 
 	for id in save.cosmetics_unlocked:
-		player_data.cosmetics_unlocked.append(id)
+		if !player_data.cosmetics_unlocked.has(id):
+			player_data.cosmetics_unlocked.append(id)
 
 	for category in save.cosmetics_equipped.keys():
 		if save.cosmetics_equipped[category] is Array:
@@ -122,7 +124,8 @@ static func initialise_data(save: Dictionary, player_data) -> void:
 		player_data.bait_inv[id] = save.bait_inv[id]
 
 	for id in save.bait_unlocked:
-		player_data.bait_unlocked.append(id)
+		if !player_data.bait_unlocked.has(id):
+			player_data.bait_unlocked.append(id)
 
 	for category in save.journal_logs.keys():
 		if not category in player_data.journal_logs.keys():
@@ -133,7 +136,8 @@ static func initialise_data(save: Dictionary, player_data) -> void:
 			player_data.journal_logs[category][id] = journal_log
 
 	for id in save.lure_unlocked:
-		player_data.lure_unlocked.append(id)
+		if !player_data.lure_unlocked.has(id):
+			player_data.lure_unlocked.append(id)
 
 	if save.saved_aqua_fish:
 		player_data.saved_aqua_fish = save.saved_aqua_fish
