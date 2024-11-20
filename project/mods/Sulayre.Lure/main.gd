@@ -805,7 +805,7 @@ func assign_species_voice(mod_id:String,species_id:String,bark_path:String,growl
 	
 
 # Adds a new map into the map selector
-func add_map(mod_id:String,map_id:String,scene_path:String,map_name:String=""):
+func add_map(mod_id:String,map_id:String,scene_path:String,map_name:String="",hidden:bool=false):
 	if Util._validate_paths(mod_id,scene_path):
 		var real_path = Util._mod_path_converter(mod_id,scene_path)
 		var map:PackedScene = load(real_path)
@@ -818,7 +818,8 @@ func add_map(mod_id:String,map_id:String,scene_path:String,map_name:String=""):
 			{
 				"id":final_id,
 				"scene":map,
-				"name":map_name
+				"name":map_name,
+				"hidden":hidden,
 			}
 		)
 		print(PREFIX+"Map with ID ",map_id," has been added successfully!")
@@ -1017,7 +1018,8 @@ func _on_enter(node:Node):
 		options.add_item("Original Map")
 		var maps = modded_maps
 		for map_data in maps:
-			options.add_item(map_data["name"])
+			if !map_data["hidden"]:
+				options.add_item(map_data["name"])
 		# then we setup the lobby filters
 #		if !OS.has_feature("editor"):
 #			var filterbundle = preload("res://mods/Sulayre.Lure/Scenes/MainMenu/LobbyFilters.tscn").instance()

@@ -25,9 +25,12 @@ script = ExtResource( 1 )
 transform = Transform( 6.78985, 0, 0, 0, -4.37114e-08, -1, 0, 6.78985, -2.96794e-07, 0, 0.0391304, 0 )
 flip_h = true
 opacity = 0.3
+shaded = true
 texture = ExtResource( 3 )
 
 [node name="StaticBody" type="StaticBody" parent="map"]
+collision_layer = 257
+collision_mask = 257
 
 [node name="MeshInstance" type="MeshInstance" parent="map/StaticBody"]
 transform = Transform( 30, 0, 0, 0, 30, 0, 0, 0, 30, 0, 0, 0 )
