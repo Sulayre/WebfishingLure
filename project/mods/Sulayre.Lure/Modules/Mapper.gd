@@ -70,11 +70,30 @@ func _load_map():
 			if get_tree().get_nodes_in_group(group).size() < 1:
 				anticrash.add_to_group(group)
 		
+		if !new_map.get_node_or_null("spawn_position"):
+			var sp = Position3D.new()
+			sp.name = "spawn_position"
+			new_map.spawn_position = sp
+			new_map.add_child(sp)
+
 		if !new_map.get_node_or_null("tutorial_spawn_position"):
 			var tutsp = Position3D.new()
 			tutsp.name = "tutorial_spawn_position"
+			tutsp.global_translation = new_map.spawn_position.global_translation
+			new_map.tutorial_spawn_position = tutsp
 			new_map.add_child(tutsp)
 		
 		PlayerData.player_saved_position = Vector3.ZERO
+
+		$'/root/world'.map = new_map
+		
+		var player = get_tree().get_nodes_in_group('controlled_player')[0]
+		var spawn_pos = new_map.spawn_position.global_translation
+		
+		if player.current_zone == "tutorial_zone":
+			spawn_pos = new_map.tutorial_spawn_position.global_translation
+			
+		player.global_translation = spawn_pos
+
 		Lure.emit_signal("mod_map_loaded")
 	
