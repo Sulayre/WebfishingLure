@@ -1095,7 +1095,7 @@ func _instance_mod_actor(dict, network_sender = - 1):
 	var world = get_node_or_null("/root/world")
 	if !world: return
 	if not Network._validate_packet_information(dict, ["actor_type", "at", "zone", "actor_id", "creator_id", "rot", "zone_owner"], [TYPE_STRING, TYPE_VECTOR3, TYPE_STRING, TYPE_INT, TYPE_INT, TYPE_VECTOR3, TYPE_INT]):
-		print("INVALID ACTOR DATA")
+		#print("INVALID ACTOR DATA")
 		return 
 	
 	var actor_type = dict["actor_type"]

@@ -22,6 +22,7 @@ public class Mod : IMod {
 		modInterface.RegisterScriptMod(new ServerButtonPatcher());
 		//modInterface.RegisterScriptMod(new JournalPatcher());
 		modInterface.RegisterScriptMod(new AquaPatcher());
+		modInterface.RegisterScriptMod(new ShopPatcher());
 	}
 
     public void Dispose() {
