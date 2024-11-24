@@ -9,14 +9,14 @@ const LureSave := preload("./modules/lure_save.gd")
 const Utils := preload("./modules/utils.gd")
 const Wardrobe := preload("./modules/wardrobe.gd")
 
+const VANILLA_SPECIES_PATH := "res://Resources/Cosmetics/"
+
 var mods: Dictionary setget _set_nullifier
 var content: Dictionary setget _set_nullifier
 var actors: Dictionary setget _set_nullifier
-var actions: Dictionary setget _set_nullifier
+var actions: Dictionary setget _set_nullifier # k:id/v:funcref
 
-#	TODO: grab the vanilla species from the folder directory of the species
-#	.tres files instead of here so its more update proof
-var species_indices: Array = ["species_cat", "species_dog"]
+var species_indices: Array = _get_vanilla_species()
 
 var _mod_node_names: Array
 var _content_node_names: Array
@@ -215,7 +215,17 @@ func _refresh_prop_codes():
 		res.prop_code = prop_res.id
 
 
-
+func _get_vanilla_species() -> Array:
+	var vanilla_species := []
+	var dir := Directory.new()
+	if dir.open(VANILLA_SPECIES_PATH) == OK:
+		dir.list_dir_begin(true)
+		var next := dir.get_next()
+		while next != "":
+			if next.begins_with("species_") and next.ends_with(".tres"):
+				vanilla_species.append(next)
+			next = dir.get_next()
+	return vanilla_species
 
 
 # Prevents other scripts from modifying core variables
