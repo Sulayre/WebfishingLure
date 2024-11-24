@@ -2,6 +2,7 @@ tool
 extends "res://mods/Lure/classes/lure_content.gd"
 
 const CATEGORIES := ["none", "fish", "bug", "tool", "furniture"]
+const ACTION_TYPE := ["Player.gd Function","Own Mod Function","Other Mod's Function"]
 const LureActor := preload("res://mods/Lure/classes/lure_actor.gd")
 
 var type: String = "item"
@@ -9,7 +10,7 @@ var type: String = "item"
 var item_name: String = "Item Name"
 var category: String = "none" setget _set_category
 var item_description: String = "Item Description"
-var icon: Texture = StreamTexture.new()
+var icon: Texture
 var help_text: String = ""
 
 var item_is_hidden: bool = false
@@ -33,9 +34,11 @@ var prop_code: String = ""
 var prop_resource: LureActor = LureActor.new()
 var _prop_code_type: String = "Actor Resource" setget _set_prop_field_type
 
+var _action_type: String = ACTION_TYPE[0] setget _set_action_type
 var action: String = ""
 var action_params: Array = []
 var release_action: String = ""
+var action_mod_id: String = ""
 
 var loot_table: String = "none"
 var extended_loot_table: PoolStringArray setget _set_loot_table
@@ -256,6 +259,37 @@ func _get_property_list() -> Array:
 						name = "unselectable",
 						type = TYPE_BOOL,
 					},
+					{
+						name = "_action_type",
+						type = TYPE_STRING,
+						hint = PROPERTY_HINT_ENUM,
+						hint_string = ",".join(ACTION_TYPE),
+					},
+				]
+			)
+			if _action_type == ACTION_TYPE[2]:
+				export_properties.append(
+					{
+						name = "action_mod_id",
+						type = TYPE_STRING,
+					}
+				)
+			export_properties.append_array(
+				[
+					{
+						name = "action",
+						type = TYPE_STRING,
+					},
+					{
+						name = "action_params",
+						type = TYPE_ARRAY,
+						hint = PROPERTY_HINT_TYPE_STRING,
+						hint_string = "%s:Resource" % [TYPE_OBJECT],
+					},
+					{
+						name = "release_action",
+						type = TYPE_STRING,
+					},
 				]
 			)
 		"furniture":
@@ -302,6 +336,10 @@ func _set_prop_field_type(new_value: String) -> void:
 	if new_value != "Actor Resource":
 		if prop_resource:
 			prop_resource.actor_scene = null
+	property_list_changed_notify()
+
+func _set_action_type(new_value: String) -> void:
+	_action_type = new_value
 	property_list_changed_notify()
 
 func _set_loot_table(new_value: PoolStringArray) -> void:

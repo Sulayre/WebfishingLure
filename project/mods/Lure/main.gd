@@ -1,6 +1,6 @@
 extends "./classes/lure_mod.gd"
 
-signal mod_loaded(mod)  # mod: LureMod
+signal mod_loaded(mod)
 signal main_menu_oneshot
 
 const LureMod := preload("./classes/lure_mod.gd")
@@ -11,22 +11,33 @@ const Wardrobe := preload("./modules/wardrobe.gd")
 
 const VANILLA_SPECIES_PATH := "res://Resources/Cosmetics/"
 
+onready var scene_tree := get_tree()
+
 var mods: Dictionary setget _set_nullifier
 var content: Dictionary setget _set_nullifier
 var actors: Dictionary setget _set_nullifier
-var actions: Dictionary setget _set_nullifier # k:id/v:funcref
+var actions: Dictionary setget _set_nullifier
 
 var species_indices: Array = _get_vanilla_species()
 
 var _mod_node_names: Array
 var _content_node_names: Array
 
-
+#sorry if this use of backspace is a bit cursed it personally makes it easier
+#for me to read what's being connected to what
 func _ready() -> void:
-	get_tree().connect("node_added", self, "_node_catcher", [], CONNECT_DEFERRED)
-	connect("main_menu_oneshot",self,"_refresh_prop_codes", [], CONNECT_ONESHOT)
-	UserSave.connect("_slot_saved", self, "_on_slot_saved")
-	Network.connect("_instance_actor", self, "_instance_actor")
+	scene_tree\
+	.connect("node_added", self, "_node_catcher", [], CONNECT_DEFERRED)
+	
+	UserSave\
+	.connect("_slot_saved", self, "_on_slot_saved")
+	
+	Network\
+	.connect("_instance_actor", self, "_instance_actor")
+	
+	self\
+	.connect("main_menu_oneshot",self,"_refresh_prop_codes", [], CONNECT_ONESHOT)
+	
 	Utils.pretty_print("I'm Ready!")
 
 
@@ -199,6 +210,7 @@ func _on_slot_saved() -> void:
 	LureSave.save_data(save_slot, lure_save)
 
 
+
 #we run this in the main menu ONCE to refresh the prop_code(s) of the furniture items,
 #since by then all the external .tres actors will be loaded and have their id assigned.
 #internal actors don't need a refresh since the propcode is set when loaded in that case
@@ -215,6 +227,10 @@ func _refresh_prop_codes():
 		res.prop_code = prop_res.id
 
 
+#Utility function that gets called once at the start of execution to futureproof
+#the process of registering the species from the base game, only instance where
+#this would break is if west decides to randomly drop the "species_" prefix or
+#moves files around.
 func _get_vanilla_species() -> Array:
 	var vanilla_species := []
 	var dir := Directory.new()

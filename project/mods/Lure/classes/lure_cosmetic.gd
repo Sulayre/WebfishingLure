@@ -25,7 +25,7 @@ var name: String = "Cosmetic Name"
 var category: String = "" setget _set_category
 var desc: String = "Cosmetic Description"
 var title: String = ""
-var icon: Texture = ImageTexture.new()
+var icon: Texture
 var main_color: Color = Color(1.0, 1.0, 1.0, 1.0)
 
 var mesh: Mesh
