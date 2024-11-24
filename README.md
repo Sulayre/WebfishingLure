@@ -3,6 +3,12 @@
   <img src="https://raw.githubusercontent.com/Sulayre/WebfishingLure/refs/heads/main/icon.png" alt="Lure Shrimp"/>
 </p>
 
+## 4.2.2
+- Modded map spawn positions now work properly (kitty-girl on GitHub)
+- Void Portals no longer crash modded maps that don't contain a spawn position for them (kitty-girl on GitHub)
+- Added a new C# patch that turns the const shops list in shop.gd into a var instead of a const, allowing adding custom shops to it externally without patches.
+- Modded maps can now be hidden from the map list with a "hidden" value in the maps dictionary, can be set both when calling add_map or by editing it directly by accessing the Lure node.
+
 ## 4.2.1
 - Lure has been updated for WEBFISHING 1.10
 - Added a new popup window that lets you know if Lure is not updated for the current game version
