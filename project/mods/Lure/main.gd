@@ -4,10 +4,12 @@ signal mod_loaded(mod)
 signal main_menu_oneshot
 
 const LureMod := preload("./classes/lure_mod.gd")
+
 const Loader := preload("./modules/loader.gd")
 const LureSave := preload("./modules/lure_save.gd")
 const Utils := preload("./modules/utils.gd")
 const Wardrobe := preload("./modules/wardrobe.gd")
+const Reactor := preload("./modules/reactor.gd")
 
 const VANILLA_SPECIES_PATH := "res://Resources/Cosmetics/"
 
@@ -23,6 +25,10 @@ var species_indices: Array = _get_vanilla_species()
 var _mod_node_names: Array
 var _content_node_names: Array
 
+# values we pass to reactor for action
+var _local_player: Actor
+var _modded_item_equipped: bool
+
 #sorry if this use of backspace is a bit cursed it personally makes it easier
 #for me to read what's being connected to what
 func _ready() -> void:
@@ -32,6 +38,9 @@ func _ready() -> void:
 	UserSave\
 	.connect("_slot_saved", self, "_on_slot_saved")
 	
+	PlayerData\
+	.connect("_item_equip", self, "_on_item_equip")
+	
 	Network\
 	.connect("_instance_actor", self, "_instance_actor")
 	
@@ -39,6 +48,25 @@ func _ready() -> void:
 	.connect("main_menu_oneshot",self,"_refresh_prop_codes", [], CONNECT_ONESHOT)
 	
 	Utils.pretty_print("I'm Ready!")
+
+
+func _input(event):
+	if (
+			not event is InputEventMouseButton
+			or !_local_player
+			or !_modded_item_equipped
+	):
+		return
+	var pressed
+	if Input.is_action_pressed("primary_action"):
+		pressed = true
+	elif Input.is_action_just_released("primary_action"):
+		pressed = false
+	#i was doing something here but im about to pass out so i'll figure it out
+	#tomorrow sorry im this close to falling unconcious imma go to bed lmfao
+	if pressed != null:
+		Reactor.handle_modded_action(self)
+		
 
 
 # Returns a mod matching the given mod ID
@@ -66,6 +94,7 @@ func print_message(message: String) -> void:
 
 # Register a mod's content with Lure
 # This will be called automatically on mods that have autoload enabled
+# TODO?: move this and all functions related to it to another module, maybe..
 func register_resource(mod_id: String, content_id: String, resource: LureContent) -> void:
 	var lure_id: String = mod_id + "." + content_id
 
@@ -84,25 +113,27 @@ func register_resource(mod_id: String, content_id: String, resource: LureContent
 	_content_node_names.append(node_name)
 
 	print_message(
-		'Registered new Lure {type} "{id}"'.format({"type": resource.type, "id": lure_id})
+		'Registered new Lure {type} "{id}"'.format({"type": resource.resource_type, "id": lure_id})
 	)
 
 	if resource is LureActor:
 		actors[resource.id] = resource
-
-	elif resource is LureItem and resource.category == "furniture":
-		var actor_resource:LureActor = resource.prop_resource
-		if !actor_resource:# we check if the item even has an actor resource attached
-			return
-		if !actor_resource.actor_scene:# we check if it has a scene assigned (it resets when using ids)
-			return
-		# we check if the actor is internal so we can add it to the actor list with the item id + suffix
-		if actor_resource.resource_path.begins_with(resource.resource_path):
-			actor_resource.internal_actor = true
-			actor_resource.id = resource.id + ".prop"
-			actors[actor_resource.id] = actor_resource
-
-	if (
+	elif resource is LureItem:
+		if resource.actor_type == 1: # ACTOR_TYPE 1 == own mod action
+			resource.action_mod_id == mod_id
+			
+		if resource.category == "furniture":
+			var actor_resource:LureActor = resource.prop_resource
+			if !actor_resource:# we check if the item even has an actor resource attached
+				return
+			if !actor_resource.actor_scene:# we check if it has a scene assigned (it resets when using ids)
+				return
+			# we check if the actor is internal so we can add it to the actor list with the item id + suffix
+			if actor_resource.resource_path.begins_with(resource.resource_path):
+				actor_resource.internal_actor = true
+				actor_resource.id = resource.id + ".prop"
+				actors[actor_resource.id] = actor_resource
+	elif (
 			resource is LureCosmetic
 			and resource.category == "species"
 	):
@@ -165,6 +196,8 @@ func _node_catcher(node: Node):
 	elif is_save_menu:
 		node.connect("_pressed", self, "_save_slot_loaded", [], CONNECT_DEFERRED)
 	elif is_player:
+		if node.is_in_group("controlled_player"):
+			_local_player = node
 		Wardrobe.setup_player(node, {"species_array": get_content_of_category("species")})
 
 
@@ -209,6 +242,14 @@ func _on_slot_saved() -> void:
 	)
 	LureSave.save_data(save_slot, lure_save)
 
+
+func _on_item_equip(ref: int) -> void:
+	var item = PlayerData._find_item_code(ref)
+	var resource = content.get(item["id"], null)
+	if not resource is LureItem:
+		return
+	if resource.action_type != 0: # 0 == player.gd function, doesn't need handlin'
+		_modded_item_equipped = resource
 
 
 #we run this in the main menu ONCE to refresh the prop_code(s) of the furniture items,

@@ -19,7 +19,7 @@ const CATEGORIES := [
 	"legs",
 ]
 
-var type: String = "cosmetic"
+var resource_type: String = "cosmetic"
 
 var name: String = "Cosmetic Name"
 var category: String = "" setget _set_category
