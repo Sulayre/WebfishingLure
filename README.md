@@ -1,4 +1,4 @@
-## <p align="center">LURE IS CURRENTLY GOING UNDER A FULL REWRITE, FOLLOW OUR PROGRESS ON [GITHUB](https://github.com/Sulayre/WebfishingLure)!</p>
+## <p align="center">LURE IS CURRENTLY GOING UNDER A FULL REWRITE, FOLLOW OUR PROGRESS ON [GITHUB](https://github.com/Sulayre/WebfishingLure/tree/lure-rewrite)!</p>
 <p align="center">
   <img src="https://raw.githubusercontent.com/Sulayre/WebfishingLure/refs/heads/main/icon.png" alt="Lure Shrimp"/>
 </p>
