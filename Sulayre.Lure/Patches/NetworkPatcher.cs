@@ -24,7 +24,7 @@ namespace Sulayre.Lure.Patches
 
 			var waiter = new MultiTokenWaiter([
 				t => t.Type is TokenType.Comma,
-				t => t is IdentifierToken{Name:"ver"},
+				t => t is IdentifierToken{Name:"LOBBY_VERSION"},
 				t => t.Type is TokenType.ParenthesisClose,
 				t => t.Type is TokenType.Newline,
 
@@ -57,7 +57,7 @@ namespace Sulayre.Lure.Patches
 				if (waiter.Check(token))
 				{
 					yield return token;
-					yield return new IdentifierToken("ver");
+					yield return new IdentifierToken("LOBBY_VERSION");
 					yield return new Token(TokenType.OpAssign);
 					yield return new IdentifierToken("get_node");
 					yield return new Token(TokenType.ParenthesisOpen);
@@ -68,7 +68,7 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.ParenthesisOpen);
 					yield return new IdentifierToken("id");
 					yield return new Token(TokenType.Comma);
-					yield return new IdentifierToken("ver");
+					yield return new IdentifierToken("LOBBY_VERSION");
 					yield return new Token(TokenType.ParenthesisClose);
 					yield return new Token(TokenType.Newline,1);
 				}
@@ -81,7 +81,7 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.OpAssign);
 					yield return new IdentifierToken("MAX_PLAYERS");
 					yield return new Token(TokenType.Newline);
-				}*/
+				}
 				else if (waitercode.Check(token))
 				{
 					yield return token;
@@ -101,7 +101,7 @@ namespace Sulayre.Lure.Patches
 					yield return new Token(TokenType.ParenthesisClose);
 					yield return new Token(TokenType.Newline, 2);
 				}
-				/*else if (createmax.Check(token))
+				else if (createmax.Check(token))
 				{
 					yield return new ConstantToken(new IntVariant(2));
 					yield return new Token(TokenType.CfIf);

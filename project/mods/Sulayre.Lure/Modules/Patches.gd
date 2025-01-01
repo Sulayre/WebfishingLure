@@ -339,19 +339,7 @@ func _load_lobby_map(id,version:String) -> String:
 			var version_raw = version.replace(".lure","")
 			return version_raw
 	return version
-
-func _filter_lobby_map(id,version:String) -> String:
-	if version.ends_with(".lure"):
-		var version_raw = version.replace(".lure","")
-		return version_raw
-	return version
-
-func _replace_lobby_map_name(id,lobby_name:String,version:String) -> String:
-	if version.ends_with(".lure"):
-		var map_name = Steam.getLobbyData(id, "lure_map_name")
-		return lobby_name.replace("Lure Modded Map",map_name)
-	return lobby_name
-
+	
 func _check_map_install(map_id:String) -> bool:
 	#prints(PREFIX,"checking map install for",map_id)
 	var exists = Lure.Util.map_exists(map_id)
