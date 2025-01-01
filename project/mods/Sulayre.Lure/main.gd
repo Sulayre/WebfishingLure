@@ -10,7 +10,7 @@ const _modules = {
 }
 
 const prompt = preload("res://mods/Sulayre.Lure/Scenes/MainMenu/BonusContentPrompt.tscn")
-const SUPPORTED_GAME_VER := 1.1
+const SUPPORTED_GAME_VER := 1.11
 
 var Patches
 var Util
@@ -1011,7 +1011,7 @@ func _on_enter(node:Node):
 		
 		var options:OptionButton = buttonbundle.get_node("map")
 
-		var container:HBoxContainer = mainmenu.get_node("lobby_browser/Panel/Panel/VBoxContainer/topbar")
+		var container:HBoxContainer = mainmenu.get_node("lobby_browser/Panel/code_join/HBoxContainer/")
 		container.add_child(buttonbundle)
 
 		options.connect("item_selected",Mapper,"_swap_map")
