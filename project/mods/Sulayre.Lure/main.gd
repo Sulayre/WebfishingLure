@@ -10,7 +10,7 @@ const _modules = {
 }
 
 const prompt = preload("res://mods/Sulayre.Lure/Scenes/MainMenu/BonusContentPrompt.tscn")
-const SUPPORTED_GAME_VER := 1.12
+const SUPPORTED_GAME_VER := 1.11
 
 var Patches
 var Util
