@@ -1,4 +1,4 @@
-## <p align="center">[THIS REPOSITORY IS OUTDATED, VISIT THE COMMUNITY MAINTAINED FORK OF LURE!](https://github.com/LureMaintainers/WebfishingLure)!</p>
+## <p align="center">[THIS REPOSITORY IS OUTDATED, VISIT THE COMMUNITY MAINTAINED FORK OF LURE](https://github.com/LureMaintainers/WebfishingLure)!</p>
 <p align="center">
   <img src="https://raw.githubusercontent.com/Sulayre/WebfishingLure/refs/heads/main/icon.png" alt="Lure Shrimp"/>
 </p>
